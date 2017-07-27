@@ -11,7 +11,7 @@ namespace AIMS.Data.DataContext.DataContext.AppUserContext
     public class AppUserContext : IdentityDbContext<AppUser>
     {
         public AppUserContext()
-            : base("DefaultConnection")
+            : base("Aims")
         {
         }
     }
