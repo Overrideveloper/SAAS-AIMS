@@ -54,7 +54,7 @@ namespace SAAS_AIMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindAsync(GenerateUserName(model.Email), model.Password);
+                var user = await UserManager.FindAsync(model.Email, model.Password);
                 if (user != null)
                 {
                     await SignInAsync(user, model.RememberMe);
@@ -89,7 +89,7 @@ namespace SAAS_AIMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser() { UserName = GenerateUserName(model.Email), Email = model.Email, AssociationName = model.AssociationName, CollegeChapter = model.CollegeChapter, State = model.State };
+                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, AssociationName = model.AssociationName, CollegeChapter = model.CollegeChapter, State = model.State };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
