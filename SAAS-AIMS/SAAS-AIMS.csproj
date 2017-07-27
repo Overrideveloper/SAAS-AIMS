@@ -175,7 +175,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Landing\css\agency.css" />
     <Content Include="Landing\css\bootstrap.css" />
     <Content Include="Landing\css\bootstrap.min.css" />
     <Content Include="Landing\css\landing-page.css" />
@@ -188,7 +187,6 @@
     <Content Include="Landing\img\intro-bg.jpg" />
     <Content Include="Landing\img\ipad.png" />
     <Content Include="Landing\img\phones.png" />
-    <Content Include="Landing\js\agency.js" />
     <Content Include="Landing\js\bootstrap.js" />
     <Content Include="Landing\js\bootstrap.min.js" />
     <Content Include="Landing\js\jquery.js" />

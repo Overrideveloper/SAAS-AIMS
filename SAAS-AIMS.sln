@@ -5,6 +5,10 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAAS-AIMS", "SAAS-AIMS\SAAS-AIMS.csproj", "{BFAC7468-23A3-4027-B3DA-4D2EFE659181}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIMS.Data.DataContext", "AIMS.Data.DataContext\AIMS.Data.DataContext.csproj", "{04D22395-795F-413F-8CB6-10EAE526B0CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIMS.Data.DataObjects", "AIMS.Data.DataObjects\AIMS.Data.DataObjects.csproj", "{BC1E8617-ECC2-4D73-814B-DE8A8884C944}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{BFAC7468-23A3-4027-B3DA-4D2EFE659181}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFAC7468-23A3-4027-B3DA-4D2EFE659181}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFAC7468-23A3-4027-B3DA-4D2EFE659181}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04D22395-795F-413F-8CB6-10EAE526B0CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04D22395-795F-413F-8CB6-10EAE526B0CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04D22395-795F-413F-8CB6-10EAE526B0CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04D22395-795F-413F-8CB6-10EAE526B0CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC1E8617-ECC2-4D73-814B-DE8A8884C944}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC1E8617-ECC2-4D73-814B-DE8A8884C944}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC1E8617-ECC2-4D73-814B-DE8A8884C944}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC1E8617-ECC2-4D73-814B-DE8A8884C944}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
