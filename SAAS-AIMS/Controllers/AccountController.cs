@@ -16,7 +16,7 @@ namespace SAAS_AIMS.Controllers
     public class AccountController : Controller
     {
         public AccountController()
-            : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
+            : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new AppUserDataContext())))
         {
         }
 
@@ -64,9 +64,11 @@ namespace SAAS_AIMS.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult Register(string plan)
         {
-            return View();
+            return View(new RegisterViewModel { 
+                SubscriptionPlan = plan
+            });
         }
 
         //

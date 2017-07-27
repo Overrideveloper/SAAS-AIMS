@@ -56,8 +56,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities.UserAccount\AccountViewModels.cs" />
-    <Compile Include="Entities.UserAccount\AppUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity;
 
 namespace SAAS_AIMS.Models
 {
@@ -7,10 +8,14 @@ namespace SAAS_AIMS.Models
     {
     }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class AppUserDataContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext()
-            : base("DefaultConnection")
+        public AppUserDataContext()
+            : base("Aims")
+        {
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
         }
     }
