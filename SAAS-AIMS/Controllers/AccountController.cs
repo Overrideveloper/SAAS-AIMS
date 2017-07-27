@@ -18,6 +18,10 @@ namespace SAAS_AIMS.Controllers
         public AccountController()
             : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new AppUserDataContext())))
         {
+            this.UserManager.UserValidator = new UserValidator<ApplicationUser>(this.UserManager)
+            {
+                AllowOnlyAlphanumericUserNames = false
+            };
         }
 
         public AccountController(UserManager<ApplicationUser> userManager)
@@ -36,6 +40,11 @@ namespace SAAS_AIMS.Controllers
             return View();
         }
 
+        public string GenerateUserName(string email)
+        {
+            return email.Replace("@", "").Replace(".", "").Replace("-", "");
+        }
+
         //
         // POST: /Account/Login
         [HttpPost]
@@ -45,7 +54,7 @@ namespace SAAS_AIMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindAsync(model.UserName, model.Password);
+                var user = await UserManager.FindAsync(GenerateUserName(model.Email), model.Password);
                 if (user != null)
                 {
                     await SignInAsync(user, model.RememberMe);
@@ -53,7 +62,7 @@ namespace SAAS_AIMS.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Invalid username or password.");
+                    ModelState.AddModelError("", "Invalid email or password.");
                 }
             }
 
@@ -80,7 +89,7 @@ namespace SAAS_AIMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser() { UserName = model.UserName };
+                var user = new ApplicationUser() { UserName = GenerateUserName(model.Email), Email = model.Email, AssociationName = model.AssociationName, CollegeChapter = model.CollegeChapter, State = model.State };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SAAS_AIMS.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace SAAS_AIMS.Models
 {
@@ -31,8 +32,10 @@ namespace SAAS_AIMS.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "User name")]
-        public string UserName { get; set; }
+        [Display(Name = "E-mail")]
+        [DataType(DataType.EmailAddress)]
+        [EmailAddress]
+        public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -46,13 +49,8 @@ namespace SAAS_AIMS.Models
     public class RegisterViewModel
     {
         [Required]
-        [Display(Name = "User name")]
-        public string UserName { get; set; }
-
-
-        [Required]
         [Display(Name = "Association Name")]
-        public string AssocName { get; set; }
+        public string AssociationName { get; set; }
 
 
         [Required]
@@ -62,11 +60,12 @@ namespace SAAS_AIMS.Models
 
         [Required]
         [Display(Name = "State")]
-        public string UserName { get; set; }
+        public virtual State State { get; set; }
 
         [Required]
         [Display(Name = "E-mail")]
         [DataType(DataType.EmailAddress)]
+        [EmailAddress]
         public string Email { get; set; }
 
         [Required]
