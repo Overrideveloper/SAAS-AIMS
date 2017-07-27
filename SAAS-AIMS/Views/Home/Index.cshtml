@@ -1,31 +1,319 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    Layout = null;
 }
+<!DOCTYPE html>
+<html lang="en">
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
-</div>
+<head>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>AIMS SAAS</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="~/Landing/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="~/Landing/css/landing-page.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="~/Landing/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+        <div class="container topnav">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand topnav" href="#"><b>A</b>ssociation <b>I</b>nformation <b>M</b>anagement <b>S</b>ystem</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#features">Features</a>
+                    </li>
+                    <li>
+                        <a href="#pricing">Pricing</a>
+                    </li>
+                    <li>
+                        <a href="#faqs">FAQ</a>
+                    </li>
+                    <li>
+                        <a href="#contact">Contact</a>
+                    </li>
+                    <li>
+                        <a href="#">Login</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+
+    <!-- Header -->
+    <a name="about"></a>
+    <div class="intro-header">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="intro-message">
+                        <h1>Welcome to AIMS!</h1>
+                        <h3>A SAAS Solution by Override</h3>
+                        <hr class="intro-divider">
+                        <a href="#" class="btn-default btn btn-lg">Start Free Trial</a>
+                        @*<ul class="list-inline intro-social-buttons">
+                                <li>
+                                    <a href="https://twitter.com/Overrideveloper" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
+                                </li>
+                                <li>
+                                    <a href="https://github.com/Overrideveloper" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
+                                </li>
+                                <li>
+                                    <a href="#" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i> <span class="network-name">Linkedin</span></a>
+                                </li>
+                            </ul>*@
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container -->
+
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    <!-- /.intro-header -->
+    <!-- Page Content -->
+    @*<a name="services"></a>*@
+
+    <!-- Features Section -->
+    <section id="features">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">Features</h2>
+                    <h3 class="section-subheading text-muted lead">Manage, store and monitor your association's data. Don't lose anything! </h3>
+                </div><br />
+            </div>
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                        <i class="fa fa-dashboard fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="service-heading">Manage Association Finances</h4>
+                    <p class="text-muted">Track your association's income and expenditure with a dynamic dashboard!</p>
+                </div>
+                <div class="col-md-4">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                        <i class="fa fa-laptop fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="service-heading">Simple to use</h4>
+                    <p class="text-muted">This application is simple to use. Just sign up for the free trial and check it out!</p>
+                </div>
+                <div class="col-md-4">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                        <i class="fa fa-lock fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="service-heading">Secure</h4>
+                    <p class="text-muted">This application is protected. Worry not, your data is secure!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">Pricing</h2>
+                    <h3 class="section-subheading text-muted lead">10-days FREE trial. Credit Card Not Required.</h3>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="content-section-b">
+                    <div>
+                        <span class="fa-stack fa-4x">
+                            <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                            <i class="fa fa-briefcase fa-stack-1x fa-inverse"></i>
+                        </span>
+                        <h1 class="section-subheading text-muted">Basic Plan</h1>
+                            <div class="">
+                                <h4>&bull; This is a very good deal!</h4>
+                                <h4>&bull; Just N10,000/month </h4>
+                                <h4>&bull; Manage association members' details, dues payment information and the like. </h4>
+                                <h4>&bull; Track association income and expenditure per session. </h4>
+                                <h4>And more...</h4>
+                                <span><a class="btn btn-lg btn-default" href="@Url.Action("Register", "Account", new { plan = "basic_monthly" })">Sign up and get started!</a></span>
+                            </div>
+                    </div>
+                    @*<div class="promo second">
+                        <h4>Professional</h4>
+                        <ul class="features">
+                            <li class="brief">Professional membership</li>
+                            <li class="price">$20</li>
+                            <li>Some great feature</li>
+                            <li>Another super feature</li>
+                            <li>And more...</li>
+                            <li class="buy"><a href="@Url.Action("Register", "Account", new { plan = "professional_monthly" })">Sign up</a></li>
+                        </ul>
+                    </div>
+                    <div class="promo third scale">
+                        <h4>Business</h4>
+                        <ul class="features">
+                            <li class="brief">This is really a good deal!</li>
+                            <li class="price">$30</li>
+                            <li>Some great feature</li>
+                            <li>Another super feature</li>
+                            <li>And more...</li>
+                            <li class="buy"><a href="@Url.Action("Register", "Account", new { plan = "business_monthly" })">Free Trial</a></li>
+                        </ul>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faqs">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">Frequently Asked Questions</h2>
+                    <h3 class="section-subheading text-muted">We have collected here some of the questions that we receive more often.</h3>
+                </div>
+            </div><br />
+            <div class="row">
+                <div class="col-sm-offset-1 col-md-offset-1 col-sm-10 col-md-10">
+                    <div class="col-sm-6">
+                        <div class="jumbotron">
+                            <h4>Q. How many associations can a user manage?</h4>
+                            <p>Currently, it's a single association per user account.</p>
+                        </div>
+                        <div class="jumbotron">
+                            <h4>Q. How long does a subscription last?</h4>
+                            <p>A subscription lasts for a month. At expiry you'll be notified to renew the service.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="jumbotron">
+                            <h4>Q. What types of payment do you accept?</h4>
+                            <p>Currently we accept Visa and Mastercard. We do not accept PayPal. At this time we only accept payments online so we will not be able to accept a P.O., invoice you, or take an order over the phone.</p>
+                        </div>
+                        <div class="jumbotron">
+                            <h4>Q. I still have a question. How do I contact you?</h4>
+                            <p>Send a tweet to @@Overrideveloper</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <a name="contact"></a>
+    <div class="banner">
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2>Contact Us: </h2>
+                </div>
+                <div class="col-lg-6">
+                    <ul class="list-inline banner-social-buttons">
+                        <li>
+                            <a href="https://twitter.com/Overrideveloper" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/Overrideveloper" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
+                        </li>
+                        <li>
+                            <a href="mailto:bansowisdom@gmail.com" class="btn btn-default btn-lg"><i class="fa fa-envelope fa-fw"></i> <span class="network-name">Email</span></a>
+                        </li>
+                    </ul>
+                </div><br />
+                <div class="col-lg-6">
+                    <ul class="list-inline">
+                        <li> <i class="fa fa-phone"></i> +2348140723300 </li>
+                        <li> <i class="fa fa-phone"></i> +2348098141682 </li>
+                    </ul>
+                    <ul class="list-inline">
+                        <li> <i class="fa fa-envelope"></i> bansowisdom@gmail.com </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container -->
+
     </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+    <!-- /.banner -->
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="list-inline">
+                        <li>
+                            <a href="#">Home</a>
+                        </li>
+                        <li class="footer-menu-divider">&sdot;</li>
+                        <li>
+                            <a href="#about">About</a>
+                        </li>
+                        <li class="footer-menu-divider">&sdot;</li>
+                        <li>
+                            <a href="#services">Services</a>
+                        </li>
+                        <li class="footer-menu-divider">&sdot;</li>
+                        <li>
+                            <a href="#contact">Contact</a>
+                        </li>
+                    </ul>
+                    <p class="copyright text-muted small">Copyright &copy; Override @DateTime.Now.Year. All Rights Reserved</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="~/Scripts/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Landing/js/agency.min.js"></script>
+
+</body>
+
+</html>
