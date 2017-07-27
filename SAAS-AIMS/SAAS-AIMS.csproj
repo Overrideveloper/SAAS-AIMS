@@ -272,6 +272,16 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIMS.Data.DataContext\AIMS.Data.DataContext.csproj">
+      <Project>{04d22395-795f-413f-8cb6-10eae526b0cc}</Project>
+      <Name>AIMS.Data.DataContext</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AIMS.Data.DataObjects\AIMS.Data.DataObjects.csproj">
+      <Project>{bc1e8617-ecc2-4d73-814b-de8a8884c944}</Project>
+      <Name>AIMS.Data.DataObjects</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
