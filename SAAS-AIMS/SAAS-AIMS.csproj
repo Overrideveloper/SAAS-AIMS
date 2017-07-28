@@ -4475,6 +4475,10 @@
       <Project>{bc1e8617-ecc2-4d73-814b-de8a8884c944}</Project>
       <Name>AIMS.Data.DataObjects</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AIMS.Services\AIMS.Services.csproj">
+      <Project>{9808993f-88f0-427a-988f-4a2b2f5c30dc}</Project>
+      <Name>AIMS.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201707271418537_migrate1.resx">

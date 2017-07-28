@@ -40,17 +40,12 @@ namespace SAAS_AIMS.Controllers
             return View();
         }
 
-        public string GenerateUserName(string email)
-        {
-            return email.Replace("@", "").Replace(".", "").Replace("-", "");
-        }
-
         //
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl, UsernameGenerator ug)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +80,7 @@ namespace SAAS_AIMS.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model, UsernameGenerator ug)
         {
             if (ModelState.IsValid)
             {
