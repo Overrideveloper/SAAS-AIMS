@@ -18,6 +18,7 @@ namespace SAAS_AIMS.Controllers
         public AccountController()
             : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new AppUserDataContext())))
         {
+
             this.UserManager.UserValidator = new UserValidator<ApplicationUser>(this.UserManager)
             {
                 AllowOnlyAlphanumericUserNames = false
