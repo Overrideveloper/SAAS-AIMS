@@ -53,6 +53,7 @@ namespace SAAS_AIMS.Controllers
                 if (user != null)
                 {
                     await SignInAsync(user, model.RememberMe);
+                    Session["UserID"] = user.Id;
                     return RedirectToAction("Index", "Dashboard");
                 }
                 else
