@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AIMS.Data.DataContext.DataContext.SessionDataContext
 {
-    class SessionDataContext : DbContext 
+    public class SessionDataContext : DbContext 
     {
         public SessionDataContext()
             : base("name = Aims")
