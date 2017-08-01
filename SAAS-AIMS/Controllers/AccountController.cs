@@ -35,9 +35,8 @@ namespace SAAS_AIMS.Controllers
         //
         // GET: /Account/Login
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
+        public ActionResult Login()
         {
-            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
@@ -46,7 +45,7 @@ namespace SAAS_AIMS.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -54,7 +53,7 @@ namespace SAAS_AIMS.Controllers
                 if (user != null)
                 {
                     await SignInAsync(user, model.RememberMe);
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction("Index", "Dashboard");
                 }
                 else
                 {
@@ -69,11 +68,9 @@ namespace SAAS_AIMS.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register(string plan)
+        public ActionResult Register()
         {
-            return View(new RegisterViewModel { 
-                SubscriptionPlan = plan
-            });
+            return View();
         }
 
         //
@@ -90,7 +87,7 @@ namespace SAAS_AIMS.Controllers
                 if (result.Succeeded)
                 {
                     await SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Dashboard");
                 }
                 else
                 {
