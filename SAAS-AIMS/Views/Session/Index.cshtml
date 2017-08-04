@@ -45,8 +45,9 @@
                                         <td>@session.StartDate.ToLongDateString()</td>
                                         <td>@session.EndDate.Date.ToLongDateString()</td>
                                         <td>
-                                            <a class="btn btn-xs btn-default" data-modal="" href="@Url.Action("Edit", "Session", new { id = session.ID })"><i class="fa fa-pencil"></i>Edit</a>
-                                            <a class="btn btn-xs btn-danger" href="@Url.Action("Delete", "Session")"><i class="fa fa-remove"></i>Delete</a>
+                                            <a class="btn btn-xs btn-default" data-modal="" href="@Url.Action("Edit", "Session", new { id = session.ID })"><i class="fa fa-pencil"></i> Edit</a>
+                                            <a class="btn btn-xs btn-danger delete" href="@Url.Action("Delete", "Session", new { id = session.ID})"><i class="fa fa-remove"></i> Delete</a>
+                                            <a class="btn btn-xs btn-info" href="@Url.Action("Index", "SessionDashboard", new { id = session.ID})"><i class="fa fa-files-o"></i> Session Details</a>
                                         </td>
                                     </tr>
                                 }
@@ -71,4 +72,5 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript" src="~/Scripts/modal.js"></script>
+    <script type="text/javascript" src="~/Scripts/delete.js"></script>
 }

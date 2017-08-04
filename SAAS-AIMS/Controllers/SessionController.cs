@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -64,9 +65,9 @@ namespace SAAS_AIMS.Controllers
         //
         // GET: /Session/Edit
         [HttpGet]
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            var session = _sessionDataContext.Sessions.Find(id);
+            var session = await _sessionDataContext.Sessions.FindAsync(id);
             if (session == null) 
             {
                 return HttpNotFound();
@@ -88,6 +89,14 @@ namespace SAAS_AIMS.Controllers
                 return Json(new { success = true});
             }
             return PartialView("Edit", session);
+        }
+
+        public async Task<ActionResult> Delete(int id)
+        {
+            var session = await _sessionDataContext.Sessions.FindAsync(id);
+            _sessionDataContext.Sessions.Remove(session);
+            _sessionDataContext.SaveChanges();
+            return RedirectToAction("Index");
         }
 	}
 }
