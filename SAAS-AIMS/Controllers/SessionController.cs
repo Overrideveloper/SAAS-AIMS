@@ -65,7 +65,7 @@ namespace SAAS_AIMS.Controllers
         //
         // GET: /Session/Edit
         [HttpGet]
-        public async Task<ActionResult> Edit(int id)
+        public async Task<ActionResult> Edit(long id)
         {
             var session = await _sessionDataContext.Sessions.FindAsync(id);
             if (session == null) 
@@ -91,7 +91,7 @@ namespace SAAS_AIMS.Controllers
             return PartialView("Edit", session);
         }
 
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult> Delete(long id)
         {
             var session = await _sessionDataContext.Sessions.FindAsync(id);
             _sessionDataContext.Sessions.Remove(session);
