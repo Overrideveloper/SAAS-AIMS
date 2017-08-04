@@ -2,6 +2,7 @@
 using AIMS.Data.DataObjects.Entities.Session;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -35,6 +36,8 @@ namespace SAAS_AIMS.Controllers
             return PartialView("Create", session);
         }
 
+        //
+        // POST: /Session/Create
         [HttpPost]
         public ActionResult Create(Session session)
         {
@@ -56,6 +59,37 @@ namespace SAAS_AIMS.Controllers
             }
 
             return PartialView("Create", session);
+        }
+
+        //
+        // GET: /Session/Edit
+        public ActionResult Edit(int id)
+        {
+            var session = _sessionDataContext.Sessions.Find(id);
+            if (session == null) 
+            {
+                return HttpNotFound();
+            }
+            return PartialView("Edit", session);
+        }
+
+        //
+        // POST: /Session/Edit
+        public ActionResult Edit(Session session)
+        {
+            if (ModelState.IsValid)
+            {
+                var sessionvar = new Session
+                {
+                    CreatedBy = Convert.ToInt64(Session["UserID"]),
+                    DateCreated = DateTime.Now,
+                    DateLastModified = DateTime.Now
+                };
+                _sessionDataContext.Entry(sessionvar).State = EntityState.Modified;
+                _sessionDataContext.SaveChanges();
+                return Json(new { success = true});
+            }
+            return PartialView("Edit", session);
         }
 	}
 }

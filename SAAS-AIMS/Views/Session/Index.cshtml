@@ -45,7 +45,7 @@
                                         <td>@session.StartDate.ToLongDateString()</td>
                                         <td>@session.EndDate.Date.ToLongDateString()</td>
                                         <td>
-                                            <a class="btn btn-xs btn-default" href="@Url.Action("Edit", "Session")"><i class="fa fa-pencil"></i>Edit</a>
+                                            <a class="btn btn-xs btn-default" href="@Url.Action("Edit", "Session", new { id = session.ID })"><i class="fa fa-pencil"></i>Edit</a>
                                             <a class="btn btn-xs btn-danger" href="@Url.Action("Delete", "Session")"><i class="fa fa-remove"></i>Delete</a>
                                         </td>
                                     </tr>
