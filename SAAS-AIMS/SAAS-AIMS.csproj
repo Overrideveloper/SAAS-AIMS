@@ -4466,6 +4466,7 @@
     <Content Include="Views\Shared\_SessionLayout.cshtml" />
     <Content Include="Views\Session\Index.cshtml" />
     <Content Include="Views\Session\Create.cshtml" />
+    <Content Include="Views\Session\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
