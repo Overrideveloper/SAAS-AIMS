@@ -63,6 +63,7 @@ namespace SAAS_AIMS.Controllers
 
         //
         // GET: /Session/Edit
+        [HttpGet]
         public ActionResult Edit(int id)
         {
             var session = _sessionDataContext.Sessions.Find(id);
@@ -75,17 +76,14 @@ namespace SAAS_AIMS.Controllers
 
         //
         // POST: /Session/Edit
+        [HttpPost]
         public ActionResult Edit(Session session)
         {
             if (ModelState.IsValid)
             {
-                var sessionvar = new Session
-                {
-                    CreatedBy = Convert.ToInt64(Session["UserID"]),
-                    DateCreated = DateTime.Now,
-                    DateLastModified = DateTime.Now
-                };
-                _sessionDataContext.Entry(sessionvar).State = EntityState.Modified;
+                session.DateLastModified = DateTime.Now;
+
+                _sessionDataContext.Entry(session).State = EntityState.Modified;
                 _sessionDataContext.SaveChanges();
                 return Json(new { success = true});
             }
