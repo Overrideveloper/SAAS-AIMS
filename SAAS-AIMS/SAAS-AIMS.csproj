@@ -171,6 +171,7 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
+    <Compile Include="Controllers\SessionDetailsController.cs" />
     <Compile Include="Enums\State.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -4470,6 +4471,8 @@
     <Content Include="Views\Session\Index.cshtml" />
     <Content Include="Views\Session\Create.cshtml" />
     <Content Include="Views\Session\Edit.cshtml" />
+    <Content Include="Views\Shared\_SessionDetailsLayout.cshtml" />
+    <Content Include="Views\SessionDetails\Statistics.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
