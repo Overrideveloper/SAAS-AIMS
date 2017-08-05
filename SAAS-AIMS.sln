@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIMS.Data.DataObjects", "AI
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIMS.Services", "AIMS.Services\AIMS.Services.csproj", "{9808993F-88F0-427A-988F-4A2B2F5C30DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIMS.Data.Enums", "AIMS.Data.Enums\AIMS.Data.Enums.csproj", "{F35D2A3B-1FB4-4ECA-818B-B5D800F47E70}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{9808993F-88F0-427A-988F-4A2B2F5C30DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9808993F-88F0-427A-988F-4A2B2F5C30DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9808993F-88F0-427A-988F-4A2B2F5C30DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F35D2A3B-1FB4-4ECA-818B-B5D800F47E70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F35D2A3B-1FB4-4ECA-818B-B5D800F47E70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F35D2A3B-1FB4-4ECA-818B-B5D800F47E70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F35D2A3B-1FB4-4ECA-818B-B5D800F47E70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

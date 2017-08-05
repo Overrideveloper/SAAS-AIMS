@@ -4493,6 +4493,10 @@
       <Project>{bc1e8617-ecc2-4d73-814b-de8a8884c944}</Project>
       <Name>AIMS.Data.DataObjects</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AIMS.Data.Enums\AIMS.Data.Enums.csproj">
+      <Project>{f35d2a3b-1fb4-4eca-818b-b5d800f47e70}</Project>
+      <Name>AIMS.Data.Enums</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AIMS.Services\AIMS.Services.csproj">
       <Project>{9808993f-88f0-427a-988f-4a2b2f5c30dc}</Project>
       <Name>AIMS.Services</Name>
