@@ -6,7 +6,7 @@
 </div>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create", "Session", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 

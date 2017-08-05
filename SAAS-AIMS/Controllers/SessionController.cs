@@ -84,6 +84,7 @@ namespace SAAS_AIMS.Controllers
             if (ModelState.IsValid)
             {
                 session.DateLastModified = DateTime.Now;
+                session.LastModifiedBy = Convert.ToInt64(Session["UserID"]);
 
                 _sessionDataContext.Entry(session).State = EntityState.Modified;
                 _sessionDataContext.SaveChanges();

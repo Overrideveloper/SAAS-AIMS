@@ -6,13 +6,14 @@
 </div>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "Session", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => Model.ID)
     @Html.HiddenFor(model => Model.CreatedBy)
     @Html.HiddenFor(model => Model.DateCreated)
     @Html.HiddenFor(model => Model.DateLastModified)
+    @Html.HiddenFor(model => Model.LastModifiedBy)
     
     <div class="modal-body">
 
