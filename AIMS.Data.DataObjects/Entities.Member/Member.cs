@@ -39,6 +39,7 @@ namespace AIMS.Data.DataObjects.Entities.Member
         public State StateOfOrigin { get; set; }
 
         [Required(ErrorMessage = "Year of Admission is required")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yy}")]
         public DateTime YearOfAdmission { get; set; }
 
         [Required(ErrorMessage = "Level of Admission is required")]

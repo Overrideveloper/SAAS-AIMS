@@ -1,2 +1,124 @@
 ﻿@model AIMS.Data.DataObjects.Entities.Member.Member
+@using AIMS.Data.Enums.Enums.Level
+@using AIMS.Data.Enums.Enums.State
+@using AIMS.Services.EnumRadioButton
 
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3 class="modal-title">Add Academic Session</h3>
+</div>
+
+
+@using (Html.BeginForm("Create", "Member", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="modal-body">
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label for="sur" class="control-label col-sm-3"> Surname </label>
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(model => Model.Surname, new { @class = "form-control required", @id = "sur" })
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(model => model.Surname)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="first" class="control-label col-sm-3"> First Name </label>
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(model => Model.FirstName, new { @class = "form-control required", @id = "first" })
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(model => model.FirstName)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="mid" class="control-label col-sm-3"> Middle Name </label>
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(model => Model.MidName, new { @class = "form-control", @id = "mid" })
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(model => model.MidName)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="mid" class="control-label col-sm-3"> Gender </label>
+                <div class="col-sm-9">
+                    @Html.EnumRadioButtons(model => model.Gender)
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(model => model.Gender)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="gender" class="control-label col-sm-3"> Level at Admission </label>
+                <div class="col-sm-9">
+                    @Html.DropDownListFor(model => model.StateOfOrigin, Enum.GetNames(typeof(State)).Select(e => new SelectListItem { Text = e, Value = ((int)Enum.Parse(typeof(State), e)).ToString() }), " ", new { @class = "form-control required" })
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(model => model.Gender)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="matric" class="control-label col-sm-3"> Matric. Number </label>
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(model => Model.MatricNumber, new { @class = "form-control required", @id = "matric" })
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(model => model.MatricNumber)
+                        @Html.ValidationMessage("Matric")
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="year" class="control-label col-sm-3"> Year of Admission </label>
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(model => model.YearOfAdmission, " ", new { @class = "form-control border-input required", @id = "year", @type = "datetime" })
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(model => model.YearOfAdmission)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="gender" class="control-label col-sm-3"> Level at Admission </label>
+                <div class="col-sm-9">
+                    @Html.DropDownListFor(model => model.Gender, Enum.GetNames(typeof(Level)).Select(e => new SelectListItem { Text = e, Value = ((int)Enum.Parse(typeof(Level), e)).ToString() }), " ", new { @class = "form-control required" })
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(model => model.Gender)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <span id="progress" class="text-center" style="display:none">
+            <strong>Processing..</strong>
+        </span>
+
+        <input class="btn btn-primary btn-raised" type="submit" value="Save" />
+        <button class="btn btn-danger" data-dismiss="modal"> Close </button>
+    </div>
+}
+
+<script>
+    $("form").removeData("validator");
+    $("form").removeData("unobtrusiveValidation");
+    $.validator.unobtrusive.parse("form");
+</script>
+<script>
+    $(function () {
+        $('input[type=datetime]').datepicker({
+            dateFormat: "yy",
+            constrainInput: true
+        });
+    });
+</script>
