@@ -1,4 +1,5 @@
 ﻿using AIMS.Data.DataObjects.Entities.SystemManagement;
+using AIMS.Data.Enums.Enums.Gender;
 using AIMS.Data.Enums.Enums.Level;
 using AIMS.Data.Enums.Enums.State;
 using System;
@@ -18,11 +19,15 @@ namespace AIMS.Data.DataObjects.Entities.Member
 
         [Required(ErrorMessage = "Surname is required")]
         public string Surname { get; set; }
+
         public string MidName { get; set; }
 
         [Required(ErrorMessage = "First name is required")]
         public string FirstName { get; set; }
-        
+
+        [Required(ErrorMessage = "Gender is required")]
+        public Gender Gender { get; set; }
+
         [Required(ErrorMessage = "Matric. number is required")]
         [StringLength(20, MinimumLength = 17)]
         [Index(IsUnique = true)]
