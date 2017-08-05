@@ -9,6 +9,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace AIMS.Data.DataObjects.Entities.Member
 {
@@ -31,6 +32,7 @@ namespace AIMS.Data.DataObjects.Entities.Member
         [Required(ErrorMessage = "Matric. number is required")]
         [StringLength(20, MinimumLength = 17)]
         [Index(IsUnique = true)]
+        [Remote("IsMatricNoAvailable", "Member", ErrorMessage = "Matric. number is already in use")]
         public string MatricNumber { get; set; }
 
         [Required(ErrorMessage = "State of origin is required")]

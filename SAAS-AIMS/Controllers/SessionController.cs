@@ -51,7 +51,8 @@ namespace SAAS_AIMS.Controllers
                     EndDate = session.EndDate,
                     CreatedBy = Convert.ToInt64(Session["UserID"]),
                     DateCreated = DateTime.Now,
-                    DateLastModified = DateTime.Now
+                    DateLastModified = DateTime.Now,
+                    LastModifiedBy = Convert.ToInt64(Session["UserID"])
                 };
 
                 _sessionDataContext.Sessions.Add(sessionvar);

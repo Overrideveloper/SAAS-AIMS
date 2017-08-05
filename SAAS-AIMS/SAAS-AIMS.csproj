@@ -4476,6 +4476,7 @@
     <Content Include="Views\SessionDetails\Statistics.cshtml" />
     <Content Include="Views\Shared\_MemberLayout.cshtml" />
     <Content Include="Views\Member\Index.cshtml" />
+    <Content Include="Views\Member\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
