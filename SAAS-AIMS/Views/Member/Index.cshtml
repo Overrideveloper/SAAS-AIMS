@@ -1,0 +1,86 @@
+﻿@model IEnumerable <AIMS.Data.DataObjects.Entities.Member.Member>
+
+@{
+    ViewBag.Title = "Members";
+    Layout = "~/Views/Shared/_MemberLayout.cshtml";
+}
+
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>Members</h3>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_content">
+
+                        <div class="pull-right">
+                            <a class="btn btn-info btn-sm" data-modal="" href="@Url.Action("Create", "Member")"><i class="fa fa-plus"></i> Add Member</a><br />
+                        </div>
+
+                        <table id="datatable-buttons" class="grid table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Surname</th>
+                                    <th>First Name</th>
+                                    <th>Middle Name</th>
+                                    <th>Matric. Number</th>
+                                    <th>Gender</th>
+                                    <th>State of Origin</th>
+                                    <th>Year of Admission</th>
+                                    <th>Level at Admission</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+
+                            <tbody>
+                                @foreach (var member in Model)
+                                {
+                                    <tr>
+                                        <td>@member.Surname</td>
+                                        <td>@member.FirstName</td>
+                                        <td>@member.MidName</td>
+                                        <td>@member.MatricNumber</td>
+                                        <td>@member.Gender</td>
+                                        <td>@member.StateOfOrigin</td>
+                                        <td>@member.YearOfAdmission</td>
+                                        <td>@member.LevelOfAdmission</td>
+                                        <td>
+                                            <a class="btn btn-xs btn-default" data-modal="" href="@Url.Action("Edit", "Member", new { id = member.ID })"><i class="fa fa-pencil"></i> Edit</a>
+                                            <a class="btn btn-xs btn-danger delete" href="@Url.Action("Delete", "Member", new { id = member.ID})"><i class="fa fa-remove"></i> Delete</a>
+                                            <a class="btn btn-xs btn-info" href="@Url.Action("Index", "Dues", new { memberid = member.ID})"><i class="fa fa-files-o"></i> View Dues Details</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                        <!-- modal placeholder-->
+                        <div id='myModal' class='modal fade in'>
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div id='myModalContent'></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="~/Scripts/modal.js"></script>
+    <script type="text/javascript" src="~/Scripts/delete.js"></script>
+}

@@ -170,6 +170,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Controllers\SessionDetailsController.cs" />
     <Compile Include="Enums\State.cs" />
@@ -4473,6 +4474,8 @@
     <Content Include="Views\Session\Edit.cshtml" />
     <Content Include="Views\Shared\_SessionDetailsLayout.cshtml" />
     <Content Include="Views\SessionDetails\Statistics.cshtml" />
+    <Content Include="Views\Shared\_MemberLayout.cshtml" />
+    <Content Include="Views\Member\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
