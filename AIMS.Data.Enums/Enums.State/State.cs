@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,11 +12,13 @@ namespace AIMS.Data.Enums.Enums.State
         Abia,
         Adamawa,
         Anambra,
+        [DisplayName("Akwa Ibom")]
         AkwaIbom,
         Bauchi,
         Bayelsa,
         Benue,
         Borno,
+        [DisplayName("Cross River")]
         CrossRiver,
         Delta,
         Ebonyi,
