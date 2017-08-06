@@ -2,7 +2,9 @@
 using AIMS.Data.DataObjects.Entities.Member;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -12,12 +14,15 @@ namespace SAAS_AIMS.Controllers
     {
         
         private MemberDataContext _memberDataContext;
-        
+
+        #region constructor
         public MemberController()
         {
             _memberDataContext = new MemberDataContext();
         }
+        #endregion
 
+        #region index
         //
         // GET: /Member/
         public ActionResult Index()
@@ -26,11 +31,15 @@ namespace SAAS_AIMS.Controllers
                              select m;
             return View(member);
         }
+        #endregion
 
+        #region matric number remote validation
         public JsonResult IsMatricNoAvailable(string MatricNumber) {
             return Json(!_memberDataContext.Members.Any(member => member.MatricNumber == MatricNumber), JsonRequestBehavior.AllowGet);
         }
+        #endregion
 
+        #region create member
         // GET: /Member/Create
         public ActionResult Create()
         {
@@ -74,5 +83,43 @@ namespace SAAS_AIMS.Controllers
             }
             return PartialView("Create", member);
         }
-	}
+        #endregion
+
+        #region edit member
+        //
+        // GET: /Member/Edit
+        public async Task<ActionResult> Edit(int id)
+        {
+            var member = await _memberDataContext.Members.FindAsync(id);
+            if (member == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView("Edit", member);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Member member)
+        {
+            if (ModelState.IsValid)
+            {
+                if (_memberDataContext.Members.Any(record => record.MatricNumber == member.MatricNumber))
+                {
+                    ModelState.AddModelError("Matric", "Matric. number is already is use");
+                }
+                else
+                {
+                    member.DateLastModified = DateTime.Now;
+                    member.LastModifiedBy = Convert.ToInt64(Session["UserID"]);
+
+                    _memberDataContext.Entry(member).State = EntityState.Modified;
+                    _memberDataContext.SaveChanges();
+                    return Json(new { success = true });
+                }
+            }
+            return PartialView("Edit", member);
+        }
+
+        #endregion
+    }
 }

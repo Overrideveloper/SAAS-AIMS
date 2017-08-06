@@ -5,19 +5,14 @@
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3 class="modal-title">Edit Member - @Model.Surname @Model.FirstName</h3>
+    <h3 class="modal-title">Add Member</h3>
 </div>
 
 
-@using (Html.BeginForm("Edit", "Member", FormMethod.Post))
+@using (Html.BeginForm("Create", "Member", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(model => Model.ID)
-    @Html.HiddenFor(model => Model.CreatedBy)
-    @Html.HiddenFor(model => Model.DateCreated)
-    @Html.HiddenFor(model => Model.DateLastModified)
-    @Html.HiddenFor(model => Model.LastModifiedBy)
-    
+
     <div class="modal-body">
 
         <div class="form-horizontal">
