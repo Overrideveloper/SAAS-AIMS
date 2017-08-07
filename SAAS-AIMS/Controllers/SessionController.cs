@@ -1,5 +1,6 @@
 ﻿using AIMS.Data.DataContext.DataContext.SessionDataContext;
 using AIMS.Data.DataObjects.Entities.Session;
+using AIMS.Data.Enums.Enums.NotificationType;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -58,7 +59,8 @@ namespace SAAS_AIMS.Controllers
                 _sessionDataContext.Sessions.Add(sessionvar);
                 _sessionDataContext.SaveChanges();
 
-                TempData["success"] = "Session successfully created!";
+                TempData["Success"] = " Session successfully created! ";
+                TempData["NotificationType"] = NotificationType.Create.ToString();
                 return Json(new { success = true });
             }
 
@@ -91,7 +93,8 @@ namespace SAAS_AIMS.Controllers
                 _sessionDataContext.Entry(session).State = EntityState.Modified;
                 _sessionDataContext.SaveChanges();
 
-                ViewData["success"] = "Session successfully modified!";
+                TempData["Success"] = " Academic session successfully modified! ";
+                TempData["NotificationType"] = NotificationType.Edit.ToString();
                 return Json(new { success = true});
             }
             return PartialView("Edit", session);
@@ -102,7 +105,8 @@ namespace SAAS_AIMS.Controllers
             var session = await _sessionDataContext.Sessions.FindAsync(id);
             _sessionDataContext.Sessions.Remove(session);
             _sessionDataContext.SaveChanges();
-            ViewData["success"] = "Session successfully deleted!";
+            TempData["Success"] = "Academic session successfully deleted!";
+            TempData["NotificationType"] = NotificationType.Delete.ToString();
             return RedirectToAction("Index");
         }
 	}
