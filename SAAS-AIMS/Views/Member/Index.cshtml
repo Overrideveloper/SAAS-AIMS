@@ -1,4 +1,5 @@
 ﻿@model IEnumerable <AIMS.Data.DataObjects.Entities.Member.Member>
+@using AIMS.Data.Enums.Enums.NotificationType
 
 @{
     ViewBag.Title = "Members";
@@ -21,7 +22,38 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_content">
-
+                        
+                        @if (TempData["Success"] != null)
+                        {
+                            if (TempData["NotificationType"] == NotificationType.Create.ToString())
+                            {
+                                <div class="alert alert-success alert-dismissible fadeIn fadeOut out fade in" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    @TempData["Success"]
+                                </div>
+                            }
+                            if (TempData["NotificationType"] == NotificationType.Edit.ToString())
+                            {
+                                <div class="alert alert-info alert-dismissible fadeIn fadeOut out fade in" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    @TempData["Success"]
+                                </div>
+                            }
+                            if (TempData["NotificationType"] == NotificationType.Delete.ToString())
+                            {
+                                <div class="alert alert-warning alert-dismissible fadeIn fadeOut out fade in" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    @TempData["Success"]
+                                </div>
+                            }
+                        }
+                        
                         <div class="pull-right">
                             <a class="btn btn-info btn-sm" data-modal="" href="@Url.Action("Create", "Member")"><i class="fa fa-plus"></i> Add Member</a><br />
                         </div>

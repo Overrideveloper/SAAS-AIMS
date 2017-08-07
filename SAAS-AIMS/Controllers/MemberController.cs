@@ -1,5 +1,6 @@
 ﻿using AIMS.Data.DataContext.DataContext.MemberDataContext;
 using AIMS.Data.DataObjects.Entities.Member;
+using AIMS.Data.Enums.Enums.NotificationType;
 using AIMS.Data.Enums.Enums.State;
 using System;
 using System.Collections.Generic;
@@ -80,6 +81,8 @@ namespace SAAS_AIMS.Controllers
 
                     _memberDataContext.Members.Add(membervar);
                     _memberDataContext.SaveChanges();
+                    TempData["Success"] = "Association member successfully created! ";
+                    TempData["NotificationType"] = NotificationType.Create.ToString();
                     return Json(new { success = true });
                 }
             }
@@ -111,6 +114,9 @@ namespace SAAS_AIMS.Controllers
 
                     _memberDataContext.Entry(member).State = EntityState.Modified;
                     _memberDataContext.SaveChanges();
+
+                    TempData["Success"] = "Association member successfully modified! ";
+                    TempData["NotificationType"] = NotificationType.Create.ToString();
                     return Json(new { success = true });
             }
             return PartialView("Edit", member);

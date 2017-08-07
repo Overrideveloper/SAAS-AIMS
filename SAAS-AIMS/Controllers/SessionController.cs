@@ -59,7 +59,7 @@ namespace SAAS_AIMS.Controllers
                 _sessionDataContext.Sessions.Add(sessionvar);
                 _sessionDataContext.SaveChanges();
 
-                TempData["Success"] = " Session successfully created! ";
+                TempData["Success"] = "Academic session successfully created! ";
                 TempData["NotificationType"] = NotificationType.Create.ToString();
                 return Json(new { success = true });
             }
