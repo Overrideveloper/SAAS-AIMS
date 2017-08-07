@@ -57,6 +57,8 @@ namespace SAAS_AIMS.Controllers
 
                 _sessionDataContext.Sessions.Add(sessionvar);
                 _sessionDataContext.SaveChanges();
+
+                TempData["success"] = "Session successfully created!";
                 return Json(new { success = true });
             }
 
@@ -88,6 +90,8 @@ namespace SAAS_AIMS.Controllers
 
                 _sessionDataContext.Entry(session).State = EntityState.Modified;
                 _sessionDataContext.SaveChanges();
+
+                ViewData["success"] = "Session successfully modified!";
                 return Json(new { success = true});
             }
             return PartialView("Edit", session);
@@ -98,6 +102,7 @@ namespace SAAS_AIMS.Controllers
             var session = await _sessionDataContext.Sessions.FindAsync(id);
             _sessionDataContext.Sessions.Remove(session);
             _sessionDataContext.SaveChanges();
+            ViewData["success"] = "Session successfully deleted!";
             return RedirectToAction("Index");
         }
 	}

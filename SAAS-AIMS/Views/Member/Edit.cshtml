@@ -5,14 +5,21 @@
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3 class="modal-title">Add Member</h3>
+    <h3 class="modal-title">Edit Member - @Model.Surname @Model.FirstName</h3>
 </div>
 
 
-@using (Html.BeginForm("Create", "Member", FormMethod.Post))
+@using (Html.BeginForm("Edit", "Member", FormMethod.Post))
 {
+    string level = Convert.ToString(Model.LevelOfAdmission);
+    
     @Html.AntiForgeryToken()
-
+    @Html.HiddenFor(model => Model.ID)
+    @Html.HiddenFor(model => Model.CreatedBy)
+    @Html.HiddenFor(model => Model.DateCreated)
+    @Html.HiddenFor(model => Model.DateLastModified)
+    @Html.HiddenFor(model => Model.LastModifiedBy)
+    
     <div class="modal-body">
 
         <div class="form-horizontal">
@@ -47,7 +54,7 @@
             </div>
 
             <div class="form-group">
-                <label for="mid" class="control-label col-sm-3"> Gender </label>
+                <label for="gender" class="control-label col-sm-3"> Gender </label>
                 <div class="col-sm-9">
                     @Html.EnumRadioButtons(model => model.Gender)
                     <div class="text-danger">
@@ -57,9 +64,9 @@
             </div>
 
             <div class="form-group">
-                <label for="gender" class="control-label col-sm-3"> State of Origin </label>
+                <label for="state" class="control-label col-sm-3"> State of Origin </label>
                 <div class="col-sm-9">
-                    @Html.DropDownListFor(model => model.StateOfOrigin, Enum.GetNames(typeof(State)).Select(e => new SelectListItem { Text = e, Value = ((int)Enum.Parse(typeof(State), e)).ToString() }), " ", new { @class = "form-control required" })
+                    @Html.DropDownListFor(model => model.StateOfOrigin, Enum.GetNames(typeof(State)).Select(e => new SelectListItem { Text = e, Value = ((int)Enum.Parse(typeof(State), e)).ToString() }), new { @class = "form-control required", @id = "state" })
                     <div class="text-danger">
                         @Html.ValidationMessageFor(model => model.StateOfOrigin)
                     </div>
@@ -72,7 +79,6 @@
                     @Html.TextBoxFor(model => Model.MatricNumber, new { @class = "form-control required", @id = "matric" })
                     <div class="text-danger">
                         @Html.ValidationMessageFor(model => model.MatricNumber)
-                        @Html.ValidationMessage("Matric")
                     </div>
                 </div>
             </div>
@@ -80,7 +86,7 @@
             <div class="form-group">
                 <label for="year" class="control-label col-sm-3"> Year of Admission </label>
                 <div class="col-sm-9">
-                    @Html.TextBoxFor(model => model.YearOfAdmission, " ", new { @class = "form-control border-input required", @id = "year", @type = "datetime" })
+                    @Html.TextBoxFor(model => model.YearOfAdmission, new { @class = "form-control border-input required", @id = "year", @type = "datetime" })
                     <div class="text-danger">
                         @Html.ValidationMessageFor(model => model.YearOfAdmission)
                     </div>
@@ -88,9 +94,9 @@
             </div>
 
             <div class="form-group">
-                <label for="gender" class="control-label col-sm-3"> Level at Admission </label>
+                <label for="level" class="control-label col-sm-3"> Level at Admission </label>
                 <div class="col-sm-9">
-                    @Html.DropDownListFor(model => model.LevelOfAdmission, Enum.GetNames(typeof(Level)).Select(e => new SelectListItem { Text = e, Value = ((int)Enum.Parse(typeof(Level), e)).ToString() }), " ", new { @class = "form-control required" })
+                    @Html.DropDownListFor(model => model.LevelOfAdmission, Enum.GetNames(typeof(Level)).Select(e => new SelectListItem { Text = e, Value = ((int)Enum.Parse(typeof(Level), e)).ToString() }), new { @class = "form-control required", @id = "level" })
                     <div class="text-danger">
                         @Html.ValidationMessageFor(model => model.LevelOfAdmission)
                     </div>

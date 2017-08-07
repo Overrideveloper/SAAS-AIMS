@@ -1,7 +1,9 @@
 ﻿using AIMS.Data.DataContext.DataContext.MemberDataContext;
 using AIMS.Data.DataObjects.Entities.Member;
+using AIMS.Data.Enums.Enums.State;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -85,12 +87,13 @@ namespace SAAS_AIMS.Controllers
         }
         #endregion
 
+
         #region edit member
         //
         // GET: /Member/Edit
-        public async Task<ActionResult> Edit(int id)
+        public ActionResult Edit(int id)
         {
-            var member = await _memberDataContext.Members.FindAsync(id);
+            var member = _memberDataContext.Members.Find(id);
             if (member == null)
             {
                 return HttpNotFound();
@@ -103,19 +106,12 @@ namespace SAAS_AIMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_memberDataContext.Members.Any(record => record.MatricNumber == member.MatricNumber))
-                {
-                    ModelState.AddModelError("Matric", "Matric. number is already is use");
-                }
-                else
-                {
                     member.DateLastModified = DateTime.Now;
                     member.LastModifiedBy = Convert.ToInt64(Session["UserID"]);
 
                     _memberDataContext.Entry(member).State = EntityState.Modified;
                     _memberDataContext.SaveChanges();
                     return Json(new { success = true });
-                }
             }
             return PartialView("Edit", member);
         }
