@@ -9,7 +9,7 @@ using System.Web.Mvc.Html;
 
 namespace AIMS.Services.EnumDropDownList
 {
-    public class EnumDropDownListFor
+    public static class EnumDropDownList
     {
         public static MvcHtmlString EnumDropDownListFor<TModel, TProperty, TEnum>(
                     this HtmlHelper<TModel> htmlHelper,

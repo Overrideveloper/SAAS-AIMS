@@ -2,6 +2,7 @@
 @using AIMS.Data.Enums.Enums.Level
 @using AIMS.Data.Enums.Enums.State
 @using AIMS.Services.EnumRadioButton
+@using AIMS.Services.EnumDropDownList
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -66,7 +67,6 @@
             <div class="form-group">
                 <label for="state" class="control-label col-sm-3"> State of Origin </label>
                 <div class="col-sm-9">
-                    @Html.DropDownListFor(model => model.StateOfOrigin, Enum.GetNames(typeof(State)).Select(e => new SelectListItem { Text = e, Value = ((int)Enum.Parse(typeof(State), e)).ToString() }), new { @class = "form-control required", @id = "state" })
                     <div class="text-danger">
                         @Html.ValidationMessageFor(model => model.StateOfOrigin)
                     </div>
