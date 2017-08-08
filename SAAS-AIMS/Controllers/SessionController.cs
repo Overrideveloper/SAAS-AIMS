@@ -15,11 +15,14 @@ namespace SAAS_AIMS.Controllers
     {
         private SessionDataContext _sessionDataContext;
 
+        #region constructor
         public SessionController()
         {
             _sessionDataContext = new SessionDataContext();
         }
+        #endregion
 
+        #region academic session index
         //
         // GET: /Session/
         public ActionResult Index()
@@ -29,7 +32,9 @@ namespace SAAS_AIMS.Controllers
 
             return View(session);
         }
+        #endregion
 
+        #region create academic session
         //
         // GET: /Session/Create
         public ActionResult Create()
@@ -66,7 +71,9 @@ namespace SAAS_AIMS.Controllers
 
             return PartialView("Create", session);
         }
+#endregion
 
+        #region edit academic session
         //
         // GET: /Session/Edit
         [HttpGet]
@@ -99,15 +106,18 @@ namespace SAAS_AIMS.Controllers
             }
             return PartialView("Edit", session);
         }
+#endregion
 
+        #region delete academic session
         public async Task<ActionResult> Delete(long id)
         {
             var session = await _sessionDataContext.Sessions.FindAsync(id);
             _sessionDataContext.Sessions.Remove(session);
-            _sessionDataContext.SaveChanges();
+            await _sessionDataContext.SaveChangesAsync();
             TempData["Success"] = "Academic session successfully deleted!";
             TempData["NotificationType"] = NotificationType.Delete.ToString();
             return RedirectToAction("Index");
         }
-	}
+        #endregion
+    }
 }

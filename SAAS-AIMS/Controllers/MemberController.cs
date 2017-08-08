@@ -25,7 +25,7 @@ namespace SAAS_AIMS.Controllers
         }
         #endregion
 
-        #region index
+        #region association member index
         //
         // GET: /Member/
         public ActionResult Index()
@@ -42,7 +42,7 @@ namespace SAAS_AIMS.Controllers
         }
         #endregion
 
-        #region create member
+        #region create association member
         // GET: /Member/Create
         public ActionResult Create()
         {
@@ -90,11 +90,10 @@ namespace SAAS_AIMS.Controllers
         }
         #endregion
 
-
-        #region edit member
+        #region edit association member
         //
         // GET: /Member/Edit
-        public ActionResult Edit(int id)
+        public ActionResult Edit(long id)
         {
             var member = _memberDataContext.Members.Find(id);
             if (member == null)
@@ -122,6 +121,19 @@ namespace SAAS_AIMS.Controllers
             return PartialView("Edit", member);
         }
 
+        #endregion
+
+        #region delete association member
+        public async Task<ActionResult> Delete(long id)
+        {
+            var member = await _memberDataContext.Members.FindAsync(id);
+            _memberDataContext.Members.Remove(member);
+            await _memberDataContext.SaveChangesAsync();
+
+            TempData["Success"] = "Association member successfully deleted!";
+            TempData["NotificationType"] = NotificationType.Delete.ToString();
+            return RedirectToAction("Index");
+        }
         #endregion
     }
 }

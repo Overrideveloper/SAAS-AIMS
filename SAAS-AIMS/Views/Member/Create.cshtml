@@ -59,7 +59,7 @@
             <div class="form-group">
                 <label for="gender" class="control-label col-sm-3"> State of Origin </label>
                 <div class="col-sm-9">
-                    @Html.EnumDropDownListFor(model => model.StateOfOrigin, Model.StateOfOrigin, new { @class = "form-control" })
+                    @Html.EnumDropDownListFor(model => model.StateOfOrigin, Model.StateOfOrigin, "", new { @class = "form-control" })
                     <div class="text-danger">
                         @Html.ValidationMessageFor(model => model.StateOfOrigin)
                     </div>
@@ -90,7 +90,7 @@
             <div class="form-group">
                 <label for="gender" class="control-label col-sm-3"> Level at Admission </label>
                 <div class="col-sm-9">
-                    @Html.EnumDropDownListFor(model => model.LevelOfAdmission, Model.LevelOfAdmission, new { @class = "form-control" })
+                    @Html.EnumDropDownListFor(model => model.LevelOfAdmission, Model.LevelOfAdmission, "", new { @class = "form-control" })
                     <div class="text-danger">
                         @Html.ValidationMessageFor(model => model.LevelOfAdmission)
                     </div>
