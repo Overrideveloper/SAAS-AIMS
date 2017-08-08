@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EnumDropDownList\EnumDropDownListFor.cs" />
     <Compile Include="EnumRadioButton\EnumRadioButton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UsernameGenerator\UsernameGenerator.cs" />
