@@ -14,7 +14,7 @@ namespace AIMS.Services.EnumDropDownList
         public static MvcHtmlString EnumDropDownListFor<TModel, TProperty, TEnum>(
                     this HtmlHelper<TModel> htmlHelper,
                     Expression<Func<TModel, TProperty>> expression,
-                    TEnum selectedValue)
+                    TEnum selectedValue, object htmlAttributes)
         {
             IEnumerable<TEnum> values = Enum.GetValues(typeof(TEnum))
                                         .Cast<TEnum>();
@@ -25,7 +25,7 @@ namespace AIMS.Services.EnumDropDownList
                                                     Value = value.ToString(),
                                                     Selected = (value.Equals(selectedValue))
                                                 };
-            return SelectExtensions.DropDownListFor(htmlHelper, expression, items);
+            return SelectExtensions.DropDownListFor(htmlHelper, expression, items, htmlAttributes);
         }
     }
 }

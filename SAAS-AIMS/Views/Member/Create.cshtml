@@ -90,6 +90,7 @@
             <div class="form-group">
                 <label for="gender" class="control-label col-sm-3"> Level at Admission </label>
                 <div class="col-sm-9">
+                    @Html.DropDownListFor
                     @Html.EnumDropDownListFor(model => model.LevelOfAdmission, Model.LevelOfAdmission)
                     <div class="text-danger">
                         @Html.ValidationMessageFor(model => model.LevelOfAdmission)
