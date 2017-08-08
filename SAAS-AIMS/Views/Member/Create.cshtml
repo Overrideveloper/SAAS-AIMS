@@ -2,6 +2,7 @@
 @using AIMS.Data.Enums.Enums.Level
 @using AIMS.Data.Enums.Enums.State
 @using AIMS.Services.EnumRadioButton
+@using AIMS.Services.EnumDropDownList
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -58,7 +59,7 @@
             <div class="form-group">
                 <label for="gender" class="control-label col-sm-3"> State of Origin </label>
                 <div class="col-sm-9">
-                    @Html.DropDownListFor(model => model.StateOfOrigin, Enum.GetNames(typeof(State)).Select(e => new SelectListItem { Text = e, Value = ((int)Enum.Parse(typeof(State), e)).ToString() }), " ", new { @class = "form-control required" })
+                    @Html.EnumDropDownListFor(model => model.StateOfOrigin, Model.StateOfOrigin)
                     <div class="text-danger">
                         @Html.ValidationMessageFor(model => model.StateOfOrigin)
                     </div>
@@ -89,7 +90,7 @@
             <div class="form-group">
                 <label for="gender" class="control-label col-sm-3"> Level at Admission </label>
                 <div class="col-sm-9">
-                    @Html.DropDownListFor(model => model.LevelOfAdmission, Enum.GetNames(typeof(Level)).Select(e => new SelectListItem { Text = e, Value = ((int)Enum.Parse(typeof(Level), e)).ToString() }), " ", new { @class = "form-control required" })
+                    @Html.EnumDropDownListFor(model => model.LevelOfAdmission, Model.LevelOfAdmission)
                     <div class="text-danger">
                         @Html.ValidationMessageFor(model => model.LevelOfAdmission)
                     </div>
