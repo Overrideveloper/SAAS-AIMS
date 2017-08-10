@@ -1,4 +1,7 @@
-﻿using System;
+﻿using AIMS.Data.DataContext.DataContext.MemberDataContext;
+using AIMS.Data.DataContext.DataContext.SessionDataContext;
+using AIMS.Data.Enums.Enums.Gender;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +11,41 @@ namespace SAAS_AIMS.Controllers
 {
     public class DashboardController : BaseController
     {
+        MemberDataContext _memberdatacontext;
+        SessionDataContext _sessiondatacontext;
+
+        #region constructor
+        public DashboardController()
+        {
+            _memberdatacontext = new MemberDataContext();
+            _sessiondatacontext = new SessionDataContext();
+        }
+        #endregion
+
+        public JsonResult SessionCount()
+        {
+            var session = _sessiondatacontext.Sessions.ToArray().Length;
+            return Json(new { session = session }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult MaleMembers()
+        {
+            var males = _memberdatacontext.Members.Where(member => member.Gender == Gender.Male).ToArray().Length;
+            return Json(new { males = males }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult FemaleMembers()
+        {
+            var females = _memberdatacontext.Members.Where(member => member.Gender == Gender.Female).ToArray().Length;
+            return Json(new { females = females }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult Members()
+        {
+            var members = _memberdatacontext.Members.ToArray().Length;
+            return Json(new { members = members }, JsonRequestBehavior.AllowGet);
+        }
+
         //
         // GET: /Dashboard/
         public ActionResult Index()
