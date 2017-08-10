@@ -6,10 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
+using AIMS.Data.DataObjects.Entities.SystemManagement;
 
 namespace AIMS.Data.DataObjects.Entities.Dues
 {
-    public class Dues
+    public class Dues : Transport
     {
         [Key]
         public long ID { get; set; }

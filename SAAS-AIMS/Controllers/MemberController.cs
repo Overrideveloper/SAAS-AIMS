@@ -19,7 +19,7 @@ namespace SAAS_AIMS.Controllers
         private MemberDataContext _memberDataContext;
 
         #region constructor
-        public MemberController()
+        private MemberController()
         {
             _memberDataContext = new MemberDataContext();
         }
