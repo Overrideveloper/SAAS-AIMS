@@ -1,4 +1,5 @@
 ﻿using AIMS.Data.DataObjects.Entities.SystemManagement;
+using AIMS.Data.DataObjects.Entities.Dues;
 using AIMS.Data.Enums.Enums.Gender;
 using AIMS.Data.Enums.Enums.Level;
 using AIMS.Data.Enums.Enums.State;
@@ -43,5 +44,7 @@ namespace AIMS.Data.DataObjects.Entities.Member
 
         [Required(ErrorMessage = "Level of Admission is required")]
         public Level LevelOfAdmission { get; set; }
+
+        public virtual ICollection<Dues.Dues> Dues;
     }
 }

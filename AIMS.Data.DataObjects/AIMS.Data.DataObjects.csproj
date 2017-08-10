@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities.Dues\Dues.cs" />
     <Compile Include="Entities.Member\Member.cs" />
     <Compile Include="Entities.Session\Session.cs" />
     <Compile Include="Entities.SystemManagement\Transport.cs" />
