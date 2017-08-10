@@ -15,13 +15,13 @@ namespace AIMS.Data.DataObjects.Entities.Dues
         [Key]
         public long ID { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Title is required")]
         public string Title { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Select A Level")]
         public Level Level { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Amount is required")]
         public decimal Amount { get; set; }
 
         public long MemberID { get; set; }

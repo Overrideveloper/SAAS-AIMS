@@ -32,7 +32,7 @@ namespace SAAS_AIMS.Controllers
         {
             var member = from m in _memberDataContext.Members
                              select m;
-            return View(member);
+            return View(member.OrderBy(order => order.Surname));
         }
         #endregion
 

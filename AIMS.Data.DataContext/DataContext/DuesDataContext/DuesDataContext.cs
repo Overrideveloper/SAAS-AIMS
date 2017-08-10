@@ -22,5 +22,7 @@ namespace AIMS.Data.DataContext.DataContext.DuesDataContext
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
+
+        public System.Data.Entity.DbSet<AIMS.Data.DataObjects.Entities.Member.Member> Members { get; set; }
     }
 }

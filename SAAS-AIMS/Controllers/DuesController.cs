@@ -22,8 +22,7 @@ namespace SAAS_AIMS.Controllers
         public DuesController()
         {
             _duesdatacontext = new DuesDataContext();
-            var member = _memberdatacontext.Members.Find(Convert.ToInt64(Session["memberid"]));
-            membername = member.Surname + " " + member.FirstName;
+            _memberdatacontext = new MemberDataContext();
         }
         #endregion
 
@@ -36,7 +35,7 @@ namespace SAAS_AIMS.Controllers
             Session["memberid"] = memberid;
             var duesList = from m in _duesdatacontext.Dues.Where(dues => dues.MemberID == memberid)
                        select m;
-            return View(duesList);
+            return View(duesList.OrderBy(order => order.Level));
         }
         #endregion
 
@@ -55,6 +54,9 @@ namespace SAAS_AIMS.Controllers
         [HttpPost]
         public ActionResult Create(Dues due)
         {
+            var member = _memberdatacontext.Members.Find(Convert.ToInt64(Session["memberid"]));
+            membername = member.Surname + " " + member.FirstName;
+
             if(ModelState.IsValid)
             {
                 var dueObj = new Dues
@@ -72,7 +74,7 @@ namespace SAAS_AIMS.Controllers
                 _duesdatacontext.SaveChanges();
 
                 TempData["Success"] = membername + "'s dues successfully added!";
-                TempData["NotificationType"] = NotificationType.Create;
+                TempData["NotificationType"] = NotificationType.Create.ToString();
                 return Json(new { success = true });
             }
             return PartialView("Create", due);
@@ -96,6 +98,9 @@ namespace SAAS_AIMS.Controllers
         [HttpPost]
         public ActionResult Edit(Dues due)
         {
+            var member = _memberdatacontext.Members.Find(Convert.ToInt64(Session["memberid"]));
+            membername = member.Surname + " " + member.FirstName;
+         
             if (ModelState.IsValid)
             {
                 due.DateLastModified = DateTime.Now;
@@ -105,7 +110,7 @@ namespace SAAS_AIMS.Controllers
                 _duesdatacontext.SaveChanges();
 
                 TempData["Success"] = membername + "'s dues successfully modified";
-                TempData["NotificationType"] = NotificationType.Edit;
+                TempData["NotificationType"] = NotificationType.Edit.ToString();
                 return Json(new { success = true });
             }
             return PartialView("Edit", due);
@@ -117,12 +122,15 @@ namespace SAAS_AIMS.Controllers
         // GET: Dues/Delete
         public async Task<ActionResult> Delete(long id)
         {
+            var member = await _memberdatacontext.Members.FindAsync(Convert.ToInt64(Session["memberid"]));
+            membername = member.Surname + " " + member.FirstName;
+
             var due = await _duesdatacontext.Dues.FindAsync(id);
             _duesdatacontext.Dues.Remove(due);
             await _duesdatacontext.SaveChangesAsync();
             TempData["Success"] = membername + "'s dues successfully deleted";
-            TempData["NotificationType"] = NotificationType.Delete;
-            return RedirectToAction("Index");
+            TempData["NotificationType"] = NotificationType.Delete.ToString();
+            return RedirectToAction("Index", new { memberid = Convert.ToInt64(Session["memberid"])});
         }
         #endregion
     }

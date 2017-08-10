@@ -4481,6 +4481,8 @@
     <Content Include="Views\Member\Edit.cshtml" />
     <Content Include="Views\Shared\_DuesLayout.cshtml" />
     <Content Include="Views\Dues\Index.cshtml" />
+    <Content Include="Views\Dues\Create.cshtml" />
+    <Content Include="Views\Dues\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

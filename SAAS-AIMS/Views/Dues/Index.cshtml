@@ -6,6 +6,7 @@
     MemberDataContext _memberdatacontext = new MemberDataContext();
     var member = _memberdatacontext.Members.Find(Convert.ToInt64(Session["memberid"]));
     string membername = member.Surname + " " + member.FirstName;
+    Session["membername"] = membername;
     
     ViewBag.Title = membername + "'s Dues";
     Layout = "~/Views/Shared/_DuesLayout.cshtml";
@@ -80,7 +81,7 @@
                                 {
                                     <tr>
                                         <td>@dues.Title</td>
-                                        <td>@dues.Amount</td>
+                                        <td>N @dues.Amount</td>
                                         <td>@dues.Level</td>
                                         <td>
                                             <a class="btn btn-xs btn-default" data-modal="" href="@Url.Action("Edit", "Dues", new { id = dues.ID })"><i class="fa fa-pencil"></i> Edit</a>

@@ -1,0 +1,65 @@
+﻿@model AIMS.Data.DataObjects.Entities.Dues.Dues
+@using AIMS.Data.Enums.Enums.Level
+@using AIMS.Services.EnumDropDownList
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3 class="modal-title">Add Dues for @Convert.ToString(Session["membername"])</h3>
+</div>
+
+
+@using (Html.BeginForm("Create", "Dues", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="modal-body">
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label for="title" class="control-label col-sm-3"> Title </label>
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(model => Model.Title, new { @class = "form-control required", @id = "title" })
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(model => model.Title)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="amount" class="control-label col-sm-3"> Amount </label>
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(model => Model.Amount, new { @class = "form-control required", @id = "amount", @placeholder = "Enter amount", @Value = "" })
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(model => model.Amount)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="level" class="control-label col-sm-3"> Level </label>
+                <div class="col-sm-9">
+                    @Html.EnumDropDownListFor(model => model.Level, Model.Level, string.Empty, new { @class = "form-control", @id = "level", @placeholder = "Select a Level" })
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(model => model.Level)
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <span id="progress" class="text-center" style="display:none">
+            <strong>Processing..</strong>
+        </span>
+
+        <input class="btn btn-primary btn-raised" type="submit" value="Save" />
+        <button class="btn btn-danger" data-dismiss="modal"> Close </button>
+    </div>
+}
+
+<script>
+    $("form").removeData("validator");
+    $("form").removeData("unobtrusiveValidation");
+    $.validator.unobtrusive.parse("form");
+</script>

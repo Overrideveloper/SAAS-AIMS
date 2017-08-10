@@ -30,7 +30,7 @@ namespace SAAS_AIMS.Controllers
             var session = from m in _sessionDataContext.Sessions
                           select m;
 
-            return View(session);
+            return View(session.OrderBy(order => order.ID));
         }
         #endregion
 
