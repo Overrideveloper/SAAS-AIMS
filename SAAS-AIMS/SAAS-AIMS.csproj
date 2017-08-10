@@ -4480,10 +4480,10 @@
     <Content Include="Views\Member\Create.cshtml" />
     <Content Include="Views\Member\Edit.cshtml" />
     <Content Include="Views\Shared\_DuesLayout.cshtml" />
+    <Content Include="Views\Dues\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Dues\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

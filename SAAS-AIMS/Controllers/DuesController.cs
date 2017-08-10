@@ -1,4 +1,5 @@
 ﻿using AIMS.Data.DataContext.DataContext.DuesDataContext;
+using AIMS.Data.DataContext.DataContext.MemberDataContext;
 using AIMS.Data.DataObjects.Entities.Dues;
 using AIMS.Data.Enums.Enums.NotificationType;
 using System;
@@ -14,11 +15,15 @@ namespace SAAS_AIMS.Controllers
     public class DuesController : Controller
     {
         private DuesDataContext _duesdatacontext;
+        private MemberDataContext _memberdatacontext;
+        string membername;
 
         #region constructor
-        private DuesController()
+        public DuesController()
         {
             _duesdatacontext = new DuesDataContext();
+            var member = _memberdatacontext.Members.Find(Convert.ToInt64(Session["memberid"]));
+            membername = member.Surname + " " + member.FirstName;
         }
         #endregion
 
@@ -66,7 +71,7 @@ namespace SAAS_AIMS.Controllers
                 _duesdatacontext.Dues.Add(dueObj);
                 _duesdatacontext.SaveChanges();
 
-                TempData["Success"] = "Member's dues successfully added!";
+                TempData["Success"] = membername + "'s dues successfully added!";
                 TempData["NotificationType"] = NotificationType.Create;
                 return Json(new { success = true });
             }
@@ -99,7 +104,7 @@ namespace SAAS_AIMS.Controllers
                 _duesdatacontext.Entry(due).State = EntityState.Modified;
                 _duesdatacontext.SaveChanges();
 
-                TempData["Success"] = "Member's dues successfully modified";
+                TempData["Success"] = membername + "'s dues successfully modified";
                 TempData["NotificationType"] = NotificationType.Edit;
                 return Json(new { success = true });
             }
@@ -115,6 +120,8 @@ namespace SAAS_AIMS.Controllers
             var due = await _duesdatacontext.Dues.FindAsync(id);
             _duesdatacontext.Dues.Remove(due);
             await _duesdatacontext.SaveChangesAsync();
+            TempData["Success"] = membername + "'s dues successfully deleted";
+            TempData["NotificationType"] = NotificationType.Delete;
             return RedirectToAction("Index");
         }
         #endregion
