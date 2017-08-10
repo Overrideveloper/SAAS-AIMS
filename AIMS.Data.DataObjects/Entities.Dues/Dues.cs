@@ -5,7 +5,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AIMS.Data.DataObjects.Entities.Member;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AIMS.Data.DataObjects.Entities.Dues
@@ -24,7 +23,7 @@ namespace AIMS.Data.DataObjects.Entities.Dues
         [Required]
         public decimal Amount { get; set; }
 
-        public int MemberID { get; set; }
+        public long MemberID { get; set; }
 
         [ForeignKey("MemberID")]
         public virtual Member.Member Member { get; set; }

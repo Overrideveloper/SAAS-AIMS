@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataContext\DuesDataContext\DuesDataContext.cs" />
     <Compile Include="DataContext\MemberDataContext\MemberDataContext.cs" />
     <Compile Include="DataContext\SessionDataContext\SessionDataContext.cs" />
     <Compile Include="Migrations\201708011318105_migrate1.cs" />
@@ -89,6 +90,10 @@
     <Compile Include="Migrations\201708061531031_migrate6.cs" />
     <Compile Include="Migrations\201708061531031_migrate6.Designer.cs">
       <DependentUpon>201708061531031_migrate6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708101215200_migrate7.cs" />
+    <Compile Include="Migrations\201708101215200_migrate7.Designer.cs">
+      <DependentUpon>201708101215200_migrate7.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -121,6 +126,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708061531031_migrate6.resx">
       <DependentUpon>201708061531031_migrate6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708101215200_migrate7.resx">
+      <DependentUpon>201708101215200_migrate7.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
