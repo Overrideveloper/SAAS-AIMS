@@ -4484,6 +4484,7 @@
     <Content Include="Views\Dues\Index.cshtml" />
     <Content Include="Views\Dues\Create.cshtml" />
     <Content Include="Views\Dues\Edit.cshtml" />
+    <Content Include="Views\Shared\_MeetingLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

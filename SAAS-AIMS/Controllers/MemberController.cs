@@ -16,7 +16,7 @@ namespace SAAS_AIMS.Controllers
     public class MemberController : Controller
     {
         
-        private MemberDataContext _memberDataContext;
+        private readonly MemberDataContext _memberDataContext;
 
         #region constructor
         public MemberController()

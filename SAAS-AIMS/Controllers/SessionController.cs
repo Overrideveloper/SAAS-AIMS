@@ -13,7 +13,7 @@ namespace SAAS_AIMS.Controllers
 {
     public class SessionController : Controller
     {
-        private SessionDataContext _sessionDataContext;
+        private readonly SessionDataContext _sessionDataContext;
 
         #region constructor
         public SessionController()

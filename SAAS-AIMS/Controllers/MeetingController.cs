@@ -35,7 +35,16 @@ namespace SAAS_AIMS.Controllers
         {
             sessionid = Convert.ToInt64(Session["sessionid"]);
             var meetings = _meetingdatacontext.Meetings.Where(meeting => meeting.SessionID == sessionid);
-            return View(meetings);
+            return View(meetings.OrderBy(meeting => meeting.Date));
+        }
+        #endregion
+
+        #region get session name
+        public string GetSessionName()
+        {
+            var session = _sessiondatacontext.Sessions.Where(sess => sess.ID == Convert.ToInt64(Session["sessionid"])).SingleOrDefault();
+            sessionname = session.Title.ToString();
+            return sessionname;
         }
         #endregion
 
@@ -77,7 +86,7 @@ namespace SAAS_AIMS.Controllers
 
                 _meetingdatacontext.Meetings.Add(meetingVar);
                 _meetingdatacontext.SaveChanges();
-                TempData["Success"] = "Meeting entry successfully created!";
+                TempData["Success"] = "Meeting entry successfully created for " + GetSessionName();
                 TempData["NotificationType"] = NotificationType.Create.ToString();
                 return Json(new { success = true });
             }

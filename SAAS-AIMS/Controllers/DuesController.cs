@@ -14,9 +14,9 @@ namespace SAAS_AIMS.Controllers
 {
     public class DuesController : Controller
     {
-        private DuesDataContext _duesdatacontext;
-        private MemberDataContext _memberdatacontext;
-        string membername;
+        private readonly DuesDataContext _duesdatacontext;
+        private readonly MemberDataContext _memberdatacontext;
+        private string membername;
 
         #region constructor
         public DuesController()
