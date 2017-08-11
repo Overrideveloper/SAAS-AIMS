@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataContext\DuesDataContext\DuesDataContext.cs" />
+    <Compile Include="DataContext\MeetingDataContext\MeetingDataContext.cs" />
     <Compile Include="DataContext\MemberDataContext\MemberDataContext.cs" />
     <Compile Include="DataContext\SessionDataContext\SessionDataContext.cs" />
     <Compile Include="Migrations\201708011318105_migrate1.cs" />
