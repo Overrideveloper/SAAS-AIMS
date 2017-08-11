@@ -45,6 +45,7 @@
     <Compile Include="Enums.NotificationType\NotificationType.cs" />
     <Compile Include="Enums.State\State.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UploadType.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
