@@ -24,10 +24,10 @@ namespace AIMS.Data.DataObjects.Entities.Meeting
         public string Venue { get; set; }
 
         [Display(Name = "Upload minutes of meeting")]
-        public Nullable <string> FileUpload { get; set; }
+        public string FileUpload { get; set; }
 
         [Required]
-        public int SessionID { get; set; }
+        public long SessionID { get; set; }
 
         [ForeignKey("SessionID")]
         public virtual Session.Session Session { get; set; }
