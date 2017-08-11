@@ -51,6 +51,12 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIMS.Data.Enums\AIMS.Data.Enums.csproj">
+      <Project>{f35d2a3b-1fb4-4eca-818b-b5d800f47e70}</Project>
+      <Name>AIMS.Data.Enums</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
