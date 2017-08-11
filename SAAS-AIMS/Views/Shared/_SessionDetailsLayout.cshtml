@@ -70,7 +70,7 @@
                                     <a href="@Url.Action("", "")"><i class="fa fa-briefcase"></i> Income </a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("", "")"><i class="fa fa-gavel"></i> Meetings </a>
+                                    <a href="@Url.Action("Index", "Meeting", new { sessionid = @Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-gavel"></i> Meetings </a>
                                 </li>
                             </ul>
                         </div>

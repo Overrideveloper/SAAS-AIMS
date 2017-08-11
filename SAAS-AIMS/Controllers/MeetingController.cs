@@ -1,8 +1,8 @@
 ﻿using AIMS.Data.DataContext.DataContext.MeetingDataContext;
 using AIMS.Data.DataContext.DataContext.SessionDataContext;
 using AIMS.Data.DataObjects.Entities.Meeting;
-using AIMS.Data.Enums;
 using AIMS.Data.Enums.Enums.NotificationType;
+using AIMS.Data.Enums.Enums.UploadType;
 using AIMS.Services.FIleUploader;
 using System;
 using System.Collections.Generic;
@@ -64,9 +64,8 @@ namespace SAAS_AIMS.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Meeting meeting)
+        public ActionResult Create(Meeting meeting, HttpPostedFileBase file)
         {
-            var file = Request.Files["file"];
             if (ModelState.IsValid)
             {
                 var meetingVar = new Meeting

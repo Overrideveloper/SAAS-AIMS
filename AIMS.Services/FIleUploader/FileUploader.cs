@@ -1,4 +1,4 @@
-﻿using AIMS.Data.Enums;
+﻿using AIMS.Data.Enums.Enums.UploadType;
 using System;
 using System.Collections.Generic;
 using System.IO;
