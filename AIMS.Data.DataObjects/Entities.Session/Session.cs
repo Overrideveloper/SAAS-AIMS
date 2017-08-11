@@ -27,5 +27,7 @@ namespace AIMS.Data.DataObjects.Entities.Session
         [DisplayName("End Date")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MMM/yyyy}")]
         public DateTime EndDate { get; set; }
+
+        public virtual ICollection<Meeting.Meeting> Meeting { get; set; }
     }
 }
