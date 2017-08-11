@@ -25,6 +25,8 @@ namespace SAAS_AIMS.Controllers
         #region academic session index
         //
         // GET: /Session/
+        [HttpGet]
+        [Authorize]
         public ActionResult Index()
         {
             var session = from m in _sessionDataContext.Sessions
@@ -37,6 +39,8 @@ namespace SAAS_AIMS.Controllers
         #region create academic session
         //
         // GET: /Session/Create
+        [HttpGet]
+        [Authorize]
         public ActionResult Create()
         {
             var session = new Session();
@@ -46,6 +50,8 @@ namespace SAAS_AIMS.Controllers
         //
         // POST: /Session/Create
         [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(Session session)
         {
             if (ModelState.IsValid)
@@ -77,6 +83,7 @@ namespace SAAS_AIMS.Controllers
         //
         // GET: /Session/Edit
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult> Edit(long id)
         {
             var session = await _sessionDataContext.Sessions.FindAsync(id);
@@ -90,6 +97,8 @@ namespace SAAS_AIMS.Controllers
         //
         // POST: /Session/Edit
         [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit(Session session)
         {
             if (ModelState.IsValid)
@@ -109,6 +118,7 @@ namespace SAAS_AIMS.Controllers
 #endregion
 
         #region delete academic session
+        [Authorize]
         public async Task<ActionResult> Delete(long id)
         {
             var session = await _sessionDataContext.Sessions.FindAsync(id);

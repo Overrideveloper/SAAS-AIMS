@@ -30,6 +30,7 @@ namespace SAAS_AIMS.Controllers
         //
         // GET: /Dues/
         [HttpGet]
+        [Authorize]
         public ActionResult Index(long memberid)
         {
             Session["memberid"] = memberid;
@@ -43,6 +44,7 @@ namespace SAAS_AIMS.Controllers
         //
         // GET: /Dues/Create
         [HttpGet]
+        [Authorize]
         public ActionResult Create()
         {
             var due = new Dues();
@@ -52,6 +54,8 @@ namespace SAAS_AIMS.Controllers
         //
         // POST: /Dues/Create
         [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(Dues due)
         {
             var member = _memberdatacontext.Members.Find(Convert.ToInt64(Session["memberid"]));
@@ -120,6 +124,7 @@ namespace SAAS_AIMS.Controllers
         #region delete member's dues
         //
         // GET: Dues/Delete
+        [Authorize]
         public async Task<ActionResult> Delete(long id)
         {
             var member = await _memberdatacontext.Members.FindAsync(Convert.ToInt64(Session["memberid"]));

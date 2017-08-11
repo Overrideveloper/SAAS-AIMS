@@ -28,6 +28,8 @@ namespace SAAS_AIMS.Controllers
         #region association member index
         //
         // GET: /Member/
+        [HttpGet]
+        [Authorize]
         public ActionResult Index()
         {
             var member = from m in _memberDataContext.Members
@@ -37,6 +39,7 @@ namespace SAAS_AIMS.Controllers
         #endregion
 
         #region matric number remote validation
+        [Authorize]
         public JsonResult IsMatricNoAvailable(string MatricNumber) {
             return Json(!_memberDataContext.Members.Any(member => member.MatricNumber == MatricNumber), JsonRequestBehavior.AllowGet);
         }
@@ -44,6 +47,8 @@ namespace SAAS_AIMS.Controllers
 
         #region create association member
         // GET: /Member/Create
+        [HttpGet]
+        [Authorize]
         public ActionResult Create()
         {
             var member = new Member();
@@ -52,6 +57,8 @@ namespace SAAS_AIMS.Controllers
 
         // POST: /Member/Create
         [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(Member member)
         {
             if (ModelState.IsValid)
@@ -93,6 +100,8 @@ namespace SAAS_AIMS.Controllers
         #region edit association member
         //
         // GET: /Member/Edit
+        [HttpGet]
+        [Authorize]
         public ActionResult Edit(long id)
         {
             var member = _memberDataContext.Members.Find(id);
@@ -104,6 +113,8 @@ namespace SAAS_AIMS.Controllers
         }
 
         [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit(Member member)
         {
             if (ModelState.IsValid)
@@ -124,6 +135,7 @@ namespace SAAS_AIMS.Controllers
         #endregion
 
         #region delete association member
+        [Authorize]
         public async Task<ActionResult> Delete(long id)
         {
             var member = await _memberDataContext.Members.FindAsync(id);

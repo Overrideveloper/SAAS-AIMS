@@ -171,6 +171,7 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DuesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MeetingController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Controllers\SessionDetailsController.cs" />
@@ -4486,6 +4487,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Meeting\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

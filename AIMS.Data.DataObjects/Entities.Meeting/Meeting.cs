@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AIMS.Data.DataObjects.Entities.SystemManagement;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AIMS.Data.DataObjects.Entities.Meeting
 {
-    public class Meeting
+    public class Meeting : Transport
     {
         [Key]
         public long ID { get; set; }
