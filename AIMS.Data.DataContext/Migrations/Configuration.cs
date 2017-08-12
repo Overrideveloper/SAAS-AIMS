@@ -5,7 +5,7 @@ namespace AIMS.Data.DataContext.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<AIMS.Data.DataContext.DataContext.SessionDataContext.SessionDataContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<AIMS.Data.DataContext.DataContext.RoleDataContext.RoleDataContext>
     {
         public Configuration()
         {
@@ -13,7 +13,7 @@ namespace AIMS.Data.DataContext.Migrations
             SetSqlGenerator("MySql.Data.MySqlClient", new MySql.Data.Entity.MySqlMigrationSqlGenerator());
         }
 
-        protected override void Seed(AIMS.Data.DataContext.DataContext.SessionDataContext.SessionDataContext context)
+        protected override void Seed(AIMS.Data.DataContext.DataContext.RoleDataContext.RoleDataContext context)
         {
             //  This method will be called after migrating to the latest version.
 

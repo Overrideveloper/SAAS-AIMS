@@ -67,6 +67,7 @@
     <Compile Include="DataContext\DuesDataContext\DuesDataContext.cs" />
     <Compile Include="DataContext\MeetingDataContext\MeetingDataContext.cs" />
     <Compile Include="DataContext\MemberDataContext\MemberDataContext.cs" />
+    <Compile Include="DataContext\RoleDataContext\RoleDataContext.cs" />
     <Compile Include="DataContext\SessionDataContext\SessionDataContext.cs" />
     <Compile Include="Migrations\201708011318105_migrate1.cs" />
     <Compile Include="Migrations\201708011318105_migrate1.Designer.cs">
@@ -115,6 +116,10 @@
     <Compile Include="Migrations\201708111052440_migrate-12.cs" />
     <Compile Include="Migrations\201708111052440_migrate-12.Designer.cs">
       <DependentUpon>201708111052440_migrate-12.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708122202440_migrate-13.cs" />
+    <Compile Include="Migrations\201708122202440_migrate-13.Designer.cs">
+      <DependentUpon>201708122202440_migrate-13.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -166,7 +171,11 @@
     <EmbeddedResource Include="Migrations\201708111052440_migrate-12.resx">
       <DependentUpon>201708111052440_migrate-12.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708122202440_migrate-13.resx">
+      <DependentUpon>201708122202440_migrate-13.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
