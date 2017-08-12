@@ -5,8 +5,7 @@
 @{
     SessionDataContext _sessiondatacontext = new SessionDataContext();
     var session = _sessiondatacontext.Sessions.Find(Convert.ToInt64(Session["sessionid"]));
-    string sessiontitle = session.Title;
-    ViewBag.Title = sessiontitle + "Meetings";
+    ViewBag.Title = @session.Title.ToString() + " Meetings";
     Layout = "~/Views/Shared/_MeetingLayout.cshtml";
 }
 
@@ -15,7 +14,7 @@
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3>@sessiontitle's Meetings </h3>
+                <h3>@session.Title.ToString()'s Meetings </h3>
             </div>
         </div>
 
