@@ -10,7 +10,7 @@ namespace AIMS.Data.DataObjects.Entities.Role
     public class Role
     {
         [Key]
-        public int ID { get; set; }
+        public long ID { get; set; }
 
         [Required]
         public string Title { get; set; }
