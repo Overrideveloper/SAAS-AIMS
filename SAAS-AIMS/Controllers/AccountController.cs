@@ -125,7 +125,6 @@ namespace SAAS_AIMS.Controllers
             {
                 var rolevar = new Role
                 {
-                    ID = Convert.ToInt64(270399),
                     Title = "Superuser",
                     CanManageSessions = true,
                     CanManageMembers = true,
@@ -139,7 +138,7 @@ namespace SAAS_AIMS.Controllers
                 _roledatacontext.Roles.Add(rolevar);
                 _roledatacontext.SaveChanges();
 
-                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, RoleID = Convert.ToInt64(270399) };
+                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, RoleID = rolevar.ID };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

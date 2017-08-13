@@ -24,17 +24,22 @@
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-users"></i> New Members (Total) </span>
             <div class="count" id="membercurrent"></div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-calendar-check-o"></i></i> This session </span>
+            <span class="count_bottom"><i class="green"><i class="fa fa-calendar-check-o"></i></i> This year </span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-male"></i> New Members (Male) </span>
             <div class="count" id="malecurrent"></div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-calendar-check-o"></i></i> This session </span>
+            <span class="count_bottom"><i class="green"><i class="fa fa-calendar-check-o"></i></i> This year </span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-female"></i> New Members (Female) </span>
             <div class="count" id="femalecurrent"></div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-calendar-check-o"></i></i> This session </span>
+            <span class="count_bottom"><i class="green"><i class="fa fa-calendar-check-o"></i></i> This year </span>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-female"></i> Total Dues Collected </span>
+            <div class="count" id="dues"></div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-calendar-check-o"></i></i> All-Time </span>
         </div>
     </div>
     <!-- /top tiles -->
@@ -375,13 +380,17 @@
     </div>
 </div>
 @section Scripts {
-    <script>
+    <script async>
         $(document).ready(function () {
             $('div#stats').ready(function () {
                 SessionCount();
                 MemberCount();
                 MaleCount();
                 FemaleCount();
+                MemberCurrent();
+                FemaleCurrent();
+                MaleCurrent();
+                Dues();
             });
         });
 
@@ -477,6 +486,7 @@
                     $('div#membercurrent').text(currentmember.currentmember);
                     setTimeout(function () {
                         MemberCurrent();
+                        console.log(currentmember);
                     }, 900000);
                 },
                 error: function (currentmember) {
@@ -495,6 +505,7 @@
                 cache: false,
                 success: function (currentmale) {
                     $('div#malecurrent').text(currentmale.currentmale);
+                    console.log(currentmale);
                     setTimeout(function () {
                         MaleCurrent();
                     }, 900000);
@@ -515,11 +526,34 @@
                 cache: false,
                 success: function (currentfemale) {
                     $('div#femalecurrent').text(currentfemale.currentfemale);
+                    console.log(currentfemale);
                     setTimeout(function () {
                         FemaleCurrent();
                     }, 900000);
                 },
                 error: function (currentfemale) {
+                    alert('error');
+                }
+            });
+        }
+
+        function Dues()
+        {
+            $.ajax({
+                type: 'GET',
+                url: '/Dashboard/TotalDues',
+                datatype: 'json',
+                traditional: true,
+                contentType: "application/json",
+                cache: false,
+                success: function (dues) {
+                    $('div#dues').text('N' + dues.dues);
+                    console.log(dues);
+                    setTimeout(function () {
+                        Dues();
+                    }, 900000);
+                },
+                error: function (dues) {
                     alert('error');
                 }
             });

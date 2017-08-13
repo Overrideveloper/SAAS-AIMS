@@ -1,4 +1,5 @@
-﻿using AIMS.Data.DataContext.DataContext.MemberDataContext;
+﻿using AIMS.Data.DataContext.DataContext.DuesDataContext;
+using AIMS.Data.DataContext.DataContext.MemberDataContext;
 using AIMS.Data.DataContext.DataContext.SessionDataContext;
 using AIMS.Data.Enums.Enums.Gender;
 using System;
@@ -12,6 +13,7 @@ namespace SAAS_AIMS.Controllers
     public class DashboardController : BaseController
     {
         MemberDataContext _memberdatacontext;
+        DuesDataContext _duesdatacontext;
         SessionDataContext _sessiondatacontext;
 
         #region constructor
@@ -19,6 +21,7 @@ namespace SAAS_AIMS.Controllers
         {
             _memberdatacontext = new MemberDataContext();
             _sessiondatacontext = new SessionDataContext();
+            _duesdatacontext = new DuesDataContext();
         }
         #endregion
 
@@ -48,7 +51,7 @@ namespace SAAS_AIMS.Controllers
 
         public JsonResult CurrentSessionMembers()
         {
-            var currentmember = _memberdatacontext.Members.Where(s => Convert.ToDateTime(s.YearOfAdmission).Year == DateTime.Now.Year || s.YearOfAdmission == (DateTime.Now.Year - 1).ToString());
+            var currentmember = _memberdatacontext.Members.Where(s => s.YearOfAdmission == Convert.ToString(DateTime.Now.Year) || s.YearOfAdmission == Convert.ToString((DateTime.Now.Year - 1)));
             return Json(new { currentmember = currentmember }, JsonRequestBehavior.AllowGet);
         }
 
@@ -62,6 +65,12 @@ namespace SAAS_AIMS.Controllers
         {
             var currentfemale = _memberdatacontext.Members.Where(s => s.Gender == Gender.Female && s.YearOfAdmission == DateTime.Now.Year.ToString() || s.YearOfAdmission == (DateTime.Now.Year - 1).ToString());
             return Json(new { currentfemale = currentfemale }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult TotalDues()
+        {
+            var dues = _duesdatacontext.Dues.Sum(due => due.Amount);
+            return Json(new { dues = dues }, JsonRequestBehavior.AllowGet);
         }
 
         //
