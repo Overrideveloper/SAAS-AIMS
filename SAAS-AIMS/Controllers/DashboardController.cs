@@ -46,6 +46,24 @@ namespace SAAS_AIMS.Controllers
             return Json(new { members = members }, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult CurrentSessionMembers()
+        {
+            var currentmember = _memberdatacontext.Members.Where(s => Convert.ToDateTime(s.YearOfAdmission).Year == DateTime.Now.Year || s.YearOfAdmission == (DateTime.Now.Year - 1).ToString());
+            return Json(new { currentmember = currentmember }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult CurrentSessionMale()
+        {
+            var currentmale = _memberdatacontext.Members.Where(s => s.Gender == Gender.Male && s.YearOfAdmission == DateTime.Now.Year.ToString() || s.YearOfAdmission == (DateTime.Now.Year - 1).ToString());
+            return Json(new { currentmale = currentmale }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult CurrentSessionFemale()
+        {
+            var currentfemale = _memberdatacontext.Members.Where(s => s.Gender == Gender.Female && s.YearOfAdmission == DateTime.Now.Year.ToString() || s.YearOfAdmission == (DateTime.Now.Year - 1).ToString());
+            return Json(new { currentfemale = currentfemale }, JsonRequestBehavior.AllowGet);
+        }
+
         //
         // GET: /Dashboard/
         public ActionResult Index()

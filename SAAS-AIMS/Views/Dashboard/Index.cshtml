@@ -7,30 +7,34 @@
     <!-- top tiles -->
     <div class="row tile_count" id="stats">
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Total Members</span>
+            <span class="count_top"><i class="fa fa-users"></i> Total Members</span>
             <div class="count green" id="members"></div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-calendar-o"></i></i> All-Time </span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-male"></i> Total Males</span>
             <div class="count" id="male"></div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-calendar-o"></i></i> All-Time </span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-female"></i> Total Females</span>
             <div class="count green" id="female"></div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-calendar-o"></i></i> All-Time </span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-calendar"></i> Total Sessions</span>
-            <div class="count" id="session"></div>
+            <span class="count_top"><i class="fa fa-users"></i> New Members (Total) </span>
+            <div class="count" id="membercurrent"></div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-calendar-check-o"></i></i> This session </span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Total Collections</span>
-            <div class="count">2,315</div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+            <span class="count_top"><i class="fa fa-male"></i> New Members (Male) </span>
+            <div class="count" id="malecurrent"></div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-calendar-check-o"></i></i> This session </span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Total Connections</span>
-            <div class="count">7,325</div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+            <span class="count_top"><i class="fa fa-female"></i> New Members (Female) </span>
+            <div class="count" id="femalecurrent"></div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-calendar-check-o"></i></i> This session </span>
         </div>
     </div>
     <!-- /top tiles -->
@@ -456,6 +460,66 @@
                     }, 900000);
                 },
                 error: function (female) {
+                    alert('error');
+                }
+            });
+        }
+
+        function MemberCurrent() {
+            $.ajax({
+                type: 'GET',
+                url: '/Dashboard/CurrentSessionMembers',
+                datatype: 'json',
+                traditional: true,
+                contentType: "application/json",
+                cache: false,
+                success: function (currentmember) {
+                    $('div#membercurrent').text(currentmember.currentmember);
+                    setTimeout(function () {
+                        MemberCurrent();
+                    }, 900000);
+                },
+                error: function (currentmember) {
+                    alert('error');
+                }
+            });
+        }
+
+        function MaleCurrent() {
+            $.ajax({
+                type: 'GET',
+                url: '/Dashboard/CurrentSessionMale',
+                datatype: 'json',
+                traditional: true,
+                contentType: "application/json",
+                cache: false,
+                success: function (currentmale) {
+                    $('div#malecurrent').text(currentmale.currentmale);
+                    setTimeout(function () {
+                        MaleCurrent();
+                    }, 900000);
+                },
+                error: function (currentmale) {
+                    alert('error');
+                }
+            });
+        }
+
+        function FemaleCurrent() {
+            $.ajax({
+                type: 'GET',
+                url: '/Dashboard/CurrentSessionFemale',
+                datatype: 'json',
+                traditional: true,
+                contentType: "application/json",
+                cache: false,
+                success: function (currentfemale) {
+                    $('div#femalecurrent').text(currentfemale.currentfemale);
+                    setTimeout(function () {
+                        FemaleCurrent();
+                    }, 900000);
+                },
+                error: function (currentfemale) {
                     alert('error');
                 }
             });
