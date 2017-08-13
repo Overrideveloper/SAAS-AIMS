@@ -26,8 +26,7 @@ namespace AIMS.Data.DataContext.Migrations
         
         public override void Down()
         {
- 	
+            DropTable("dbo.Role");
         }
-
     }
 }

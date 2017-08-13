@@ -13,7 +13,7 @@ namespace AIMS.Data.DataContext.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201708122202440_migrate-13"; }
+            get { return "201708122304239_migrate-13"; }
         }
         
         string IMigrationMetadata.Source

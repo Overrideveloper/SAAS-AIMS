@@ -1,5 +1,7 @@
-﻿using SAAS_AIMS.Enums;
+﻿using AIMS.Data.DataObjects.Entities.Role;
+using SAAS_AIMS.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAAS_AIMS.Models
 {
@@ -49,20 +51,6 @@ namespace SAAS_AIMS.Models
     public class RegisterViewModel
     {
         [Required]
-        [Display(Name = "Association Name")]
-        public string AssociationName { get; set; }
-
-
-        [Required]
-        [Display(Name = "College/University Chapter")]
-        public string CollegeChapter { get; set; }
-
-
-        [Required]
-        [Display(Name = "State")]
-        public virtual State State { get; set; }
-
-        [Required]
         [Display(Name = "E-mail")]
         [DataType(DataType.EmailAddress)]
         [EmailAddress]
@@ -79,6 +67,9 @@ namespace SAAS_AIMS.Models
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
-        public string SubscriptionPlan { get; set; }
+        public long RoleID { get; set; }
+
+        [ForeignKey("RoleID")]
+        public virtual Role Role { get; set; }
     }
 }

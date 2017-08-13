@@ -9,15 +9,20 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using SAAS_AIMS.Models;
+using AIMS.Data.DataObjects.Entities.Role;
+using AIMS.Data.DataContext.DataContext.RoleDataContext;
 
 namespace SAAS_AIMS.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
+        private readonly RoleDataContext _roledatacontext;
+
         public AccountController()
             : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new AppUserDataContext())))
         {
+            _roledatacontext = new RoleDataContext();
 
             this.UserManager.UserValidator = new UserValidator<ApplicationUser>(this.UserManager)
             {
@@ -83,7 +88,58 @@ namespace SAAS_AIMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, AssociationName = model.AssociationName, CollegeChapter = model.CollegeChapter, State = model.State };
+                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    await SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("Index", "Dashboard");
+                }
+                else
+                {
+                    AddErrors(result);
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+        //
+        // GET: /Account/Register
+        [AllowAnonymous]
+        public ActionResult FirstRegistration()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Account/Register
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> FirstRegistration(RegisterViewModel model, Role role)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var rolevar = new Role
+                {
+                    ID = Convert.ToInt64(270399),
+                    Title = "Superuser",
+                    CanManageSessions = true,
+                    CanManageMembers = true,
+                    CanManageMeetings = true,
+                    CanManageIncome = true,
+                    CanManageExpenses = true,
+                    CanManageExecutives = true,
+                    CanManageEvents = true
+                };
+
+                _roledatacontext.Roles.Add(rolevar);
+                _roledatacontext.SaveChanges();
+
+                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, RoleID = Convert.ToInt64(270399) };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
