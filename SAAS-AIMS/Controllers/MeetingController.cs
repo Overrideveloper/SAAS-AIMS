@@ -42,9 +42,9 @@ namespace SAAS_AIMS.Controllers
         #region get session name
         public string GetSessionName()
         {
-            var session = _sessiondatacontext.Sessions.Where(sess => sess.ID == Convert.ToInt64(Session["sessionid"])).SingleOrDefault();
+            var session = _sessiondatacontext.Sessions.Find(Convert.ToInt64(Session["sessionid"]));
             sessionname = session.Title.ToString();
-            return sessionname;
+            return sessionname;                                                                   
         }
         #endregion
 
@@ -62,11 +62,8 @@ namespace SAAS_AIMS.Controllers
         //
         // POST: /Meeting/Create
         [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(Meeting meeting)
+        public ActionResult Create(Meeting meeting, HttpPostedFileBase file)
         {
-            var file = Request.Files["file"];
             if (ModelState.IsValid)
             {
                 var meetingVar = new Meeting

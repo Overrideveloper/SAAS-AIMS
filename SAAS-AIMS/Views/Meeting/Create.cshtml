@@ -7,9 +7,10 @@
 </div>
 
 
-@using (Html.BeginForm("Create", "Meeting", FormMethod.Post, new { @class="form", enctype = "multipart/form-data"}))
+@using (Html.BeginForm("Create", "Meeting", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
+    @Html.Hidden("FileUpload")
     <div class="modal-body">
 
         <div class="form-horizontal">
@@ -46,7 +47,7 @@
             <div class="form-group">
                 <label for="file" class="control-label col-sm-3"> Upload minutes of meeting </label>
                 <div class="col-sm-9">
-                    <input type="file" name="file" id="file" style="width: 100%;" />
+                    <input type="file" name="file" style="width: 100%;" />
                     <div class="text-danger">
                         @Html.ValidationMessageFor(model => model.FileUpload)
                     </div>
