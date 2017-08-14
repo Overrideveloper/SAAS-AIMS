@@ -6,6 +6,7 @@ using AIMS.Data.Enums.Enums.UploadType;
 using AIMS.Services.FIleUploader;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -16,6 +17,7 @@ namespace SAAS_AIMS.Controllers
     {
         private readonly MeetingDataContext _meetingdatacontext;
         private readonly SessionDataContext _sessiondatacontext;
+        private static string directory = "../UploadedFiles/";
         private string sessionname;
 
         #region constructor
@@ -62,8 +64,35 @@ namespace SAAS_AIMS.Controllers
         //
         // POST: /Meeting/Create
         [HttpPost]
-        public ActionResult Create(Meeting meeting, HttpPostedFileBase file)
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Meeting meeting)
         {
+            string fileName = string.Empty, actualFileName = string.Empty; bool flag = false;
+
+            HttpFileCollection fileRequested = System.Web.HttpContext.Current.Request.Files;
+            if (fileRequested != null)
+            {
+                for (int i = 0; i < fileRequested.Count; i++)
+                {
+                    var file = Request.Files[i];
+                    actualFileName = file.FileName;
+                    fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+                    int size = file.ContentLength;
+                    Session["filename"] = fileName;
+
+                    try
+                    {
+                        file.SaveAs(Path.Combine(Server.MapPath(directory + UploadType.Minutes), fileName));
+                        flag = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.ToString();
+                    }
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 var meetingVar = new Meeting
@@ -72,8 +101,7 @@ namespace SAAS_AIMS.Controllers
                     Date = meeting.Date,
                     Venue = meeting.Venue,
                     SessionID = Convert.ToInt64(Session["sessionid"]),
-                    FileUpload = file != null && file.FileName != "" 
-                                 ? new FileUploader().UploadFile(file, UploadType.Minutes) : null,
+                    FileUpload = fileRequested != null ? Convert.ToString(Session["filename"]) : null,
                     
                     CreatedBy = Convert.ToInt64(Session["UserID"]),
                     DateCreated = DateTime.Now,

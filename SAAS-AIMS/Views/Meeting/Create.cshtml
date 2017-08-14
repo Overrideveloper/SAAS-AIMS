@@ -1,13 +1,12 @@
 ﻿@model AIMS.Data.DataObjects.Entities.Meeting.Meeting
 
-
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3 class="modal-title">Create Meeting Entry</h3>
 </div>
 
 
-@using (Html.BeginForm("Create", "Meeting", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Create", "Meeting", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     @Html.Hidden("FileUpload")
