@@ -1,4 +1,4 @@
-﻿using AIMS.Data.DataObjects.Entities.Meeting;
+﻿using AIMS.Data.DataObjects.Entities.Event;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -7,21 +7,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIMS.Data.DataContext.DataContext.MeetingDataContext
+namespace AIMS.Data.DataContext.DataContext.EventDataContext
 {
-    public class MeetingDataContext : DbContext
+    public class EventDataContext : DbContext
     {
-        public MeetingDataContext() :
-            base("name = Aims")
+        public EventDataContext() 
+            : base("name = Aims")
         {
         }
 
-        public DbSet<Meeting> Meetings { get; set; }
+        public DbSet<Event> Event { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
-
     }
 }

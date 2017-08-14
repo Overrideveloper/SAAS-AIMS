@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataContext\DuesDataContext\DuesDataContext.cs" />
+    <Compile Include="DataContext\EventDataContext\EventDataContext.cs" />
     <Compile Include="DataContext\MeetingDataContext\MeetingDataContext.cs" />
     <Compile Include="DataContext\MemberDataContext\MemberDataContext.cs" />
     <Compile Include="DataContext\RoleDataContext\RoleDataContext.cs" />
