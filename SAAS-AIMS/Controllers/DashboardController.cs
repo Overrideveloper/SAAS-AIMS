@@ -12,9 +12,9 @@ namespace SAAS_AIMS.Controllers
 {
     public class DashboardController : BaseController
     {
-        MemberDataContext _memberdatacontext;
-        DuesDataContext _duesdatacontext;
-        SessionDataContext _sessiondatacontext;
+        private readonly MemberDataContext _memberdatacontext;
+        private readonly DuesDataContext _duesdatacontext;
+        private readonly SessionDataContext _sessiondatacontext;
 
         #region constructor
         public DashboardController()
@@ -25,6 +25,7 @@ namespace SAAS_AIMS.Controllers
         }
         #endregion
 
+        #region jsonresults
         public JsonResult SessionCount()
         {
             var session = _sessiondatacontext.Sessions.ToArray().Length;
@@ -72,6 +73,7 @@ namespace SAAS_AIMS.Controllers
             var dues = _duesdatacontext.Dues.Sum(due => due.Amount);
             return Json(new { dues = dues }, JsonRequestBehavior.AllowGet);
         }
+        #endregion
 
         //
         // GET: /Dashboard/

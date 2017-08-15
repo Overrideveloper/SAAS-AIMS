@@ -8,15 +8,18 @@ using System.Web.Mvc;
 
 namespace SAAS_AIMS.Controllers
 {
-    public class SessionDetailsController : Controller
+    public class SessionDetailsController : BaseController
     {
-
+        #region statistics
         //
         // GET: /SessionDetails/
+        [HttpGet]
+        [Authorize]
         public ActionResult Statistics(long sessionid)
         {
             Session["sessionid"] = sessionid;
             return View("Statistics");
         }
-	}
+        #endregion
+    }
 }

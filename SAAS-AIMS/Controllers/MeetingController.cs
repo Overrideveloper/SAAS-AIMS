@@ -15,11 +15,10 @@ using System.Web.Mvc;
 
 namespace SAAS_AIMS.Controllers
 {
-    public class MeetingController : Controller
+    public class MeetingController : BaseController
     {
         private readonly MeetingDataContext _meetingdatacontext;
         private readonly SessionDataContext _sessiondatacontext;
-        private static string directory = "../UploadedFiles/";
         private string sessionname;
 
         #region constructor
@@ -121,7 +120,7 @@ namespace SAAS_AIMS.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Meeting meeting)
+        public async Task<ActionResult> Edit(Meeting meeting)
         {
             var file = Request.Files["file"];
             if (ModelState.IsValid)
@@ -134,7 +133,7 @@ namespace SAAS_AIMS.Controllers
                 }
 
                 _meetingdatacontext.Entry(meeting).State = EntityState.Modified;
-                _meetingdatacontext.SaveChanges();
+                await _meetingdatacontext.SaveChangesAsync();
 
                 TempData["Success"] = "Meeting entry successfully modified for " + GetSessionName();
                 TempData["NotificationType"] = NotificationType.Edit.ToString();
@@ -145,6 +144,8 @@ namespace SAAS_AIMS.Controllers
         #endregion
 
         #region delete meeting
+        //
+        // DELETE: /Event/Delete/id
         public async Task<ActionResult> Delete(long id)
         {
             var meeting = await _meetingdatacontext.Meetings.FindAsync(id);

@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace SAAS_AIMS.Controllers
 {
-    public class SessionController : Controller
+    public class SessionController : BaseController
     {
         private readonly SessionDataContext _sessionDataContext;
 
@@ -99,7 +99,7 @@ namespace SAAS_AIMS.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Session session)
+        public async Task<ActionResult> Edit(Session session)
         {
             if (ModelState.IsValid)
             {
@@ -107,7 +107,7 @@ namespace SAAS_AIMS.Controllers
                 session.LastModifiedBy = Convert.ToInt64(Session["UserID"]);
 
                 _sessionDataContext.Entry(session).State = EntityState.Modified;
-                _sessionDataContext.SaveChanges();
+                await _sessionDataContext.SaveChangesAsync();
 
                 TempData["Success"] = " Academic session successfully modified! ";
                 TempData["NotificationType"] = NotificationType.Edit.ToString();
@@ -118,6 +118,8 @@ namespace SAAS_AIMS.Controllers
 #endregion
 
         #region delete academic session
+        //
+        // DELETE: /Session/Delete/id
         [Authorize]
         public async Task<ActionResult> Delete(long id)
         {

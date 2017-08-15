@@ -13,7 +13,7 @@ using System.Web.Mvc;
 
 namespace SAAS_AIMS.Controllers
 {
-    public class MemberController : Controller
+    public class MemberController : BaseController
     {
         
         private readonly MemberDataContext _memberDataContext;
@@ -99,12 +99,12 @@ namespace SAAS_AIMS.Controllers
 
         #region edit association member
         //
-        // GET: /Member/Edit
+        // GET: /Member/Edit/id
         [HttpGet]
         [Authorize]
-        public ActionResult Edit(long id)
+        public async Task<ActionResult> Edit(long id)
         {
-            var member = _memberDataContext.Members.Find(id);
+            var member = await _memberDataContext.Members.FindAsync(id);
             if (member == null)
             {
                 return HttpNotFound();
@@ -112,10 +112,12 @@ namespace SAAS_AIMS.Controllers
             return PartialView("Edit", member);
         }
 
+        //
+        // POST: /Member/Edit/id
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Member member)
+        public async Task<ActionResult> Edit(Member member)
         {
             if (ModelState.IsValid)
             {
@@ -123,7 +125,7 @@ namespace SAAS_AIMS.Controllers
                     member.LastModifiedBy = Convert.ToInt64(Session["UserID"]);
 
                     _memberDataContext.Entry(member).State = EntityState.Modified;
-                    _memberDataContext.SaveChanges();
+                    await _memberDataContext.SaveChangesAsync();
 
                     TempData["Success"] = "Association member successfully modified! ";
                     TempData["NotificationType"] = NotificationType.Create.ToString();
@@ -135,6 +137,8 @@ namespace SAAS_AIMS.Controllers
         #endregion
 
         #region delete association member
+        //
+        // DELETE: /Member/Delete/id
         [Authorize]
         public async Task<ActionResult> Delete(long id)
         {

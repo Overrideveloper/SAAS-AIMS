@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace SAAS_AIMS.Controllers
 {
-    public class EventController : Controller
+    public class EventController : BaseController
     {
         private readonly EventDataContext _eventdatacontext;
         private readonly SessionDataContext _sessiondatacontext;
@@ -117,7 +117,7 @@ namespace SAAS_AIMS.Controllers
 
         #region delete event
         //
-        // DELETE: /Event/Delete
+        // DELETE: /Event/Delete/id
         [Authorize]
         public async Task<ActionResult> Delete(long id)
         {

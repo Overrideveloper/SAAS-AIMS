@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace SAAS_AIMS.Controllers
 {
-    public class DuesController : Controller
+    public class DuesController : BaseController
     {
         private readonly DuesDataContext _duesdatacontext;
         private readonly MemberDataContext _memberdatacontext;
@@ -89,9 +89,10 @@ namespace SAAS_AIMS.Controllers
         //
         // GET: /Dues/Edit/id
         [HttpGet]
-        public ActionResult Edit(long id)
+        [Authorize]
+        public async Task<ActionResult> Edit(long id)
         {
-            var due = _duesdatacontext.Dues.Find(id);
+            var due = await _duesdatacontext.Dues.FindAsync(id);
             if(due == null)
             {
                 return HttpNotFound();
@@ -99,10 +100,14 @@ namespace SAAS_AIMS.Controllers
             return PartialView("Edit", due);
         }
 
+        //
+        // POST: /Dues/Edit/id
         [HttpPost]
-        public ActionResult Edit(Dues due)
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(Dues due)
         {
-            var member = _memberdatacontext.Members.Find(Convert.ToInt64(Session["memberid"]));
+            var member = await _memberdatacontext.Members.FindAsync(Convert.ToInt64(Session["memberid"]));
             membername = member.Surname + " " + member.FirstName;
          
             if (ModelState.IsValid)
@@ -111,7 +116,7 @@ namespace SAAS_AIMS.Controllers
                 due.LastModifiedBy = Convert.ToInt64(Session["UserID"]);
 
                 _duesdatacontext.Entry(due).State = EntityState.Modified;
-                _duesdatacontext.SaveChanges();
+                await _duesdatacontext.SaveChangesAsync();
 
                 TempData["Success"] = membername + "'s dues successfully modified";
                 TempData["NotificationType"] = NotificationType.Edit.ToString();
@@ -123,7 +128,7 @@ namespace SAAS_AIMS.Controllers
 
         #region delete member's dues
         //
-        // GET: Dues/Delete
+        // DELETE: Dues/Delete
         [Authorize]
         public async Task<ActionResult> Delete(long id)
         {
