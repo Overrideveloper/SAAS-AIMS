@@ -61,7 +61,7 @@
                         }
 
                         <div class="pull-right">
-                            <a class="btn btn-info btn-sm" href="@Url.Action("Create", "Event", new { sessionid = Convert.ToInt64(Session["sessionid"] )})"><i class="fa fa-plus"></i> Add Event Entry</a><br />
+                            <a class="btn btn-info btn-sm" data-modal="" href="@Url.Action("Create", "Event", new { sessionid = Convert.ToInt64(Session["sessionid"] )})"><i class="fa fa-plus"></i> Add Event Entry</a><br />
                         </div>
 
                         <table id="datatable-buttons" class="grid table table-striped table-bordered">
@@ -77,21 +77,31 @@
 
 
                             <tbody>
-                                @foreach (var meeting in Model)
+                                @foreach (var events in Model)
                                 {
                                     <tr>
-                                        <td>@meeting.Title</td>
-                                        <td>@meeting.Venue</td>
-                                        <td>@meeting.Semester</td>
-                                        <td>@meeting.Date.ToLongDateString()</td>
+                                        <td>@events.Title</td>
+                                        <td>@events.Venue</td>
+                                        <td>@events.Semester</td>
+                                        <td>@events.Date.ToLongDateString()</td>
                                         <td>
-                                            <a class="btn btn-xs btn-default" href="@Url.Action("Edit", "Meeting", new { id = meeting.ID })"><i class="fa fa-pencil"></i> Edit</a>
-                                            <a class="btn btn-xs btn-danger delete" href="@Url.Action("Delete", "Meeting", new { id = meeting.ID})"><i class="fa fa-remove"></i> Delete</a>
+                                            <a class="btn btn-xs btn-default" data-modal="" href="@Url.Action("Edit", "Event", new { id = events.ID })"><i class="fa fa-pencil"></i> Edit</a>
+                                            <a class="btn btn-xs btn-danger delete" href="@Url.Action("Delete", "Event", new { id = events.ID })"><i class="fa fa-remove"></i> Delete</a>
                                         </td>
                                     </tr>
                                 }
                             </tbody>
                         </table>
+
+                        <!-- modal placeholder-->
+                        <div id='myModal' class='modal fade in'>
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div id='myModalContent'></div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>

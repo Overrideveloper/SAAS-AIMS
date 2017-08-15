@@ -1,0 +1,89 @@
+﻿@model AIMS.Data.DataObjects.Entities.Event.Event
+@using AIMS.Data.Enums.Enums.Semester
+@using AIMS.Services.EnumDropDownList
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3 class="modal-title">Edit Event Entry</h3>
+</div>
+
+
+@using (Html.BeginForm("Edit", "Event", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => Model.ID)
+    @Html.HiddenFor(model => Model.CreatedBy)
+    @Html.HiddenFor(model => Model.DateCreated)
+    @Html.HiddenFor(model => Model.DateLastModified)
+    @Html.HiddenFor(model => Model.LastModifiedBy)
+    
+    <div class="modal-body">
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label for="title" class="control-label col-sm-3"> Title </label>
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(model => Model.Title, new { @class = "form-control required", @id = "title" })
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(model => model.Title)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="venue" class="control-label col-sm-3"> Venue </label>
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(model => Model.Venue, new { @class = "form-control required", @id = "venue"})
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(model => model.Venue)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="semester" class="control-label col-sm-3"> Semester </label>
+                <div class="col-sm-9">
+                    @Html.EnumDropDownListFor(model => model.Semester, Model.Semester, string.Empty, new { @class = "form-control", @id = "semester" })
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(model => model.Semester)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="date" class="control-label col-sm-3"> Date </label>
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(model => model.Date, "{0:dd/MMM/yy}", new { @class = "form-control required", @id = "date", @type = "datetime" })
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(model => model.Date)
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <span id="progress" class="text-center" style="display:none">
+            <strong>Processing..</strong>
+        </span>
+
+        <input class="btn btn-primary btn-raised" type="submit" value="Save" />
+        <button class="btn btn-danger" data-dismiss="modal"> Close </button>
+    </div>
+}
+
+<script>
+    $("form").removeData("validator");
+    $("form").removeData("unobtrusiveValidation");
+    $.validator.unobtrusive.parse("form");
+</script>
+<script>
+    $(function () {
+        $('input[type=datetime]').datepicker({
+            dateFormat: "dd/M/yy",
+            changeMonth: true,
+            changeYear: true
+        });
+    });
+</script>

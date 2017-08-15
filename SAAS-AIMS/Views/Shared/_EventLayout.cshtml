@@ -58,7 +58,7 @@
                                     <a href="@Url.Action("Statistics", "SessionDetails", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-arrow-left"></i> Return to Session Statistics </a>
                                 </li>
                                 <li>
-                                    <a class="active" href="@Url.Action("Index", "Events", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-calendar-check-o"></i> Events </a>
+                                    <a class="active" href="@Url.Action("Index", "Event", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-calendar-check-o"></i> Events </a>
                                 </li>
                             </ul>
                         </div>

@@ -4496,6 +4496,8 @@
     <Content Include="Views\Meeting\Edit.cshtml" />
     <Content Include="Views\Shared\_EventLayout.cshtml" />
     <Content Include="Views\Event\Index.cshtml" />
+    <Content Include="Views\Event\Create.cshtml" />
+    <Content Include="Views\Event\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
