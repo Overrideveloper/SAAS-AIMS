@@ -1,6 +1,7 @@
 ﻿using AIMS.Data.DataContext.DataContext.EventDataContext;
 using AIMS.Data.DataContext.DataContext.SessionDataContext;
 using AIMS.Data.DataObjects.Entities.Event;
+using AIMS.Data.Enums.Enums.NotificationType;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -15,12 +16,22 @@ namespace SAAS_AIMS.Controllers
     {
         private readonly EventDataContext _eventdatacontext;
         private readonly SessionDataContext _sessiondatacontext;
+        private string sessionname = null;
 
         #region constructor
         public EventController()
         {
             _eventdatacontext = new EventDataContext();
             _sessiondatacontext = new SessionDataContext();
+        }
+        #endregion
+
+        #region get session name
+        public async Task<string> GetSessionName()
+        {
+            var session = await _sessiondatacontext.Sessions.FindAsync(Convert.ToInt64(Session["sessionid"]));
+            sessionname = session.Title.ToString();
+            return sessionname;
         }
         #endregion
 
@@ -72,6 +83,8 @@ namespace SAAS_AIMS.Controllers
 
                 _eventdatacontext.Event.Add(eventVar);
                 _eventdatacontext.SaveChanges();
+                TempData["Success"] = "Event entry successfully created for " + GetSessionName();
+                TempData["NotificationType"] = NotificationType.Create.ToString();
                 return Json(new { success = true});
             }
             return PartialView("Create", events);
@@ -108,6 +121,8 @@ namespace SAAS_AIMS.Controllers
                 _eventdatacontext.Entry(events).State = EntityState.Modified;
                 await _eventdatacontext.SaveChangesAsync();
 
+                TempData["Success"] = "Event entry successfully modified for " + GetSessionName();
+                TempData["NotificationType"] = NotificationType.Edit.ToString();
                 return Json(new { success = true });
             }
             return PartialView("Edit", events);
@@ -124,6 +139,9 @@ namespace SAAS_AIMS.Controllers
             var events = await _eventdatacontext.Event.FindAsync(id);
             _eventdatacontext.Event.Remove(events);
             await _eventdatacontext.SaveChangesAsync();
+
+            TempData["Success"] = "Event entry successfully deleted for " + GetSessionName();
+            TempData["NotificationType"] = NotificationType.Delete.ToString();
             return RedirectToAction("Index", new { sessionid = Convert.ToInt64(Session["sessionid"]) });
         }
         #endregion

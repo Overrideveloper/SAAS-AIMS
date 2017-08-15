@@ -19,7 +19,7 @@ namespace SAAS_AIMS.Controllers
     {
         private readonly MeetingDataContext _meetingdatacontext;
         private readonly SessionDataContext _sessiondatacontext;
-        private string sessionname;
+        private string sessionname = null;
 
         #region constructor
         public MeetingController()
@@ -43,9 +43,9 @@ namespace SAAS_AIMS.Controllers
         #endregion
 
         #region get session name
-        public string GetSessionName()
+        public async Task<string> GetSessionName()
         {
-            var session = _sessiondatacontext.Sessions.Find(Convert.ToInt64(Session["sessionid"]));
+            var session = await _sessiondatacontext.Sessions.FindAsync(Convert.ToInt64(Session["sessionid"]));
             sessionname = session.Title.ToString();
             return sessionname;                                                                   
         }
