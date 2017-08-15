@@ -1,4 +1,5 @@
 ﻿using AIMS.Data.DataObjects.Entities.SystemManagement;
+using AIMS.Data.Enums.Enums.Semester;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -23,6 +24,9 @@ namespace AIMS.Data.DataObjects.Entities.Meeting
 
         [Required(ErrorMessage = "Venue is required")]
         public string Venue { get; set; }
+
+        [Required(ErrorMessage = "Semester is required")]
+        public Semester Semester { get; set; }
 
         [Display(Name = "Upload minutes of meeting")]
         public string FileUpload { get; set; }

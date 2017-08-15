@@ -55,10 +55,10 @@ namespace SAAS_AIMS.Controllers
         // GET: /Meeting/Create
         [HttpGet]
         [Authorize]
-        public ActionResult Create() 
+        public ActionResult Create(long sessionid) 
         {
             var meeting = new Meeting();
-            return PartialView("Create", meeting);
+            return View("Create", meeting);
         }
 
         //
@@ -68,30 +68,7 @@ namespace SAAS_AIMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Meeting meeting)
         {
-            string fileName = string.Empty, actualFileName = string.Empty; bool flag = false;
-
-            HttpFileCollection fileRequested = System.Web.HttpContext.Current.Request.Files;
-            if (fileRequested != null)
-            {
-                for (int i = 0; i < fileRequested.Count; i++)
-                {
-                    var file = Request.Files[i];
-                    actualFileName = file.FileName;
-                    fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
-                    int size = file.ContentLength;
-                    Session["filename"] = fileName;
-
-                    try
-                    {
-                        file.SaveAs(Path.Combine(Server.MapPath(directory + UploadType.Minutes), fileName));
-                        flag = true;
-                    }
-                    catch (Exception ex)
-                    {
-                        ex.ToString();
-                    }
-                }
-            }
+            var file = Request.Files["file"];
 
             if (ModelState.IsValid)
             {
@@ -100,9 +77,12 @@ namespace SAAS_AIMS.Controllers
                     Title = meeting.Title,
                     Date = meeting.Date,
                     Venue = meeting.Venue,
+                    Semester = meeting.Semester,
                     SessionID = Convert.ToInt64(Session["sessionid"]),
-                    FileUpload = fileRequested != null ? Convert.ToString(Session["filename"]) : null,
-                    
+                    FileUpload = file != null && file.FileName != ""
+                            ? new FileUploader().UploadFile(file, UploadType.Minutes)
+                            : null,
+
                     CreatedBy = Convert.ToInt64(Session["UserID"]),
                     DateCreated = DateTime.Now,
                     DateLastModified = DateTime.Now,
@@ -113,9 +93,9 @@ namespace SAAS_AIMS.Controllers
                 _meetingdatacontext.SaveChanges();
                 TempData["Success"] = "Meeting entry successfully created for " + GetSessionName();
                 TempData["NotificationType"] = NotificationType.Create.ToString();
-                return Json(new { success = true });
+                return RedirectToAction("Index", new { sessionid = Convert.ToInt64(Session["sessionid"])});
             }
-            return PartialView("Create", meeting);
+            return View("Create", meeting);
         }
         #endregion
 

@@ -4490,8 +4490,8 @@
     <Content Include="Views\Dues\Edit.cshtml" />
     <Content Include="Views\Shared\_MeetingLayout.cshtml" />
     <Content Include="Views\Meeting\Index.cshtml" />
-    <Content Include="Views\Meeting\Create.cshtml" />
     <Content Include="Views\Account\FirstRegistration.cshtml" />
+    <Content Include="Views\Meeting\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

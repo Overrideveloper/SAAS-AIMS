@@ -59,15 +59,16 @@
                         }
 
                         <div class="pull-right">
-                            <a class="btn btn-info btn-sm" data-modal="" href="@Url.Action("Create", "Meeting")"><i class="fa fa-plus"></i> Add Meeting Entry</a><br />
+                            <a class="btn btn-info btn-sm" href="@Url.Action("Create", "Meeting", new { sessionid = Convert.ToInt64(Session["sessionid"] )})"><i class="fa fa-plus"></i> Add Meeting Entry</a><br />
                         </div>
 
                         <table id="datatable-buttons" class="grid table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th>Title</th>
-                                    <th>Date</th>
                                     <th>Venue</th>
+                                    <th>Date</th>
+                                    <th>Semester</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -78,14 +79,15 @@
                                 {
                                     <tr>
                                         <td>@meeting.Title</td>
-                                        <td>@meeting.Date.ToLongDateString()</td>
                                         <td>@meeting.Venue</td>
+                                        <td>@meeting.Date.ToLongDateString()</td>
+                                        <td>@meeting.Semester</td>
                                         <td>
                                             <a class="btn btn-xs btn-default" data-modal="" href="@Url.Action("Edit", "Meeting", new { id = meeting.ID })"><i class="fa fa-pencil"></i> Edit</a>
                                             <a class="btn btn-xs btn-danger delete" href="@Url.Action("Delete", "Meeting", new { id = meeting.ID})"><i class="fa fa-remove"></i> Delete</a>
                                             @if (meeting.FileUpload != null) 
                                             {
-                                            <a class="btn btn-xs btn-warning" href="../../UploadedFiles/@UploadType.Minutes.ToString()/@meeting.FileUpload" target="_blank"><i class="fa fa-folder-open"></i> View Minutes</a>
+                                            <a class="btn btn-xs btn-warning" href="../../UploadedFiles/@UploadType.Minutes.ToString()/@meeting.FileUpload" target="_self"><i class="fa fa-files-o"></i> View Minutes</a>
                                             }
                                         </td>
                                     </tr>
