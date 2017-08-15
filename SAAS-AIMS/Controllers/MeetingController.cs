@@ -6,8 +6,10 @@ using AIMS.Data.Enums.Enums.UploadType;
 using AIMS.Services.FIleUploader;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -99,5 +101,64 @@ namespace SAAS_AIMS.Controllers
         }
         #endregion
 
+        #region edit meeting
+        //
+        // GET: /Meeting/Edit/id
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult> Edit(long id)
+        {
+            var meeting = await _meetingdatacontext.Meetings.FindAsync(id);
+            if (meeting == null)
+            {
+                return HttpNotFound();
+            }
+            return View("Edit", meeting);
+        }
+
+        //
+        // POST: /Meeting/Edit/id
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Meeting meeting)
+        {
+            var file = Request.Files["file"];
+            if (ModelState.IsValid)
+            {
+                meeting.DateLastModified = DateTime.Now;
+                meeting.LastModifiedBy = Convert.ToInt64(Session["UserID"]);
+                
+                if(file != null && file.FileName != ""){
+                    meeting.FileUpload = new FileUploader().UploadFile(file, UploadType.Minutes);
+                }
+
+                _meetingdatacontext.Entry(meeting).State = EntityState.Modified;
+                _meetingdatacontext.SaveChanges();
+
+                TempData["Success"] = "Meeting entry successfully modified for " + GetSessionName();
+                TempData["NotificationType"] = NotificationType.Edit.ToString();
+                return RedirectToAction("Index", new { sessionid = Convert.ToInt64(Session["sessionid"]) });
+            }
+            return View("Edit", meeting);
+        }
+        #endregion
+
+        #region delete meeting
+        public async Task<ActionResult> Delete(long id)
+        {
+            var meeting = await _meetingdatacontext.Meetings.FindAsync(id);
+            if (meeting == null)
+            {
+                return HttpNotFound();
+            }
+
+            _meetingdatacontext.Meetings.Remove(meeting);
+            await _meetingdatacontext.SaveChangesAsync();
+            TempData["Success"] = "Meeting entry successfully deleted for " + GetSessionName();
+            TempData["NotificationType"] = NotificationType.Delete.ToString();
+            return RedirectToAction("Index", new { sessionid = Convert.ToInt64(Session["sessionid"]) });
+        }
+        #endregion
     }
 }

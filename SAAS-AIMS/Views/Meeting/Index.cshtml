@@ -83,7 +83,7 @@
                                         <td>@meeting.Date.ToLongDateString()</td>
                                         <td>@meeting.Semester</td>
                                         <td>
-                                            <a class="btn btn-xs btn-default" data-modal="" href="@Url.Action("Edit", "Meeting", new { id = meeting.ID })"><i class="fa fa-pencil"></i> Edit</a>
+                                            <a class="btn btn-xs btn-default" href="@Url.Action("Edit", "Meeting", new { id = meeting.ID })"><i class="fa fa-pencil"></i> Edit</a>
                                             <a class="btn btn-xs btn-danger delete" href="@Url.Action("Delete", "Meeting", new { id = meeting.ID})"><i class="fa fa-remove"></i> Delete</a>
                                             @if (meeting.FileUpload != null) 
                                             {

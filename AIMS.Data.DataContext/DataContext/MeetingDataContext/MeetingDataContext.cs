@@ -22,6 +22,6 @@ namespace AIMS.Data.DataContext.DataContext.MeetingDataContext
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
-
+        
     }
 }
