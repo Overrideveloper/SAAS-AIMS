@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="~/template/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css">
     <!-- Custom Theme Style -->
     <link href="~/template/build/css/custom.min.css" rel="stylesheet">
-    
+
     <title>BHU-NACOSS | @ViewBag.Title</title>
 </head>
 
@@ -55,10 +55,10 @@
                         <div class="menu_section">
                             <ul class="nav side-menu">
                                 <li>
-                                    <a href="@Url.Action("Index", "Dashboard")"><i class="fa fa-arrow-left"></i> Return to Dashboard</a>
+                                    <a href="@Url.Action("Statistics", "SessionDetails", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-arrow-left"></i> Return to Session Statistics </a>
                                 </li>
                                 <li>
-                                    <a class="active" href="@Url.Action("Index", "Session")"><i class="fa fa-calendar"></i> Sessions </a>
+                                    <a class="active" href="@Url.Action("Index", "Events", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-calendar-check-o"></i> Events </a>
                                 </li>
                             </ul>
                         </div>
@@ -145,7 +145,7 @@
     <script src="~/template/vendors/jszip/dist/jszip.min.js"></script>
     <script src="~/template/vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="~/template/vendors/pdfmake/build/vfs_fonts.js"></script>
-    
+
     <!-- Bootbox -->
     <script src="~/Scripts/bootbox.min.js"></script>
 
