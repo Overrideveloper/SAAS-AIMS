@@ -52,7 +52,7 @@ namespace SAAS_AIMS.Controllers
         // GET: /Event/Create
         [HttpGet]
         [Authorize]
-        public ActionResult Create()
+        public ActionResult Create(long sessionid)
         {
             var events = new Event();
             return PartialView("Create", events);

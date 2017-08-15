@@ -14,7 +14,7 @@
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3>@session.Title.ToString()'s Meetings </h3>
+                <h3>@session.Title.ToString() Meetings </h3>
             </div>
         </div>
 
@@ -67,8 +67,8 @@
                                 <tr>
                                     <th>Title</th>
                                     <th>Venue</th>
-                                    <th>Date</th>
                                     <th>Semester</th>
+                                    <th>Date</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -80,8 +80,8 @@
                                     <tr>
                                         <td>@meeting.Title</td>
                                         <td>@meeting.Venue</td>
-                                        <td>@meeting.Date.ToLongDateString()</td>
                                         <td>@meeting.Semester</td>
+                                        <td>@meeting.Date.ToLongDateString()</td>
                                         <td>
                                             <a class="btn btn-xs btn-default" href="@Url.Action("Edit", "Meeting", new { id = meeting.ID })"><i class="fa fa-pencil"></i> Edit</a>
                                             <a class="btn btn-xs btn-danger delete" href="@Url.Action("Delete", "Meeting", new { id = meeting.ID})"><i class="fa fa-remove"></i> Delete</a>
