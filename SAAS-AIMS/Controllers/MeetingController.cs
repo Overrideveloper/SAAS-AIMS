@@ -43,9 +43,9 @@ namespace SAAS_AIMS.Controllers
         #endregion
 
         #region get session name
-        public async Task<string> GetSessionName()
+        public string GetSessionName()
         {
-            var session = await _sessiondatacontext.Sessions.FindAsync(Convert.ToInt64(Session["sessionid"]));
+            var session = _sessiondatacontext.Sessions.Find(Convert.ToInt64(Session["sessionid"]));
             sessionname = session.Title.ToString();
             return sessionname;                                                                   
         }
@@ -120,7 +120,7 @@ namespace SAAS_AIMS.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(Meeting meeting)
+        public ActionResult Edit(Meeting meeting)
         {
             var file = Request.Files["file"];
             if (ModelState.IsValid)
@@ -133,7 +133,7 @@ namespace SAAS_AIMS.Controllers
                 }
 
                 _meetingdatacontext.Entry(meeting).State = EntityState.Modified;
-                await _meetingdatacontext.SaveChangesAsync();
+                _meetingdatacontext.SaveChanges();
 
                 TempData["Success"] = "Meeting entry successfully modified for " + GetSessionName();
                 TempData["NotificationType"] = NotificationType.Edit.ToString();

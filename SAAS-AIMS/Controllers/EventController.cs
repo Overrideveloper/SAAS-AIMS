@@ -27,9 +27,9 @@ namespace SAAS_AIMS.Controllers
         #endregion
 
         #region get session name
-        public async Task<string> GetSessionName()
+        public string GetSessionName()
         {
-            var session = await _sessiondatacontext.Sessions.FindAsync(Convert.ToInt64(Session["sessionid"]));
+            var session = _sessiondatacontext.Sessions.Find(Convert.ToInt64(Session["sessionid"]));
             sessionname = session.Title.ToString();
             return sessionname;
         }
@@ -111,15 +111,16 @@ namespace SAAS_AIMS.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(Event events)
+        public ActionResult Edit(Event events)
         {
             if(ModelState.IsValid)
             {
                 events.DateLastModified = DateTime.Now;
                 events.LastModifiedBy = Convert.ToInt64(Session["UserID"]);
+                events.SessionID = Convert.ToInt64(Session["sessionid"]);
 
                 _eventdatacontext.Entry(events).State = EntityState.Modified;
-                await _eventdatacontext.SaveChangesAsync();
+                _eventdatacontext.SaveChanges();
 
                 TempData["Success"] = "Event entry successfully modified for " + GetSessionName();
                 TempData["NotificationType"] = NotificationType.Edit.ToString();

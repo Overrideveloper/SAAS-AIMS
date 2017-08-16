@@ -99,7 +99,7 @@ namespace SAAS_AIMS.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(Session session)
+        public ActionResult Edit(Session session)
         {
             if (ModelState.IsValid)
             {
@@ -107,7 +107,7 @@ namespace SAAS_AIMS.Controllers
                 session.LastModifiedBy = Convert.ToInt64(Session["UserID"]);
 
                 _sessionDataContext.Entry(session).State = EntityState.Modified;
-                await _sessionDataContext.SaveChangesAsync();
+                _sessionDataContext.SaveChanges();
 
                 TempData["Success"] = " Academic session successfully modified! ";
                 TempData["NotificationType"] = NotificationType.Edit.ToString();

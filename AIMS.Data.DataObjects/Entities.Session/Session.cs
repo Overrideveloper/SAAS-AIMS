@@ -29,5 +29,6 @@ namespace AIMS.Data.DataObjects.Entities.Session
         public DateTime EndDate { get; set; }
 
         public virtual ICollection<Meeting.Meeting> Meeting { get; set; }
+        public virtual ICollection<Event.Event> Event { get; set; }
     }
 }

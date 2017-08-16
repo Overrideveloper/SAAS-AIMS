@@ -117,7 +117,7 @@ namespace SAAS_AIMS.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(Member member)
+        public ActionResult Edit(Member member)
         {
             if (ModelState.IsValid)
             {
@@ -125,7 +125,7 @@ namespace SAAS_AIMS.Controllers
                     member.LastModifiedBy = Convert.ToInt64(Session["UserID"]);
 
                     _memberDataContext.Entry(member).State = EntityState.Modified;
-                    await _memberDataContext.SaveChangesAsync();
+                    _memberDataContext.SaveChanges();
 
                     TempData["Success"] = "Association member successfully modified! ";
                     TempData["NotificationType"] = NotificationType.Create.ToString();

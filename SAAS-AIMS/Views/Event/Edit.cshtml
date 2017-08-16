@@ -1,5 +1,4 @@
 ﻿@model AIMS.Data.DataObjects.Entities.Event.Event
-@using AIMS.Data.Enums.Enums.Semester
 @using AIMS.Services.EnumDropDownList
 
 <div class="modal-header">
@@ -12,6 +11,7 @@
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => Model.ID)
+    @Html.HiddenFor(model => Model.SessionID)
     @Html.HiddenFor(model => Model.CreatedBy)
     @Html.HiddenFor(model => Model.DateCreated)
     @Html.HiddenFor(model => Model.DateLastModified)

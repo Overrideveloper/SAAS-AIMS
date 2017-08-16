@@ -105,9 +105,9 @@ namespace SAAS_AIMS.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(Dues due)
+        public ActionResult Edit(Dues due)
         {
-            var member = await _memberdatacontext.Members.FindAsync(Convert.ToInt64(Session["memberid"]));
+            var member = _memberdatacontext.Members.Find(Convert.ToInt64(Session["memberid"]));
             membername = member.Surname + " " + member.FirstName;
          
             if (ModelState.IsValid)
@@ -116,7 +116,7 @@ namespace SAAS_AIMS.Controllers
                 due.LastModifiedBy = Convert.ToInt64(Session["UserID"]);
 
                 _duesdatacontext.Entry(due).State = EntityState.Modified;
-                await _duesdatacontext.SaveChangesAsync();
+                _duesdatacontext.SaveChanges();
 
                 TempData["Success"] = membername + "'s dues successfully modified";
                 TempData["NotificationType"] = NotificationType.Edit.ToString();
