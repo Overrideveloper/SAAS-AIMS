@@ -10,6 +10,7 @@ namespace AIMS.Data.Enums.Enums.UploadType
     {
         Minutes,
         Images,
-        Finances
+        Finances,
+        MemberData
     }
 }
