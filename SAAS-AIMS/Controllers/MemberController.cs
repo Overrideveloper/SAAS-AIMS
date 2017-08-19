@@ -2,10 +2,13 @@
 using AIMS.Data.DataObjects.Entities.Member;
 using AIMS.Data.Enums.Enums.NotificationType;
 using AIMS.Data.Enums.Enums.State;
+using AIMS.Data.Enums.Enums.UploadType;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -94,6 +97,52 @@ namespace SAAS_AIMS.Controllers
                 }
             }
             return PartialView("Create", member);
+        }
+        #endregion
+
+        #region upload member data via csv
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult Upload()
+        {
+            var csv = Request.Files["csv"];
+            DataTable dt = new DataTable();
+
+            if (csv != null)
+            {
+                var info = new FileInfo(csv.FileName);
+                if ((info.Extension.ToLower() == ".csv") || (info.Extension.ToLower() == ".xlsx"))
+                {
+                    try
+                    {
+                        var extension = info.Extension;
+                        string fileName = DateTime.Now.ToFileTime() + extension;
+
+                        //Create upload folder if not created
+                        var folderPath = HttpContext.Server.MapPath("~/UploadedFiles/" + UploadType.MemberData);
+
+                        //Create directory if not existing
+                        if (!Directory.Exists(folderPath))
+                            Directory.CreateDirectory(folderPath);
+
+                        //Save file
+                        var filePath = folderPath + "/" + fileName;
+                        csv.SaveAs(filePath);
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.ToString();
+                    }
+                }
+                else
+                {
+                    TempData["NotificationType"] = NotificationType.Upload.ToString();
+                    TempData["Variant"] = "Error";
+                    TempData["Error"] = "Error! Only .CSV and .XLSX files are can be uploaded!";
+                }
+            }
+            return RedirectToAction("Index");
         }
         #endregion
 
