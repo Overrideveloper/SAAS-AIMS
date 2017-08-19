@@ -10,6 +10,7 @@ namespace AIMS.Data.Enums.Enums.NotificationType
     {
         Create,
         Edit,
-        Delete
+        Delete,
+        Upload
     }
 }
