@@ -143,6 +143,7 @@ namespace SAAS_AIMS.Controllers
                 if (result.Succeeded)
                 {
                     await SignInAsync(user, isPersistent: false);
+                    Session["UserID"] = user.Id;
                     return RedirectToAction("Index", "Dashboard");
                 }
                 else

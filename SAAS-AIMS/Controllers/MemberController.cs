@@ -6,10 +6,13 @@ using AIMS.Data.Enums.Enums.UploadType;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Configuration;
 using System.Data;
 using System.Data.Entity;
+using MySql.Data.MySqlClient;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -20,11 +23,124 @@ namespace SAAS_AIMS.Controllers
     {
         
         private readonly MemberDataContext _memberDataContext;
+        public static long userID;
 
         #region constructor
         public MemberController()
         {
             _memberDataContext = new MemberDataContext();
+            userID = 0;
+        }
+        #endregion
+
+        #region convert csv to datatable
+        private static DataTable ConvertCSV(string fileName)
+        {
+            StreamReader sr = new StreamReader(fileName);
+            StringBuilder sb = new StringBuilder();
+            DataTable dt = new DataTable();
+
+            dt.Columns.Add(new DataColumn("Surname", typeof(System.String)));
+            dt.Columns.Add(new DataColumn("MidName", typeof(System.String)));
+            dt.Columns.Add(new DataColumn("FirstName", typeof(System.String)));
+            dt.Columns.Add(new DataColumn("MatricNumber", typeof(System.String)));
+            dt.Columns.Add(new DataColumn("StateOfOrigin", typeof(System.Int32)));
+            dt.Columns.Add(new DataColumn("YearOfAdmission", typeof(System.String)));
+            dt.Columns.Add(new DataColumn("LevelOfAdmission", typeof(System.Int32)));
+            dt.Columns.Add(new DataColumn("Gender", typeof(System.Int32)));
+            dt.Columns.Add(new DataColumn("CreatedBy", typeof(System.Int64)));
+            dt.Columns.Add(new DataColumn("DateCreated", typeof(System.DateTime)));
+            dt.Columns.Add(new DataColumn("LastModifiedBy", typeof(System.Int64)));
+            dt.Columns.Add(new DataColumn("DateLastModified", typeof(System.DateTime)));
+            
+            DataRow dr;
+            string s;
+            int j = 0;
+
+            while (!sr.EndOfStream)
+            {
+                while ((s = sr.ReadLine()) != null)
+                {
+                    if (j > 0)
+                    {
+                        string[] str = s.Split(',');
+
+                        dr = dt.NewRow();
+
+                        dr["Surname"] = str[1].ToString();
+                        dr["MidName"] = str[2].ToString();
+                        dr["FirstName"] = str[3].ToString();
+                        dr["MatricNumber"] = str[4].ToString();
+                        dr["StateOfOrigin"] = str[5].ToString();
+                        dr["YearOfAdmission"] = str[6].ToString();
+                        dr["LevelOfAdmission"] = str[7].ToString();
+                        dr["Gender"] = str[8].ToString();
+                        dr["CreatedBy"] = userID.ToString();
+                        dr["DateCreated"] = DateTime.Now.ToString();
+                        dr["LastModifiedBy"] = userID.ToString();
+                        dr["DateLastModified"] = DateTime.Now.ToString();
+
+                        dt.Rows.Add(dr);
+                    }
+                    j++;
+                }
+            }
+            sr.Dispose();
+            sr.Close();
+            return dt;
+        }
+        #endregion
+
+        #region copy csv upload to database
+        private static String CopyToDB(DataTable dt)
+        {
+            string feedback = string.Empty;
+
+            string connect = ConfigurationManager.ConnectionStrings["Aims"].ConnectionString;
+
+            string mysqlcmd = "INSERT_MEMBER_DATA";
+
+            MySqlConnection conn = new MySqlConnection(connect);
+            if (conn.State == ConnectionState.Open)
+            {
+                conn.Close();
+            }
+            try
+            {
+                conn.Open();
+
+                MySqlCommand cmd = new MySqlCommand(mysqlcmd, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.UpdatedRowSource = UpdateRowSource.None;
+
+                cmd.Parameters.Add("?Surname", MySqlDbType.String).SourceColumn = "Surname";
+                cmd.Parameters.Add("?MidName", MySqlDbType.String).SourceColumn = "MidName";
+                cmd.Parameters.Add("?FirstName", MySqlDbType.String).SourceColumn = "FirstName";
+                cmd.Parameters.Add("?MatricNumber", MySqlDbType.String).SourceColumn = "MatricNumber";
+                cmd.Parameters.Add("?StateOfOrigin", MySqlDbType.Int32).SourceColumn = "StateOfOrigin";
+                cmd.Parameters.Add("?YearOfAdmission", MySqlDbType.String).SourceColumn = "YearOfAdmission";
+                cmd.Parameters.Add("?LevelOfAdmission", MySqlDbType.Int32).SourceColumn = "LevelOfAdmission";
+                cmd.Parameters.Add("?Gender", MySqlDbType.Int32).SourceColumn = "Gender";
+                cmd.Parameters.Add("?CreatedBy", MySqlDbType.Int64).SourceColumn = "CreatedBy";
+                cmd.Parameters.Add("?DateCreated", MySqlDbType.DateTime).SourceColumn = "DateCreated";
+                cmd.Parameters.Add("?LastModifiedBy", MySqlDbType.Int64).SourceColumn = "LastModifiedBy";
+                cmd.Parameters.Add("?DateLastModified", MySqlDbType.DateTime).SourceColumn = "DateLastModified";
+
+                MySqlDataAdapter da = new MySqlDataAdapter();
+                da.InsertCommand = cmd;
+                da.UpdateBatchSize = 100;
+                int records = da.Update(dt);
+                conn.Close();
+
+                feedback = "Succesfully uploaded members' data!";
+            }
+            catch (Exception ex)
+            {
+                feedback = "Failed to upload members data: " + ex.Message;
+            }
+            
+            return feedback;
         }
         #endregion
 
@@ -101,17 +217,27 @@ namespace SAAS_AIMS.Controllers
         #endregion
 
         #region upload member data via csv
+        //
+        // GET: /Member/Upload
+        [HttpGet]
+        [Authorize]
+        public ActionResult Upload(bool upload)
+        {
+            return View();
+        }
+
+        //
+        // POST: /Member/Upload
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Upload()
+        public ActionResult Upload(HttpPostedFileBase file)
         {
-            var csv = Request.Files["csv"];
             DataTable dt = new DataTable();
 
-            if (csv != null)
+            if (file != null)
             {
-                var info = new FileInfo(csv.FileName);
+                var info = new FileInfo(file.FileName);
                 if ((info.Extension.ToLower() == ".csv") || (info.Extension.ToLower() == ".xlsx"))
                 {
                     try
@@ -128,11 +254,19 @@ namespace SAAS_AIMS.Controllers
 
                         //Save file
                         var filePath = folderPath + "/" + fileName;
-                        csv.SaveAs(filePath);
+                        file.SaveAs(filePath);
+
+                        dt = ConvertCSV(filePath);
+
+                        TempData["NotificationType"] = NotificationType.Upload.ToString();
+                        TempData["Type"] = "Success";
+                        TempData["Response"] = CopyToDB(dt);
                     }
                     catch (Exception ex)
                     {
-                        ex.ToString();
+                        TempData["NotificationType"] = NotificationType.Upload.ToString();
+                        TempData["Type"] = "Error";
+                        TempData["Response"] = "Error uploading member details: " + ex.Message;
                     }
                 }
                 else
@@ -142,6 +276,7 @@ namespace SAAS_AIMS.Controllers
                     TempData["Error"] = "Error! Only .CSV and .XLSX files are can be uploaded!";
                 }
             }
+            dt.Dispose();
             return RedirectToAction("Index");
         }
         #endregion

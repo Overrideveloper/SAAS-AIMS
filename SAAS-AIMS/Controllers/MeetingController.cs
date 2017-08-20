@@ -67,10 +67,8 @@ namespace SAAS_AIMS.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Meeting meeting)
+        public ActionResult Create(Meeting meeting, HttpPostedFileBase file)
         {
-            var file = Request.Files["file"];
-
             if (ModelState.IsValid)
             {
                 var meetingVar = new Meeting
