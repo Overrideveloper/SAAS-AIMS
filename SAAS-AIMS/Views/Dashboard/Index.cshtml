@@ -8,38 +8,33 @@
     <div class="row tile_count" id="stats">
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-users"></i> Total Members</span>
-            <div class="count green" id="members"></div>
+            <div class="count green" id="members">@ViewBag.Members</div>
             <span class="count_bottom"><i class="green"><i class="fa fa-calendar-o"></i></i> All-Time </span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-male"></i> Total Males</span>
-            <div class="count" id="male"></div>
+            <div class="count" id="male">@ViewBag.Male</div>
             <span class="count_bottom"><i class="green"><i class="fa fa-calendar-o"></i></i> All-Time </span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-female"></i> Total Females</span>
-            <div class="count green" id="female"></div>
+            <div class="count green" id="female">@ViewBag.Female</div>
             <span class="count_bottom"><i class="green"><i class="fa fa-calendar-o"></i></i> All-Time </span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-users"></i> New Members (Total) </span>
-            <div class="count" id="membercurrent"></div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-calendar-check-o"></i></i> This year </span>
+            <div class="count" id="membercurrent">@ViewBag.MemberCurrent</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-calendar-check-o"></i></i> This year: @DateTime.Now.Year </span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-male"></i> New Members (Male) </span>
-            <div class="count" id="malecurrent"></div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-calendar-check-o"></i></i> This year </span>
+            <div class="count" id="malecurrent">@ViewBag.MaleCurrent</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-calendar-check-o"></i></i> This year: @DateTime.Now.Year </span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-female"></i> New Members (Female) </span>
-            <div class="count" id="femalecurrent"></div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-calendar-check-o"></i></i> This year </span>
-        </div>
-        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-female"></i> Total Dues Collected </span>
-            <div class="count" id="dues"></div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-calendar-check-o"></i></i> All-Time </span>
+            <div class="count" id="femalecurrent">@ViewBag.FemaleCurrent</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-calendar-check-o"></i></i> This year: @DateTime.Now.Year </span>
         </div>
     </div>
     <!-- /top tiles -->
@@ -74,7 +69,7 @@
                             <p>Facebook Campaign</p>
                             <div class="">
                                 <div class="progress progress_sm" style="width: 76%;">
-                                    <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="80"></div>
+                                    <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="10"></div>
                                 </div>
                             </div>
                         </div>
@@ -379,185 +374,3 @@
 
     </div>
 </div>
-
-@section Scripts {
-    <script async>
-        $(document).ready(function () {
-            $('div#stats').ready(function () {
-                SessionCount();
-                MemberCount();
-                MaleCount();
-                FemaleCount();
-                MemberCurrent();
-                FemaleCurrent();
-                MaleCurrent();
-                Dues();
-            });
-        });
-
-        function SessionCount() {
-            $.ajax({
-                type: 'GET',
-                url: '/Dashboard/SessionCount',
-                datatype: 'json',
-                traditional: true,
-                contentType: "application/json",
-                cache: false,
-                success: function (session) {
-                    $('div#session').text(session.session);
-                    setTimeout(function () {
-                        SessionCount();
-                    }, 900000);
-                },
-                error: function (session) {
-                    alert('error');
-                }
-            });
-        }
-
-        function MemberCount() {
-            $.ajax({
-                type: 'GET',
-                url: '/Dashboard/Members',
-                datatype: 'json',
-                traditional: true,
-                contentType: "application/json",
-                cache: false,
-                success: function (member) {
-                    $('div#members').text(member.members);
-                    setTimeout(function () {
-                        MemberCount();
-                    }, 900000);
-                },
-                error: function (member) {
-                    alert('error');
-                }
-            });
-        }
-
-        function MaleCount() {
-            $.ajax({
-                type: 'GET',
-                url: '/Dashboard/MaleMembers',
-                datatype: 'json',
-                traditional: true,
-                contentType: "application/json",
-                cache: false,
-                success: function (male) {
-                    $('div#male').text(male.males);
-                    setTimeout(function () {
-                        MaleCount();
-                    }, 900000);
-                },
-                error: function (male) {
-                    alert('error');
-                }
-            });
-        }
-
-        function FemaleCount() {
-            $.ajax({
-                type: 'GET',
-                url: '/Dashboard/FemaleMembers',
-                datatype: 'json',
-                traditional: true,
-                contentType: "application/json",
-                cache: false,
-                success: function (female) {
-                    $('div#female').text(female.females);
-                    setTimeout(function () {
-                        FemaleCount();
-                    }, 900000);
-                },
-                error: function (female) {
-                    alert('error');
-                }
-            });
-        }
-
-        function MemberCurrent() {
-            $.ajax({
-                type: 'GET',
-                url: '/Dashboard/CurrentSessionMembers',
-                datatype: 'json',
-                traditional: true,
-                contentType: "application/json",
-                cache: false,
-                success: function (currentmember) {
-                    $('div#membercurrent').text(currentmember.currentmember);
-                    setTimeout(function () {
-                        MemberCurrent();
-                        console.log(currentmember);
-                    }, 900000);
-                },
-                error: function (currentmember) {
-                    alert('error');
-                }
-            });
-        }
-
-        function MaleCurrent() {
-            $.ajax({
-                type: 'GET',
-                url: '/Dashboard/CurrentSessionMale',
-                datatype: 'json',
-                traditional: true,
-                contentType: "application/json",
-                cache: false,
-                success: function (currentmale) {
-                    $('div#malecurrent').text(currentmale.currentmale);
-                    console.log(currentmale);
-                    setTimeout(function () {
-                        MaleCurrent();
-                    }, 900000);
-                },
-                error: function (currentmale) {
-                    alert('error');
-                }
-            });
-        }
-
-        function FemaleCurrent() {
-            $.ajax({
-                type: 'GET',
-                url: '/Dashboard/CurrentSessionFemale',
-                datatype: 'json',
-                traditional: true,
-                contentType: "application/json",
-                cache: false,
-                success: function (currentfemale) {
-                    $('div#femalecurrent').text(currentfemale.currentfemale);
-                    console.log(currentfemale);
-                    setTimeout(function () {
-                        FemaleCurrent();
-                    }, 900000);
-                },
-                error: function (currentfemale) {
-                    alert('error');
-                }
-            });
-        }
-
-        function Dues()
-        {
-            $.ajax({
-                type: 'GET',
-                url: '/Dashboard/TotalDues',
-                datatype: 'json',
-                traditional: true,
-                contentType: "application/json",
-                cache: false,
-                success: function (dues) {
-                    $('div#dues').text('N' + dues.dues);
-                    console.log(dues);
-                    setTimeout(function () {
-                        Dues();
-                    }, 900000);
-                },
-                error: function (dues) {
-                    alert('error');
-                }
-            });
-        }
-    </script>
-}

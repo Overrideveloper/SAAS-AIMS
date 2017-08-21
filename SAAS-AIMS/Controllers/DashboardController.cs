@@ -2,8 +2,11 @@
 using AIMS.Data.DataContext.DataContext.MemberDataContext;
 using AIMS.Data.DataContext.DataContext.SessionDataContext;
 using AIMS.Data.Enums.Enums.Gender;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -15,7 +18,7 @@ namespace SAAS_AIMS.Controllers
         private readonly MemberDataContext _memberdatacontext;
         private readonly DuesDataContext _duesdatacontext;
         private readonly SessionDataContext _sessiondatacontext;
-
+       
         #region constructor
         public DashboardController()
         {
@@ -25,7 +28,6 @@ namespace SAAS_AIMS.Controllers
         }
         #endregion
 
-        #region jsonresults
         public JsonResult SessionCount()
         {
             var session = _sessiondatacontext.Sessions.ToArray().Length;
@@ -52,33 +54,33 @@ namespace SAAS_AIMS.Controllers
 
         public JsonResult CurrentSessionMembers()
         {
-            var currentmember = _memberdatacontext.Members.Where(s => Convert.ToInt32(s.YearOfAdmission) == DateTime.Now.Year || Convert.ToInt32(s.YearOfAdmission) == (DateTime.Now.Year - 1));
+            var currentmember = _memberdatacontext.Members.Where(s => (s.YearOfAdmission.Year == DateTime.Now.Year) || s.YearOfAdmission.Year == (DateTime.Now.Year - 1)).ToArray().Length;
+            Dispose();
             return Json(new { currentmember = currentmember }, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult CurrentSessionMale()
         {
-            var currentmale = _memberdatacontext.Members.Where(s => s.Gender == Gender.Male && Convert.ToInt32(s.YearOfAdmission) == DateTime.Now.Year || Convert.ToInt32(s.YearOfAdmission) == (DateTime.Now.Year - 1));
+            var currentmale = _memberdatacontext.Members.Where(s => s.Gender == Gender.Male && (s.YearOfAdmission.Year == DateTime.Now.Year || s.YearOfAdmission.Year == (DateTime.Now.Year - 1))).ToArray().Length;
             return Json(new { currentmale = currentmale }, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult CurrentSessionFemale()
         {
-            var currentfemale = _memberdatacontext.Members.Where(s => s.Gender == Gender.Female && Convert.ToInt32(s.YearOfAdmission) == DateTime.Now.Year || Convert.ToInt32(s.YearOfAdmission) == (DateTime.Now.Year - 1));
+            var currentfemale = _memberdatacontext.Members.Where(s => s.Gender == Gender.Female && s.YearOfAdmission.Year == DateTime.Now.Year || s.YearOfAdmission.Year == (DateTime.Now.Year - 1)).ToArray().Length;
             return Json(new { currentfemale = currentfemale }, JsonRequestBehavior.AllowGet);
         }
-
-        public JsonResult TotalDues()
-        {
-            var dues = _duesdatacontext.Dues.Sum(due => due.Amount);
-            return Json(new { dues = dues }, JsonRequestBehavior.AllowGet);
-        }
-        #endregion
 
         //
         // GET: /Dashboard/
         public ActionResult Index()
         {
+            ViewBag.Members = _memberdatacontext.Members.ToArray().Length;
+            ViewBag.Male = _memberdatacontext.Members.Where(member => member.Gender == Gender.Male).ToArray().Length;
+            ViewBag.Female = _memberdatacontext.Members.Where(member => member.Gender == Gender.Female).ToArray().Length;
+            ViewBag.MemberCurrent = _memberdatacontext.Members.Where(s => (s.YearOfAdmission.Year == DateTime.Now.Year) || s.YearOfAdmission.Year == (DateTime.Now.Year - 1)).ToArray().Length;
+            ViewBag.MaleCurrent = _memberdatacontext.Members.Where(s => s.Gender == Gender.Male && (s.YearOfAdmission.Year == DateTime.Now.Year || s.YearOfAdmission.Year == (DateTime.Now.Year - 1))).ToArray().Length;
+            ViewBag.FemaleCurrent = _memberdatacontext.Members.Where(s => s.Gender == Gender.Female && (s.YearOfAdmission.Year == DateTime.Now.Year || s.YearOfAdmission.Year == (DateTime.Now.Year - 1))).ToArray().Length;
             return View();
         }
 	}
