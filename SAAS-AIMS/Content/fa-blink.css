@@ -1,0 +1,14 @@
+﻿@keyframes fa-blink {
+     0% { opacity: 1; }
+     25% { opacity: 0.25; }
+     50% { opacity: 0.5; }
+     75% { opacity: 0.75; }
+     100% { opacity: 0; }
+ }
+.fa-blink {
+   -webkit-animation: fa-blink .90s linear infinite;
+   -moz-animation: fa-blink .90s linear infinite;
+   -ms-animation: fa-blink .90s linear infinite;
+   -o-animation: fa-blink .90s linear infinite;
+   animation: fa-blink .90s linear infinite;
+}

@@ -4,13 +4,19 @@
 @using AIMS.Services.EnumRadioButton
 @using AIMS.Services.EnumDropDownList
 
+<style>
+    .ui-datepicker-calendar {
+        display: none;
+    }
+</style>
+
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3 class="modal-title">Create Member</h3>
 </div>
 
 
-@using (Html.BeginForm("Create", "Member", FormMethod.Post))
+@using (Html.BeginForm("Create", "Member", FormMethod.Post, new { name = "form" }))
 {
     @Html.AntiForgeryToken()
     <div class="modal-body">
@@ -59,28 +65,18 @@
             <div class="form-group">
                 <label for="gender" class="control-label col-sm-3"> State of Origin </label>
                 <div class="col-sm-9">
-                    @Html.EnumDropDownListFor(model => model.StateOfOrigin, Model.StateOfOrigin, string.Empty, new { @class = "form-control" })
+                    @Html.EnumDropDownListFor(model => model.StateOfOrigin, Model.StateOfOrigin, "--- Select a State ---", new { @class = "form-control" })
                     <div class="text-danger">
                         @Html.ValidationMessageFor(model => model.StateOfOrigin)
                     </div>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="matric" class="control-label col-sm-3"> Matric. Number </label>
-                <div class="col-sm-9">
-                    @Html.TextBoxFor(model => Model.MatricNumber, new { @class = "form-control required", @id = "matric" })
-                    <div class="text-danger">
-                        @Html.ValidationMessageFor(model => model.MatricNumber)
-                        @Html.ValidationMessage("Matric")
-                    </div>
-                </div>
-            </div>
 
             <div class="form-group">
                 <label for="year" class="control-label col-sm-3"> Year of Admission </label>
                 <div class="col-sm-9">
-                    @Html.TextBoxFor(model => model.YearOfAdmission, " ", new { @class = "form-control border-input required", @id = "year", @type = "datetime" })
+                    @Html.TextBoxFor(model => model.YearOfAdmission, " ", new { @class = "form-control required", @type = "datetime", @Value = "" })
                     <div class="text-danger">
                         @Html.ValidationMessageFor(model => model.YearOfAdmission)
                     </div>
@@ -90,9 +86,21 @@
             <div class="form-group">
                 <label for="gender" class="control-label col-sm-3"> Level at Admission </label>
                 <div class="col-sm-9">
-                    @Html.EnumDropDownListFor(model => model.LevelOfAdmission, Model.LevelOfAdmission, string.Empty, new { @class = "form-control" })
+                    @Html.EnumDropDownListFor(model => model.LevelOfAdmission, Model.LevelOfAdmission, "--- Select a Level ---", new { @class = "form-control" })
                     <div class="text-danger">
                         @Html.ValidationMessageFor(model => model.LevelOfAdmission)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="matric" class="control-label col-sm-3"> Matric. Number </label>
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(model => Model.MatricNumber, new { @class = "form-control required", @id = "matric" })
+                    <div class="text-danger">
+                        @Html.ValidationMessage("empty")
+                        @Html.ValidationMessageFor(model => model.MatricNumber)
+                        @Html.ValidationMessage("Matric")
                     </div>
                 </div>
             </div>
@@ -114,11 +122,20 @@
     $("form").removeData("unobtrusiveValidation");
     $.validator.unobtrusive.parse("form");
 </script>
+
 <script>
     $(function () {
         $('input[type=datetime]').datepicker({
-            dateFormat: "yy",
-            constrainInput: true
+            changeYear: true,
+            showButtonPanel: true,
+            dateFormat: 'dd/M/yy',
+            onClose: function (dateText, inst) {
+                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                $(this).datepicker('setDate', new Date(year, 8));
+            }
+        });
+        $('input[type=datetime]').focus(function () {
+            $(".ui-datepicker-month").hide();
         });
     });
 </script>

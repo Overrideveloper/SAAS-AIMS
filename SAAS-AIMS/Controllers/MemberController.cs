@@ -45,7 +45,7 @@ namespace SAAS_AIMS.Controllers
             dt.Columns.Add(new DataColumn("FirstName", typeof(System.String)));
             dt.Columns.Add(new DataColumn("MatricNumber", typeof(System.String)));
             dt.Columns.Add(new DataColumn("StateOfOrigin", typeof(System.Int32)));
-            dt.Columns.Add(new DataColumn("YearOfAdmission", typeof(System.String)));
+            dt.Columns.Add(new DataColumn("YearOfAdmission", typeof(System.DateTime)));
             dt.Columns.Add(new DataColumn("LevelOfAdmission", typeof(System.Int32)));
             dt.Columns.Add(new DataColumn("Gender", typeof(System.Int32)));
             dt.Columns.Add(new DataColumn("CreatedBy", typeof(System.Int64)));
@@ -119,7 +119,7 @@ namespace SAAS_AIMS.Controllers
                 cmd.Parameters.Add("?FirstName", MySqlDbType.String).SourceColumn = "FirstName";
                 cmd.Parameters.Add("?MatricNumber", MySqlDbType.String).SourceColumn = "MatricNumber";
                 cmd.Parameters.Add("?StateOfOrigin", MySqlDbType.Int32).SourceColumn = "StateOfOrigin";
-                cmd.Parameters.Add("?YearOfAdmission", MySqlDbType.String).SourceColumn = "YearOfAdmission";
+                cmd.Parameters.Add("?YearOfAdmission", MySqlDbType.DateTime).SourceColumn = "YearOfAdmission";
                 cmd.Parameters.Add("?LevelOfAdmission", MySqlDbType.Int32).SourceColumn = "LevelOfAdmission";
                 cmd.Parameters.Add("?Gender", MySqlDbType.Int32).SourceColumn = "Gender";
                 cmd.Parameters.Add("?CreatedBy", MySqlDbType.Int64).SourceColumn = "CreatedBy";
@@ -137,7 +137,7 @@ namespace SAAS_AIMS.Controllers
             }
             catch (Exception ex)
             {
-                feedback = "Failed to upload members data: " + ex.Message;
+                feedback = "Failed to upload members data: " + ex.Message + ". Contact System Administrator!";
             }
             
             return feedback;
@@ -180,6 +180,10 @@ namespace SAAS_AIMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Member member)
         {
+            if (member.MatricNumber == null)
+            {
+                ModelState.AddModelError("empty", "Matric number is required");
+            }
             if (ModelState.IsValid)
             {
                 if (_memberDataContext.Members.Any(record => record.MatricNumber == member.MatricNumber))
@@ -266,7 +270,7 @@ namespace SAAS_AIMS.Controllers
                     {
                         TempData["NotificationType"] = NotificationType.Upload.ToString();
                         TempData["Type"] = "Error";
-                        TempData["Response"] = "Error uploading member details: " + ex.Message;
+                        TempData["Response"] = "Error uploading member details: " + ex.Message + ". Contact System Administrator!";
                     }
                 }
                 else
@@ -275,6 +279,12 @@ namespace SAAS_AIMS.Controllers
                     TempData["Variant"] = "Error";
                     TempData["Error"] = "Error! Only .CSV and .XLSX files are can be uploaded!";
                 }
+            }
+            else
+            {
+                TempData["NotificationType"] = NotificationType.Upload.ToString();
+                TempData["Variant"] = "Error";
+                TempData["Error"] = "Error! Select a file for upload!";
             }
             dt.Dispose();
             return RedirectToAction("Index");
@@ -288,11 +298,13 @@ namespace SAAS_AIMS.Controllers
         [Authorize]
         public async Task<ActionResult> Edit(long id)
         {
+            Session["id"] = id;
             var member = await _memberDataContext.Members.FindAsync(id);
             if (member == null)
             {
                 return HttpNotFound();
             }
+            Session["matric"] = member.MatricNumber;
             return PartialView("Edit", member);
         }
 

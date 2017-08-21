@@ -52,19 +52,19 @@ namespace SAAS_AIMS.Controllers
 
         public JsonResult CurrentSessionMembers()
         {
-            var currentmember = _memberdatacontext.Members.Where(s => s.YearOfAdmission == Convert.ToString(DateTime.Now.Year) || s.YearOfAdmission == Convert.ToString((DateTime.Now.Year - 1)));
+            var currentmember = _memberdatacontext.Members.Where(s => Convert.ToInt32(s.YearOfAdmission) == DateTime.Now.Year || Convert.ToInt32(s.YearOfAdmission) == (DateTime.Now.Year - 1));
             return Json(new { currentmember = currentmember }, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult CurrentSessionMale()
         {
-            var currentmale = _memberdatacontext.Members.Where(s => s.Gender == Gender.Male && s.YearOfAdmission == DateTime.Now.Year.ToString() || s.YearOfAdmission == (DateTime.Now.Year - 1).ToString());
+            var currentmale = _memberdatacontext.Members.Where(s => s.Gender == Gender.Male && Convert.ToInt32(s.YearOfAdmission) == DateTime.Now.Year || Convert.ToInt32(s.YearOfAdmission) == (DateTime.Now.Year - 1));
             return Json(new { currentmale = currentmale }, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult CurrentSessionFemale()
         {
-            var currentfemale = _memberdatacontext.Members.Where(s => s.Gender == Gender.Female && s.YearOfAdmission == DateTime.Now.Year.ToString() || s.YearOfAdmission == (DateTime.Now.Year - 1).ToString());
+            var currentfemale = _memberdatacontext.Members.Where(s => s.Gender == Gender.Female && Convert.ToInt32(s.YearOfAdmission) == DateTime.Now.Year || Convert.ToInt32(s.YearOfAdmission) == (DateTime.Now.Year - 1));
             return Json(new { currentfemale = currentfemale }, JsonRequestBehavior.AllowGet);
         }
 

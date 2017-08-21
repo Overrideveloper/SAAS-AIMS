@@ -4,13 +4,19 @@
 @using AIMS.Services.EnumRadioButton
 @using AIMS.Services.EnumDropDownList
 
+<style>
+    .ui-datepicker-calendar {
+        display: none;
+    }
+</style>
+
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3 class="modal-title">Edit Member - @Model.Surname @Model.FirstName</h3>
 </div>
 
 
-@using (Html.BeginForm("Edit", "Member", FormMethod.Post))
+@using (Html.BeginForm("Edit", "Member", FormMethod.Post, new { name = "form" }))
 {
     string level = Convert.ToString(Model.LevelOfAdmission);
     
@@ -20,6 +26,7 @@
     @Html.HiddenFor(model => Model.DateCreated)
     @Html.HiddenFor(model => Model.DateLastModified)
     @Html.HiddenFor(model => Model.LastModifiedBy)
+    @Html.HiddenFor(model => Model.MatricNumber)
     
     <div class="modal-body">
 
@@ -75,19 +82,9 @@
             </div>
 
             <div class="form-group">
-                <label for="matric" class="control-label col-sm-3"> Matric. Number </label>
-                <div class="col-sm-9">
-                    @Html.TextBoxFor(model => Model.MatricNumber, new { @class = "form-control required", @id = "matric" })
-                    <div class="text-danger">
-                        @Html.ValidationMessageFor(model => model.MatricNumber)
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
                 <label for="year" class="control-label col-sm-3"> Year of Admission </label>
                 <div class="col-sm-9">
-                    @Html.TextBoxFor(model => model.YearOfAdmission, new { @class = "form-control border-input required", @id = "year", @type = "datetime" })
+                    @Html.TextBoxFor(model => model.YearOfAdmission, "{0:dd/MMM/yyyy}", new { @class = "form-control border-input required", @id = "year", @type = "datetime" })
                     <div class="text-danger">
                         @Html.ValidationMessageFor(model => model.YearOfAdmission)
                     </div>
@@ -100,6 +97,16 @@
                     @Html.EnumDropDownListFor(model => model.LevelOfAdmission, Model.LevelOfAdmission, "", new { @class = "form-control" })
                     <div class="text-danger">
                         @Html.ValidationMessageFor(model => model.LevelOfAdmission)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="matric" class="control-label col-sm-3"> Matric. Number </label>
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(model => Model.MatricNumber, new { @class = "form-control required", @id = "matric", disabled = "disabled"})
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(model => model.MatricNumber)
                     </div>
                 </div>
             </div>
@@ -121,11 +128,20 @@
     $("form").removeData("unobtrusiveValidation");
     $.validator.unobtrusive.parse("form");
 </script>
+
 <script>
     $(function () {
         $('input[type=datetime]').datepicker({
-            dateFormat: "yy",
-            constrainInput: true
+            changeYear: true,
+            showButtonPanel: true,
+            dateFormat: 'dd/M/yy',
+            onClose: function (dateText, inst) {
+                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                $(this).datepicker('setDate', new Date(year, 8));
+            }
+        });
+        $('input[type=datetime]').focus(function () {
+            $(".ui-datepicker-month").hide();
         });
     });
 </script>

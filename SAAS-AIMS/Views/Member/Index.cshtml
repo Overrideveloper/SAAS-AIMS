@@ -63,12 +63,24 @@
                             }
                             if (TempData["NotificationType"] == NotificationType.Upload.ToString() && TempData["Type"] == "Success")
                             {
-                                <div class="alert alert-success alert-dismissible fadeIn fadeOut out fade in" role="alert">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    @TempData["Response"]
-                                </div>
+                                if (TempData["Response"] == "Succesfully uploaded members' data!")
+                                {
+                                    <div class="alert alert-success alert-dismissible fadeIn fadeOut out fade in" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        @TempData["Response"]
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-danger alert-dismissible fadeIn fadeOut out fade in" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        @TempData["Response"]
+                                    </div>
+                                }
                             }
                              if (TempData["NotificationType"] == NotificationType.Upload.ToString() && TempData["Variant"] == "Error")
                             {
@@ -116,7 +128,7 @@
                                         <td>@member.MatricNumber</td>
                                         <td>@member.Gender</td>
                                         <td>@member.StateOfOrigin</td>
-                                        <td>@member.YearOfAdmission</td>
+                                        <td>@member.YearOfAdmission.Year</td>
                                         <td>@member.LevelOfAdmission</td>
                                         <td>
                                             <a class="btn btn-xs btn-default" data-modal="" href="@Url.Action("Edit", "Member", new { id = member.ID })"><i class="fa fa-pencil"></i> Edit</a>
@@ -144,6 +156,7 @@
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/moment.js")
     <script type="text/javascript" src="~/Scripts/modal.js"></script>
     <script type="text/javascript" src="~/Scripts/delete.js"></script>
 }
