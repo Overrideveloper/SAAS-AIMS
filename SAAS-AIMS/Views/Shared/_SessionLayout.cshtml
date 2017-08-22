@@ -23,6 +23,8 @@
     <link rel="stylesheet" href="~/template/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css">
     <!-- Custom Theme Style -->
     <link href="~/template/build/css/custom.min.css" rel="stylesheet">
+    <!-- Blinking Icons -->
+    <link href="~/Content/fa-blink.css" rel="stylesheet" />
     
     <title>BHU-NACOSS | @ViewBag.Title</title>
 </head>
@@ -71,10 +73,10 @@
 
                             @Html.AntiForgeryToken()
                             <a data-toggle="tooltip" data-placement="top" title="Manage Account" href="@Url.Action("Manage", "Account")">
-                                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                                <span class="fa fa-cog fa-spin fa-fw" aria-hidden="true"></span>
                             </a>
                             <a data-toggle="tooltip" data-placement="top" title="Logout" href="javascript:document.getElementById('logoutForm').submit()">
-                                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                                <span class="fa fa-power-off fa-blink" aria-hidden="true"></span>
                             </a>
                         </div>
                     }

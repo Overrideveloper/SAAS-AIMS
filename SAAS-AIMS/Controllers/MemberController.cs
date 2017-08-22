@@ -16,6 +16,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using AIMS.Data.Enums.Enums.Gender;
+using AIMS.Data.Enums.Enums.Level;
 
 namespace SAAS_AIMS.Controllers
 {
@@ -44,10 +46,10 @@ namespace SAAS_AIMS.Controllers
             dt.Columns.Add(new DataColumn("MidName", typeof(System.String)));
             dt.Columns.Add(new DataColumn("FirstName", typeof(System.String)));
             dt.Columns.Add(new DataColumn("MatricNumber", typeof(System.String)));
-            dt.Columns.Add(new DataColumn("StateOfOrigin", typeof(System.Int32)));
+            dt.Columns.Add(new DataColumn("StateOfOrigin", typeof(Enums.State)));
             dt.Columns.Add(new DataColumn("YearOfAdmission", typeof(System.DateTime)));
-            dt.Columns.Add(new DataColumn("LevelOfAdmission", typeof(System.Int32)));
-            dt.Columns.Add(new DataColumn("Gender", typeof(System.Int32)));
+            dt.Columns.Add(new DataColumn("LevelOfAdmission", typeof(Level)));
+            dt.Columns.Add(new DataColumn("Gender", typeof(Gender)));
             dt.Columns.Add(new DataColumn("CreatedBy", typeof(System.Int64)));
             dt.Columns.Add(new DataColumn("DateCreated", typeof(System.DateTime)));
             dt.Columns.Add(new DataColumn("LastModifiedBy", typeof(System.Int64)));
