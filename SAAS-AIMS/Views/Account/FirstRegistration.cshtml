@@ -45,6 +45,22 @@
     </div>
     }
 }
+else
+{
+  <div class="separator">
+        <p class="change_link">Already have an acccount ?
+            <a href="@Url.Action("Login", "Account")"> Log in </a>
+        </p>
+
+        <div class="clearfix"></div>
+        <br />
+
+        <div>
+            <h1><i class="fa fa-paw"></i> AIMS </h1>
+            <p>&copy; @DateTime.Now.Year Override. All Rights Reserved.</p>
+        </div>
+    </div>  
+}
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

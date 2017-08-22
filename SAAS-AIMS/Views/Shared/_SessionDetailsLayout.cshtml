@@ -66,13 +66,16 @@
                                     <a href="@Url.Action("", "")"><i class="fa fa-users"></i> Executives </a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("", "")"><i class="fa fa-shopping-basket"></i> Expenses </a>
+                                    <a href="@Url.Action("", "")"><i class="fa fa-shopping-cart"></i> Expenses </a>
                                 </li>
                                 <li>
                                     <a href="@Url.Action("", "")"><i class="fa fa-briefcase"></i> Income </a>
                                 </li>
                                 <li>
                                     <a href="@Url.Action("Index", "Meeting", new { sessionid = @Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-gavel"></i> Meetings </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("", "")"><i class="fa fa-list-alt"></i> Memos </a>
                                 </li>
                             </ul>
                         </div>

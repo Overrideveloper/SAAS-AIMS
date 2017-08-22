@@ -43,6 +43,7 @@
     <Compile Include="Enums.Gender\Gender.cs" />
     <Compile Include="Enums.Level\Level.cs" />
     <Compile Include="Enums.NotificationType\NotificationType.cs" />
+    <Compile Include="Enums.Post\Post.cs" />
     <Compile Include="Enums.Semester\Semester.cs" />
     <Compile Include="Enums.State\State.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
