@@ -165,7 +165,7 @@ namespace SAAS_AIMS.Controllers
             return Json(!_memberDataContext.Members.Any(member => member.MatricNumber == MatricNumber), JsonRequestBehavior.AllowGet);
         }
         #endregion
-
+                
         #region create association member
         // GET: /Member/Create
         [HttpGet]

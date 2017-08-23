@@ -8,18 +8,17 @@ using System.Threading.Tasks;
 
 namespace AIMS.Data.Enums.Enums.State
 {
+    [TypeConverter(typeof(PascalCaseWordSplittingEnumConverter.PascalCaseWordSplittingEnumConverter))]
     public enum State
     {
         Abia,
         Adamawa,
         Anambra,
-        [Display(Name = "Akwa Ibom")]
         AkwaIbom,
         Bauchi,
         Bayelsa,
         Benue,
         Borno,
-        [Display(Name = "Cross River")]
         CrossRiver,
         Delta,
         Ebonyi,

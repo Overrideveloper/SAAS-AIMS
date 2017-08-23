@@ -1,7 +1,12 @@
-﻿@model IEnumerable <AIMS.Data.DataObjects.Entities.Member.Member>
+﻿@model IEnumerable<AIMS.Data.DataObjects.Entities.Member.Member>
 @using AIMS.Data.Enums.Enums.NotificationType
+@using System.ComponentModel;
+@using AIMS.Data.Enums.Enums.State;
+@using AIMS.Data.Enums.Enums.Level;
 
 @{
+    TypeConverter converter1 = TypeDescriptor.GetConverter(typeof(Level));
+    TypeConverter converter2 = TypeDescriptor.GetConverter(typeof(State));
     ViewBag.Title = "Members";
     Layout = "~/Views/Shared/_MemberLayout.cshtml";
 }
@@ -127,9 +132,9 @@
                                         <td>@member.MidName</td>
                                         <td>@member.MatricNumber</td>
                                         <td>@member.Gender</td>
-                                        <td>@member.StateOfOrigin</td>
+                                        <td>@converter2.ConvertToString(member.StateOfOrigin)</td>
                                         <td>@member.YearOfAdmission.Year</td>
-                                        <td>@member.LevelOfAdmission</td>
+                                        <td>@converter1.ConvertToString(member.LevelOfAdmission)</td>
                                         <td>
                                             <a class="btn btn-xs btn-default" data-modal="" href="@Url.Action("Edit", "Member", new { id = member.ID })"><i class="fa fa-pencil"></i> Edit</a>
                                             <a class="btn btn-xs btn-danger delete" href="@Url.Action("Delete", "Member", new { id = member.ID})"><i class="fa fa-remove"></i> Delete</a>

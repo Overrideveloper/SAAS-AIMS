@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -18,10 +19,13 @@ namespace AIMS.Services.EnumDropDownList
         {
             IEnumerable<TEnum> values = Enum.GetValues(typeof(TEnum))
                                         .Cast<TEnum>();
+
+            TypeConverter converter = TypeDescriptor.GetConverter(typeof(TEnum));
+
             IEnumerable<SelectListItem> items = from value in values
                                                 select new SelectListItem()
                                                 {
-                                                    Text = value.ToString(),
+                                                    Text = converter.ConvertToString(value),
                                                     Value = value.ToString(),
                                                     Selected = (value.Equals(selectedValue))
                                                 };
