@@ -36,8 +36,10 @@ namespace SAAS_AIMS.Controllers
         [Authorize]
         public ActionResult Index(long sessionid)
         {
-            sessionid = Convert.ToInt64(Session["sessionid"]);
+            Session["sessionid"] = sessionid;
             var meetings = _meetingdatacontext.Meetings.Where(meeting => meeting.SessionID == sessionid);
+            var sess = _sessiondatacontext.Sessions.Find(sessionid);
+            TempData["SessTitle"] = sess.Title;
             return View(meetings.OrderBy(meeting => meeting.Date));
         }
         #endregion
@@ -56,7 +58,7 @@ namespace SAAS_AIMS.Controllers
         // GET: /Meeting/Create
         [HttpGet]
         [Authorize]
-        public ActionResult Create(long sessionid) 
+        public ActionResult Create(bool create = true) 
         {
             var meeting = new Meeting();
             return View("Create", meeting);

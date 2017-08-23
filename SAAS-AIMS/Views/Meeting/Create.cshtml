@@ -34,6 +34,11 @@
                     {
                         @Html.AntiForgeryToken()
                         @Html.Hidden("FileUpload")
+                        
+                        <fieldset>
+                                <div class="fa-blink"> <strong>Note:</strong> These are the supported file formats: Pdf, Docx, Doc, Rtf and Txt </div>
+                        </fieldset>
+                            
                         <div class="form-group row" id="form">
                             <div class="col-sm-6">
                                 <label for="title" class="control-label"> Title </label>
@@ -66,20 +71,20 @@
                                     @Html.ValidationMessageFor(model => model.Semester)
                                 </div>
                             </div>
-                            <span><br /></span>
-                            <div class="form-group">
+                            
+                            <div>
                                 <label for="file" class="control-label col-sm-3"> Upload minutes of meeting </label>
-                                <div class="col-sm-6">
+                                <div>
                                     <input type="file" name="file" id="file" style="width: 100%;" />
                                 </div>
                                 <div class="text-danger">
                                     @Html.ValidationMessageFor(model => model.FileUpload)
                                 </div>
                             </div>
+                            
+                            
+                                <br /><input class="btn btn-primary btn-raised col-md-offset-5" type="submit" value="Save" />
 
-                            <div class="form-group">
-                                <input class="btn btn-primary btn-raised col-md-offset-5" type="submit" value="Save" />
-                            </div>
                         </div>
                     }
                     </div>

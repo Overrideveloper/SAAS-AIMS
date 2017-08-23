@@ -18,8 +18,6 @@
 
 @using (Html.BeginForm("Edit", "Member", FormMethod.Post, new { name = "form" }))
 {
-    string level = Convert.ToString(Model.LevelOfAdmission);
-    
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => Model.ID)
     @Html.HiddenFor(model => Model.CreatedBy)

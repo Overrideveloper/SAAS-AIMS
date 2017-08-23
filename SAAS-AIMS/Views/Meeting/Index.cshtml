@@ -1,11 +1,8 @@
 ﻿@model IEnumerable<AIMS.Data.DataObjects.Entities.Meeting.Meeting>
 @using AIMS.Data.Enums.Enums.NotificationType
 @using AIMS.Data.Enums.Enums.UploadType
-@using AIMS.Data.DataContext.DataContext.SessionDataContext
 @{
-    SessionDataContext _sessiondatacontext = new SessionDataContext();
-    var session = _sessiondatacontext.Sessions.Find(Convert.ToInt64(Session["sessionid"]));
-    ViewBag.Title = @session.Title.ToString() + " Meetings";
+    ViewBag.Title = TempData["SessTitle"] + " Meetings";
     Layout = "~/Views/Shared/_MeetingLayout.cshtml";
 }
 
@@ -14,7 +11,7 @@
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3>@session.Title.ToString() Meetings </h3>
+                <h3>@TempData["SessTitle"] Meetings </h3>
             </div>
         </div>
 

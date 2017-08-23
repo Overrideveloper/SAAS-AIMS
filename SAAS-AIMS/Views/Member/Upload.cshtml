@@ -30,7 +30,7 @@
                         @using (Html.BeginForm("Upload", "Member", FormMethod.Post, new { @class = "form", enctype = "multipart/form-data" }))
                         {
                             @Html.AntiForgeryToken()
-                            <fieldset>
+                            <fieldset class="fa-blink">
                                 <div> <strong>Note:</strong>  CSV and XSLX files should have the following columns in this order: </div>
                                 <div class="text-muted">
                                     <ul>

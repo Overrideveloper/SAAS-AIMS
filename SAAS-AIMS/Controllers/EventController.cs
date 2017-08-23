@@ -42,6 +42,7 @@ namespace SAAS_AIMS.Controllers
         [Authorize]
         public ActionResult Index(long sessionid )
         {
+            Session["sessionid"] = sessionid;
             var events = _eventdatacontext.Event.Where(var => var.SessionID == sessionid);
             return View(events.OrderBy(var => var.Date));
         }
