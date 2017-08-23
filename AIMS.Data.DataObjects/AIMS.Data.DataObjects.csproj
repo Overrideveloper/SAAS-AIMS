@@ -62,6 +62,7 @@
     <Compile Include="Entities.Event\Event.cs" />
     <Compile Include="Entities.Meeting\Meeting.cs" />
     <Compile Include="Entities.Member\Member.cs" />
+    <Compile Include="Entities.Memo\Memo.cs" />
     <Compile Include="Entities.Role\Role.cs" />
     <Compile Include="Entities.Session\Session.cs" />
     <Compile Include="Entities.SystemManagement\Transport.cs" />

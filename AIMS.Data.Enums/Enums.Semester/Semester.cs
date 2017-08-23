@@ -10,12 +10,7 @@ namespace AIMS.Data.Enums.Enums.Semester
 {
     public enum Semester
     {
-        [Description("First Semester")]
-        [Display( Name = "First Semester")]
         First,
-
-        [Description("Second Semester")]
-        [Display( Name = "Second Semester")]
         Second
     }
 }

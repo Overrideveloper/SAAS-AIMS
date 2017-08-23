@@ -9,8 +9,8 @@ namespace AIMS.Data.Enums.Enums.UploadType
     public enum UploadType
     {
         Minutes,
-        Images,
         Finances,
-        MemberData
+        MemberData,
+        Memos
     }
 }

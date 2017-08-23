@@ -68,6 +68,7 @@
     <Compile Include="DataContext\EventDataContext\EventDataContext.cs" />
     <Compile Include="DataContext\MeetingDataContext\MeetingDataContext.cs" />
     <Compile Include="DataContext\MemberDataContext\MemberDataContext.cs" />
+    <Compile Include="DataContext\MemoDataContext\MemoDataContext.cs" />
     <Compile Include="DataContext\RoleDataContext\RoleDataContext.cs" />
     <Compile Include="DataContext\SessionDataContext\SessionDataContext.cs" />
     <Compile Include="Migrations\201708011318105_migrate1.cs" />
@@ -142,6 +143,14 @@
     <Compile Include="Migrations\201708202247536_migrate-18.Designer.cs">
       <DependentUpon>201708202247536_migrate-18.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201708232155149_migrate-19.cs" />
+    <Compile Include="Migrations\201708232155149_migrate-19.Designer.cs">
+      <DependentUpon>201708232155149_migrate-19.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708232202195_migrate-20.cs" />
+    <Compile Include="Migrations\201708232202195_migrate-20.Designer.cs">
+      <DependentUpon>201708232202195_migrate-20.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -209,6 +218,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708202247536_migrate-18.resx">
       <DependentUpon>201708202247536_migrate-18.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708232155149_migrate-19.resx">
+      <DependentUpon>201708232155149_migrate-19.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708232202195_migrate-20.resx">
+      <DependentUpon>201708232202195_migrate-20.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
