@@ -22,6 +22,10 @@ namespace AIMS.Data.DataObjects.Entities.Memo
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
+        [Required]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MMM/yyyy}")]
+        public DateTime Date { get; set; }
+
         [Required(ErrorMessage = "Upload a memo!")]
         public string FileUpload { get; set; }
 

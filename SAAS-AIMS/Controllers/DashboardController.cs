@@ -1,8 +1,10 @@
 ﻿using AIMS.Data.DataContext.DataContext.DuesDataContext;
 using AIMS.Data.DataContext.DataContext.MemberDataContext;
 using AIMS.Data.DataContext.DataContext.SessionDataContext;
+using AIMS.Data.DataObjects.Entities.Member;
 using AIMS.Data.Enums.Enums.Gender;
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,6 +12,7 @@ using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AIMS.Data.ViewModels.ViewModel.Member;
 
 namespace SAAS_AIMS.Controllers
 {
@@ -28,12 +31,7 @@ namespace SAAS_AIMS.Controllers
         }
         #endregion
 
-        public JsonResult SessionCount()
-        {
-            var session = _sessiondatacontext.Sessions.ToArray().Length;
-            return Json(new { session = session }, JsonRequestBehavior.AllowGet);
-        }
-
+        #region member count
         public JsonResult MaleMembers()
         {
             var males = _memberdatacontext.Members.Where(member => member.Gender == Gender.Male).ToArray().Length;
@@ -70,7 +68,29 @@ namespace SAAS_AIMS.Controllers
             var currentfemale = _memberdatacontext.Members.Where(s => s.Gender == Gender.Female && s.YearOfAdmission.Year == DateTime.Now.Year || s.YearOfAdmission.Year == (DateTime.Now.Year - 1)).ToArray().Length;
             return Json(new { currentfemale = currentfemale }, JsonRequestBehavior.AllowGet);
         }
+        #endregion
 
+        #region member chart
+        public JsonResult MemberData()
+        {
+            List<MemberViewModel> Members = new List<MemberViewModel>();
+
+            var results = _memberdatacontext.Members.ToList();
+            Member member = new Member();
+            MemberViewModel memberView = new MemberViewModel();
+
+            while (results != null)
+            {
+                memberView.Year = member.YearOfAdmission.Year.ToString();
+                memberView.Male = results.Where(s => s.Gender == Gender.Male && s.YearOfAdmission.Year == member.YearOfAdmission.Year).ToArray().Length;
+                memberView.Female = results.Where(s => s.Gender == Gender.Female && s.YearOfAdmission.Year == member.YearOfAdmission.Year).ToArray().Length;
+            }
+
+            return Json(new { mem = memberView }, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
+        #region index method
         //
         // GET: /Dashboard/
         public ActionResult Index()
@@ -83,5 +103,6 @@ namespace SAAS_AIMS.Controllers
             ViewBag.FemaleCurrent = _memberdatacontext.Members.Where(s => s.Gender == Gender.Female && (s.YearOfAdmission.Year == DateTime.Now.Year || s.YearOfAdmission.Year == (DateTime.Now.Year - 1))).ToArray().Length;
             return View();
         }
-	}
+        #endregion
+    }
 }

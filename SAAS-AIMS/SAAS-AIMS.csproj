@@ -4512,6 +4512,7 @@
     <Content Include="Views\Event\Create.cshtml" />
     <Content Include="Views\Event\Edit.cshtml" />
     <Content Include="Views\Member\Upload.cshtml" />
+    <Content Include="Views\Shared\_MemoLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
