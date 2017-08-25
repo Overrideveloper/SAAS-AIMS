@@ -68,7 +68,7 @@ namespace SAAS_AIMS.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Memo memo, HttpPostedFileBase file)
+        public ActionResult Create(Memo memo, HttpPostedFileBase file)  
         {
             if (file == null || file.FileName == "")
             {
@@ -154,7 +154,7 @@ namespace SAAS_AIMS.Controllers
             }
             _memoDataContext.Memos.Remove(memo);
             await _memoDataContext.SaveChangesAsync();
-            TempData["Success"] = "Meeting entry successfully modified for " + GetSessionName();
+            TempData["Success"] = "Meeting entry successfully deleted for " + GetSessionName();
             TempData["NotificationType"] = NotificationType.Delete.ToString();
             return RedirectToAction("Index", new { sessionid = Convert.ToInt64(Session["sessionid"]) });
         }

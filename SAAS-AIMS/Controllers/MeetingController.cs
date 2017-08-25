@@ -60,6 +60,7 @@ namespace SAAS_AIMS.Controllers
         [Authorize]
         public ActionResult Create(long sessionid) 
         {
+            Session["sessionid"] = sessionid;
             var meeting = new Meeting();
             return View("Create", meeting);
         }
