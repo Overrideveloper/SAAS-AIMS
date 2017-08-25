@@ -32,7 +32,7 @@
                         <a class="btn btn-info btn-sm" href="@Url.Action("Index", "Memo", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-arrow-left"></i> Return to Memo Entry List</a><br />
                     </div>
                     <div class="x_content">
-                        @using (Html.BeginForm("Create", "Memo", FormMethod.Post, new { @class = "form", enctype = "multipart/form-data" }))
+                        @using (Html.BeginForm("Edit", "Memo", FormMethod.Post, new { @class = "form", enctype = "multipart/form-data" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.Hidden("FileUpload")
@@ -49,7 +49,7 @@
 
                             <div class="col-sm-6">
                                 <label for="date" class="control-label"> Date </label>
-                                @Html.TextBoxFor(model => Model.Date, " ", new { @class = "form-control required", @id = "date", @type = "datetime" })
+                                @Html.TextBoxFor(model => Model.Date, "{0:dd MMMM yyyy}", new { @class = "form-control required", @id = "date", @type = "datetime" })
                                 <div class="text-danger">
                                     @Html.ValidationMessageFor(model => model.Date)
                                 </div>

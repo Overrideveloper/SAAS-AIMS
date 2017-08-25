@@ -29,10 +29,8 @@
                     <div>
                         <a class="btn btn-info btn-sm" href="@Url.Action("Index", "Meeting", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-arrow-left"></i> Return to Meeting Entry List</a><br />
                     </div>
-                    <div class="x_content">
-                        
-                        
-                        @using (Html.BeginForm("Edit", "Meeting", FormMethod.Post, new { @class = "form-horizontal", @role = "form", enctype = "multipart/form-data" }))
+                    <div class="x_content">    
+                        @using (Html.BeginForm("Edit", "Meeting", FormMethod.Post, new { @class = "form", enctype = "multipart/form-data" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.Hidden("FileUpload")
@@ -47,8 +45,7 @@
                                 <div class="fa-blink"> <strong>Note:</strong> These are the supported file formats: Pdf, Docx, Doc, Rtf and Txt </div>
                             </fieldset>
                             
-                            <div class="form-group row" id="form">
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
                                     <label for="title" class="control-label"> Title </label>
                                     @Html.TextBoxFor(model => Model.Title, new { @class = "form-control required", @id = "title" })
                                     <div class="text-danger">
@@ -56,7 +53,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
                                     <label for="venue" class="control-label"> Venue </label>
                                     @Html.TextBoxFor(model => Model.Venue, new { @class = "form-control", @id = "venue" })
                                     <div class="text-danger">
@@ -64,24 +61,25 @@
                                     </div>
                                 </div>
 
+                                 <div class="col-sm-4">
+                                    <label for="semester" class="control-label"> Semester </label>
+                                    @Html.EnumDropDownListFor(model => model.Semester, Model.Semester, string.Empty, new { @class = "form-control", @id = "semester" })
+                                    <div class="text-danger">
+                                        @Html.ValidationMessageFor(model => model.Semester)
+                                    </div>
+                                </div> 
+                            
                                 <div class="col-sm-6">
                                     <label for="date" class="control-label"> Date </label>
-                                    @Html.TextBoxFor(model => Model.Date, "{0:dd/MMM/yy}", new { @class = "form-control required", @id = "date", @type = "datetime" })
+                                    @Html.TextBoxFor(model => Model.Date, "{0:dd MMMM yyyy}", new { @class = "form-control required", @id = "date", @type = "datetime" })
                                     <div class="text-danger">
                                         @Html.ValidationMessageFor(model => model.Date)
                                     </div>
                                 </div>
 
                                 <div class="col-sm-6">
-                                    <label for="semester" class="control-label"> Semester </label>
-                                    @Html.EnumDropDownListFor(model => model.Semester, Model.Semester, string.Empty, new { @class = "form-control", @id = "semester" })
-                                    <div class="text-danger">
-                                        @Html.ValidationMessageFor(model => model.Semester)
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label for="file" class="control-label col-sm-3"> Upload minutes of meeting </label>
+                                    <br />
+                                    <label for="file" class="control-label"> Upload minutes of meeting </label>
                                     <div>
                                         <input type="file" name="file" style="width: 100%;" />
                                     </div>
@@ -90,9 +88,10 @@
                                     </div>
                                 </div>
 
-                                    <br /><input class="btn btn-primary btn-raised col-md-offset-5" type="submit" value="Save" />
-                                
-                            </div>
+                                <div>
+                                    <br />
+                                    <input class="btn btn-primary btn-raised pull-right" type="submit" value="Save" />
+                                </div>
                         }
                     </div>
                 </div>

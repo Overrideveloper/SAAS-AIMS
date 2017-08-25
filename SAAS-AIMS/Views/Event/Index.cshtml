@@ -7,7 +7,7 @@
 @{
     SessionDataContext _sessiondatacontext = new SessionDataContext();
     var session = _sessiondatacontext.Sessions.Find(Convert.ToInt64(Session["sessionid"]));
-    ViewBag.Title = @session.Title.ToString() + " Events";
+    ViewBag.Title = session.Title.ToString() + " Events";
     Layout = "~/Views/Shared/_EventLayout.cshtml";
 }
 

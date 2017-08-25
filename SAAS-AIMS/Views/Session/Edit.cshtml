@@ -31,7 +31,7 @@
             <div class="form-group">
                 <label for="start" class="control-label col-sm-3"> Start Date </label>
                 <div class="col-sm-9">
-                    @Html.TextBoxFor(model => model.StartDate, "{0:dd/MMM/yyyy}", new { @class = "form-control border-input required", @id = "start", @type = "datetime" })
+                    @Html.TextBoxFor(model => model.StartDate, "{0:dd MMMM yyyy}", new { @class = "form-control border-input required", @id = "start", @type = "datetime" })
                     <div class="text-danger">
                         @Html.ValidationMessageFor(model => model.StartDate)
                     </div>
@@ -41,7 +41,7 @@
             <div class="form-group">
                 <label for="end" class="control-label col-sm-3"> End Date </label>
                 <div class="col-sm-9">
-                    @Html.TextBoxFor(model => model.EndDate, "{0:dd/MMM/yyyy}", new { @class = "form-control border-input required", @id = "end", @type = "datetime" })
+                    @Html.TextBoxFor(model => model.EndDate, "{0:dd MMMM yyyy}", new { @class = "form-control border-input required", @id = "end", @type = "datetime" })
                     <div class="text-danger">
                         @Html.ValidationMessageFor(model => model.EndDate)
                     </div>

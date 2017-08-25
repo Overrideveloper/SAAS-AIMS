@@ -53,7 +53,7 @@
             <div class="form-group">
                 <label for="date" class="control-label col-sm-3"> Date </label>
                 <div class="col-sm-9">
-                    @Html.TextBoxFor(model => model.Date, "{0:dd/MMM/yy}", new { @class = "form-control required", @id = "date", @type = "datetime" })
+                    @Html.TextBoxFor(model => model.Date, "{0:dd MMMM yyyy}", new { @class = "form-control required", @id = "date", @type = "datetime" })
                     <div class="text-danger">
                         @Html.ValidationMessageFor(model => model.Date)
                     </div>

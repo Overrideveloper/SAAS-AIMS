@@ -82,7 +82,7 @@
             <div class="form-group">
                 <label for="year" class="control-label col-sm-3"> Year of Admission </label>
                 <div class="col-sm-9">
-                    @Html.TextBoxFor(model => model.YearOfAdmission, "{0:dd/MMM/yyyy}", new { @class = "form-control border-input required", @id = "year", @type = "datetime" })
+                    @Html.TextBoxFor(model => model.YearOfAdmission, "{0:dd MMMM yyyy}", new { @class = "form-control border-input required", @id = "year", @type = "datetime" })
                     <div class="text-danger">
                         @Html.ValidationMessageFor(model => model.YearOfAdmission)
                     </div>

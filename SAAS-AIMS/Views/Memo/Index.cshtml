@@ -82,8 +82,8 @@
                                         <td>@converter.ConvertToString(memo.Type)</td>
                                         <td>@memo.Description</td>
                                         <td>
-                                            <a class="btn btn-xs btn-default" href="@Url.Action("Edit", "Meeting", new { id = memo.ID })"><i class="fa fa-pencil"></i> Edit</a>
-                                            <a class="btn btn-xs btn-danger delete" href="@Url.Action("Delete", "Meeting", new { id = memo.ID})"><i class="fa fa-remove"></i> Delete</a>
+                                            <a class="btn btn-xs btn-default" href="@Url.Action("Edit", "Memo", new { id = memo.ID })"><i class="fa fa-pencil"></i> Edit</a>
+                                            <a class="btn btn-xs btn-danger delete" href="@Url.Action("Delete", "Memo", new { id = memo.ID})"><i class="fa fa-remove"></i> Delete</a>
                                             @if (memo.FileUpload != null)
                                             {
                                                 <a class="btn btn-xs btn-warning" href="../../UploadedFiles/@UploadType.Memos.ToString()/@memo.FileUpload" target="_self"><i class="fa fa-files-o"></i> View Memo</a>

@@ -38,7 +38,7 @@
             <div class="form-group">
                 <label for="semester" class="control-label col-sm-3"> Semester </label>
                 <div class="col-sm-9">
-                    @Html.EnumDropDownListFor(model => model.Semester, Model.Semester, string.Empty, new { @class = "form-control", @id = "semester" })
+                    @Html.EnumDropDownListFor(model => model.Semester, Model.Semester, "--- Select a semester ---", new { @class = "form-control", @id = "semester" })
                     <div class="text-danger">
                         @Html.ValidationMessageFor(model => model.Semester)
                     </div>
