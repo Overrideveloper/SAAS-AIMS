@@ -58,7 +58,7 @@ namespace SAAS_AIMS.Controllers
         // GET: /Meeting/Create
         [HttpGet]
         [Authorize]
-        public ActionResult Create(bool create = true) 
+        public ActionResult Create(long sessionid) 
         {
             var meeting = new Meeting();
             return View("Create", meeting);

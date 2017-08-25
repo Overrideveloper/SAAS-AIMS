@@ -176,6 +176,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MeetingController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
+    <Compile Include="Controllers\MemoController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Controllers\SessionDetailsController.cs" />
     <Compile Include="Enums\State.cs" />
@@ -4513,6 +4514,8 @@
     <Content Include="Views\Event\Edit.cshtml" />
     <Content Include="Views\Member\Upload.cshtml" />
     <Content Include="Views\Shared\_MemoLayout.cshtml" />
+    <Content Include="Views\Memo\Index.cshtml" />
+    <Content Include="Views\Memo\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -4522,7 +4525,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>

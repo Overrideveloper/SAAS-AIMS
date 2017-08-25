@@ -1,0 +1,134 @@
+﻿@model AIMS.Data.DataObjects.Entities.Memo.Memo
+@using AIMS.Services.EnumDropDownList
+@using AIMS.Data.Enums.Enums.MemoType
+@{
+    ViewBag.Title = "Memos";
+    Layout = "~/Views/Shared/_MemoLayout.cshtml";
+}
+
+
+<style>
+    #form {
+        width: 50%;
+        margin: 0 auto;
+        float: none;
+    }
+</style>
+
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>Create Memo Entry</h3>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div>
+                        <a class="btn btn-info btn-sm pull-right" href="#help" data-toggle="modal"><i class="fa fa-question"></i> Help </a>
+                        <a class="btn btn-info btn-sm" href="@Url.Action("Index", "Memo", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-arrow-left"></i> Return to Memo Entry List</a><br />
+                    </div>
+                    <div class="x_content">
+                        @using (Html.BeginForm("Create", "Memo", FormMethod.Post, new { @class = "form", enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("FileUpload", "FileUpload")
+
+                            <fieldset>
+                                <div class="fa-blink"> <strong>Note:</strong> These are the supported file formats: Pdf, Docx, Doc, Rtf and Txt </div>
+                            </fieldset>
+
+                            <div class="col-sm-6">
+                                <label for="date" class="control-label"> Date </label>
+                                @Html.TextBoxFor(model => Model.Date, " ", new { @class = "form-control required", @id = "date", @type = "datetime" })
+                                <div class="text-danger">
+                                    @Html.ValidationMessageFor(model => model.Date)
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label for="type" class="control-label"> Type </label>
+                                @Html.EnumDropDownListFor(model => model.Type, Model.Type, "--- Select a type ---", new { @class = "form-control", @id = "type" })
+                                <div class="text-danger">
+                                    @Html.ValidationMessageFor(model => model.Type)
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label for="desc" class="control-label"> Description </label>
+                                @Html.TextAreaFor(model => Model.Description, new { @class = "form-control", @id = "desc" })
+                                <div class="text-danger">
+                                    @Html.ValidationMessageFor(model => model.Description)
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <br />
+                                <label for="file" class="control-label"> Upload memo </label>
+                                <div>
+                                    <input type="file" name="file" id="file" style="width: 100%;" />
+                                </div>
+                                <div class="text-danger">
+                                    @Html.ValidationMessage("empty")
+                                </div>
+                            </div>
+
+                            <div>
+                                <br />
+                                <input class="btn btn-primary btn-raised pull-right" type="submit" value="Save" />
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div id='help' class='modal fade in'>
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div id='myModalContent'>
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title"><strong>Help</strong></h4>
+                                </div>
+                                <div class="modal-body">
+                                    <h4><strong> Memo Types </strong></h4>
+                                    <ul>
+                                        <li><h5><strong> Request:</strong> Memos that make a specific request.</h5></li>
+                                        <li><h5><strong> Confirmation:</strong> Memos that confirm a decision/agreement or approve a previously made request.</h5></li>
+                                        <li><h5><strong> Periodic Report:</strong> Memos that give reports of operations at regular intervals.</h5></li>
+                                        <li><h5><strong> Ideas and Suggestions:</strong> Memos that convey ideas/suggestions.</h5></li>
+                                        <li><h5><strong> Informal Study Results:</strong> Memos that present results of an informal study.</h5></li>
+                                    </ul>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-primary pull-right" data-dismiss="modal"> Got it! </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $("form").removeData("validator");
+        $("form").removeData("unobtrusiveValidation");
+        $.validator.unobtrusive.parse("form");
+    </script>
+
+    <script>
+        $(function () {
+            $('input[type=datetime]').datepicker({
+                dateFormat: "dd/M/yy",
+                changeMonth: true,
+                changeYear: true
+            });
+        });
+    </script>
+}

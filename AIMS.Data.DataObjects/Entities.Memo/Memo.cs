@@ -26,7 +26,6 @@ namespace AIMS.Data.DataObjects.Entities.Memo
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MMM/yyyy}")]
         public DateTime Date { get; set; }
 
-        [Required(ErrorMessage = "Upload a memo!")]
         public string FileUpload { get; set; }
 
         public long SessionID { get; set; }
