@@ -4516,6 +4516,7 @@
     <Content Include="Views\Shared\_MemoLayout.cshtml" />
     <Content Include="Views\Memo\Index.cshtml" />
     <Content Include="Views\Memo\Create.cshtml" />
+    <Content Include="Views\Memo\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
