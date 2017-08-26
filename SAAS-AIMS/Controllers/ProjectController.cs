@@ -1,6 +1,6 @@
-﻿using AIMS.Data.DataContext.DataContext.MemoDataContext;
+﻿using AIMS.Data.DataContext.DataContext.ProjectDataContext;
 using AIMS.Data.DataContext.DataContext.SessionDataContext;
-using AIMS.Data.DataObjects.Entities.Memo;
+using AIMS.Data.DataObjects.Entities.Project;
 using AIMS.Data.Enums.Enums.NotificationType;
 using AIMS.Data.Enums.Enums.UploadType;
 using AIMS.Services.FIleUploader;
@@ -14,31 +14,31 @@ using System.Web.Mvc;
 
 namespace SAAS_AIMS.Controllers
 {
-    public class MemoController : BaseController
+    public class ProjectController : BaseController
     {
-        private readonly MemoDataContext _memoDataContext;
+        private readonly ProjectDataContext _projectDataContext;
         private readonly SessionDataContext _sessionDataContext;
 
         #region constructor
-        public MemoController()
+        public ProjectController()
         {
-            _memoDataContext = new MemoDataContext();
+            _projectDataContext = new ProjectDataContext();
             _sessionDataContext = new SessionDataContext();
         }
         #endregion
 
-        #region Academic session's memo index
+        #region academic session's projects index
         //
-        // GET: /Memo/
+        // GET: /Project/
         [HttpGet]
         [Authorize]
         public ActionResult Index(long sessionid)
         {
             Session["sessionid"] = sessionid;
-            var memo = _memoDataContext.Memos.Where(s => s.SessionID == sessionid).ToList() ;
+            var project = _projectDataContext.Projects.Where(s => s.SessionID == sessionid).ToList();
             var sess = _sessionDataContext.Sessions.Find(sessionid);
             TempData["sess"] = sess.Title;
-            return View("Index", memo.OrderBy(s => s.Date));
+            return View(project.OrderBy(s => s.Title));
         }
         #endregion
 
@@ -51,38 +51,33 @@ namespace SAAS_AIMS.Controllers
         }
         #endregion
 
-        #region create memo entry
+        #region create project entry
         //
-        // GET: /Memo/Create
+        // GET: /Project/Create
         [HttpGet]
         [Authorize]
         public ActionResult Create(long sessionid)
         {
             Session["sessionid"] = sessionid;
-            var memo = new Memo();
-            return View("Create", memo);
+            var project = new Project();
+            return View("Create", project);
         }
 
         //
-        // POST: /Memo/Create
+        // POST: /Project/Create
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Memo memo, HttpPostedFileBase file)  
+        public ActionResult Create(Project project, HttpPostedFileBase file)
         {
-            if (file == null || file.FileName == "")
+            if (ModelState.IsValid)
             {
-                ModelState.AddModelError("empty", "Select a file for upload!");
-            }
-            if(ModelState.IsValid)
-            {
-                var memoVar = new Memo
+                var projectVar = new Project
                 {
-                    Type = memo.Type,
-                    Description = memo.Description,
-                    Date = memo.Date,
+                    Title = project.Title,
+                    Description = project.Description,
                     FileUpload = file != null && file.FileName != ""
-                            ? new FileUploader().UploadFile(file, UploadType.Memos)
+                            ? new FileUploader().UploadFile(file, UploadType.Projects)
                             : null,
                     SessionID = Convert.ToInt64(Session["sessionid"]),
                     DateCreated = DateTime.Now,
@@ -91,70 +86,69 @@ namespace SAAS_AIMS.Controllers
                     LastModifiedBy = Convert.ToInt64(Session["UserID"])
                 };
 
-                _memoDataContext.Memos.Add(memoVar);
-                _memoDataContext.SaveChanges();
-                TempData["Success"] = "Memo entry successfully created for " + GetSessionName();
+                _projectDataContext.Projects.Add(projectVar);
+                _projectDataContext.SaveChanges();
+                TempData["Success"] = "Project entry successfully created for " + GetSessionName();
                 TempData["NotificationType"] = NotificationType.Create.ToString();
                 return RedirectToAction("Index", new { sessionid = Convert.ToInt64(Session["sessionid"]) });
             }
-            return View("Create", memo);
+            return View("Create", project);
         }
         #endregion
 
-        #region edit memo entry
+        #region edit project entry
         //
-        // GET: /Memo/Edit/id
+        // GET: /Project/Edit/id
         [HttpGet]
         [Authorize]
         public async Task<ActionResult> Edit(long id)
         {
-            var memo = await _memoDataContext.Memos.FindAsync(id);
-            if (memo == null)
+            var project = await _projectDataContext.Projects.FindAsync(id);
+            if (project == null)
             {
                 return HttpNotFound();
             }
-            return View("Edit", memo);
+            return View("Edit", project);
         }
 
         //
-        // POST: /Memo/Edit/id
+        // POST: /Project/Edit/id
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Memo memo, HttpPostedFileBase file)
+        public ActionResult Edit(Project project, HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
             {
-                memo.DateLastModified = DateTime.Now;
-                memo.LastModifiedBy = Convert.ToInt64(Session["sessionid"]);
+                project.DateLastModified = DateTime.Now;
+                project.LastModifiedBy = Convert.ToInt64(Session["sessionid"]);
 
                 if (file != null && file.FileName != "")
                 {
-                    memo.FileUpload = new FileUploader().UploadFile(file, UploadType.Memos);
+                    project.FileUpload = new FileUploader().UploadFile(file, UploadType.Projects);
                 }
 
-                _memoDataContext.Entry(memo).State = EntityState.Modified;
-                _memoDataContext.SaveChanges();
+                _projectDataContext.Entry(project).State = EntityState.Modified;
+                _projectDataContext.SaveChanges();
 
-                TempData["Success"] = "Memo entry successfully modified for " + GetSessionName();
+                TempData["Success"] = "Project entry successfully modified for " + GetSessionName();
                 TempData["NotificationType"] = NotificationType.Edit.ToString();
                 return RedirectToAction("Index", new { sessionid = Convert.ToInt64(Session["sessionid"]) });
             }
-            return View("Edit", memo);
+            return View("Edit", project);
         }
         #endregion
 
-        #region delete memo
+        #region delete project entry
+        //
+        // DELETE: /Project/Delete/id
+        [Authorize]
         public async Task<ActionResult> Delete(long id)
         {
-            var memo = await _memoDataContext.Memos.FindAsync(id);
-            if (memo == null)
-            {
-                return HttpNotFound();
-            }
-            _memoDataContext.Memos.Remove(memo);
-            await _memoDataContext.SaveChangesAsync();
-            TempData["Success"] = "Meeting entry successfully deleted for " + GetSessionName();
+            var project = await _projectDataContext.Projects.FindAsync(id);
+            _projectDataContext.Projects.Remove(project);
+            await _projectDataContext.SaveChangesAsync();
+            TempData["Success"] = "Project entry successfully deleted for " + GetSessionName();
             TempData["NotificationType"] = NotificationType.Delete.ToString();
             return RedirectToAction("Index", new { sessionid = Convert.ToInt64(Session["sessionid"]) });
         }

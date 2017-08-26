@@ -11,6 +11,7 @@ namespace AIMS.Data.Enums.Enums.UploadType
         Minutes,
         Finances,
         MemberData,
-        Memos
+        Memos,
+        Projects
     }
 }
