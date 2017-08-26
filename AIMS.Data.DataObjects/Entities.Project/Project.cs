@@ -21,7 +21,6 @@ namespace AIMS.Data.DataObjects.Entities.Project
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
-        [Required]
         public string FileUpload { get; set; }
 
         [Required]
