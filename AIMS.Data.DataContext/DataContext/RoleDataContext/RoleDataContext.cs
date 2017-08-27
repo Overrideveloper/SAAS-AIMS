@@ -17,9 +17,5 @@ namespace AIMS.Data.DataContext.DataContext.RoleDataContext
         }
         public virtual DbSet<Role> Roles { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-        }
     }
 }

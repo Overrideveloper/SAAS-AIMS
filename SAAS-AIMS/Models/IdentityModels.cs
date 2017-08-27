@@ -4,6 +4,7 @@ using SAAS_AIMS.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace SAAS_AIMS.Models
 {
