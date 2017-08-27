@@ -7,6 +7,7 @@ using AIMS.Services.FIleUploader;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -74,6 +75,19 @@ namespace SAAS_AIMS.Controllers
             {
                 ModelState.AddModelError("empty", "Select a file for upload!");
             }
+
+            var info = new FileInfo(file.FileName);
+
+            if (file.FileName != "" || file != null)
+            {
+                if ((info.Extension.ToLower() != ".jpg") || (info.Extension.ToLower() != ".jpeg") || (info.Extension.ToLower() != ".gif")
+                || (info.Extension.ToLower() != ".png") || (info.Extension.ToLower() != ".pdf") || (info.Extension.ToLower() != ".docx")
+                || (info.Extension.ToLower() != ".txt") || (info.Extension.ToLower() != ".doc") || (info.Extension.ToLower() != ".rtf"))
+                {
+                    ModelState.AddModelError("incompatible", "File format not supported");
+                }
+            }
+
             if(ModelState.IsValid)
             {
                 var memoVar = new Memo
@@ -123,6 +137,18 @@ namespace SAAS_AIMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Memo memo, HttpPostedFileBase file)
         {
+            var info = new FileInfo(file.FileName);
+
+            if (file.FileName != "" || file != null)
+            {
+                if ((info.Extension.ToLower() != ".jpg") || (info.Extension.ToLower() != ".jpeg") || (info.Extension.ToLower() != ".gif")
+                || (info.Extension.ToLower() != ".png") || (info.Extension.ToLower() != ".pdf") || (info.Extension.ToLower() != ".docx")
+                || (info.Extension.ToLower() != ".txt") || (info.Extension.ToLower() != ".doc") || (info.Extension.ToLower() != ".rtf"))
+                {
+                    ModelState.AddModelError("incompatible", "File format not supported");
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 memo.DateLastModified = DateTime.Now;

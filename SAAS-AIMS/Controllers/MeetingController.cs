@@ -72,6 +72,18 @@ namespace SAAS_AIMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Meeting meeting, HttpPostedFileBase file)
         {
+            var info = new FileInfo(file.FileName);
+
+            if (file.FileName != "" || file != null)
+            {
+                if ((info.Extension.ToLower() != ".jpg") || (info.Extension.ToLower() != ".jpeg") || (info.Extension.ToLower() != ".gif")
+                || (info.Extension.ToLower() != ".png") || (info.Extension.ToLower() != ".pdf") || (info.Extension.ToLower() != ".docx")
+                || (info.Extension.ToLower() != ".txt") || (info.Extension.ToLower() != ".doc") || (info.Extension.ToLower() != ".rtf"))
+                {
+                    ModelState.AddModelError("incompatible", "File format not supported");
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 var meetingVar = new Meeting
@@ -121,9 +133,20 @@ namespace SAAS_AIMS.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Meeting meeting)
+        public ActionResult Edit(Meeting meeting, HttpPostedFileBase file)
         {
-            var file = Request.Files["file"];
+            var info = new FileInfo(file.FileName);
+
+            if (file.FileName != "" || file != null)
+            {
+                if ((info.Extension.ToLower() != ".jpg") || (info.Extension.ToLower() != ".jpeg") || (info.Extension.ToLower() != ".gif")
+                || (info.Extension.ToLower() != ".png") || (info.Extension.ToLower() != ".pdf") || (info.Extension.ToLower() != ".docx")
+                || (info.Extension.ToLower() != ".txt") || (info.Extension.ToLower() != ".doc") || (info.Extension.ToLower() != ".rtf"))
+                {
+                    ModelState.AddModelError("incompatible", "File format not supported");
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 meeting.DateLastModified = DateTime.Now;

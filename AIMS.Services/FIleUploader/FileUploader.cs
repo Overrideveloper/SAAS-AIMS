@@ -19,7 +19,7 @@ namespace AIMS.Services.FIleUploader
             {
                 var fileInfo = new FileInfo(fileUpload.FileName);
                 if ((fileInfo.Extension.ToLower() == ".jpg") || (fileInfo.Extension.ToLower() == ".jpeg") || (fileInfo.Extension.ToLower() == ".gif") 
-                    || (fileInfo.Extension.ToLower() == ".png") || (fileInfo.Extension.ToLower() == ".pdf") || (fileInfo.Extension.ToLower() == ".docx") 
+                    || (fileInfo.Extension.ToLower() == ".png") || (fileInfo.Extension.ToLower() == ".pdf") || (fileInfo.Extension.ToLower() == ".docx")
                     || (fileInfo.Extension.ToLower() == ".txt") || (fileInfo.Extension.ToLower() == ".doc") || (fileInfo.Extension.ToLower() == ".rtf"))
                 {
                     try

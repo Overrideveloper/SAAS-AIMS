@@ -139,7 +139,7 @@ namespace SAAS_AIMS.Controllers
             }
             catch (Exception ex)
             {
-                feedback = "Failed to upload members data: " + ex.Message + ". Contact System Administrator!";
+                feedback = "Failed to upload members data. Contact System Administrator!";
             }
             
             return feedback;
@@ -268,18 +268,18 @@ namespace SAAS_AIMS.Controllers
                         TempData["Type"] = "Success";
                         TempData["Response"] = CopyToDB(dt);
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         TempData["NotificationType"] = NotificationType.Upload.ToString();
                         TempData["Type"] = "Error";
-                        TempData["Response"] = "Error uploading member details: " + ex.Message + ". Contact System Administrator!";
+                        TempData["Response"] = "Error uploading member details. Contact System Administrator!";
                     }
                 }
                 else
                 {
                     TempData["NotificationType"] = NotificationType.Upload.ToString();
                     TempData["Variant"] = "Error";
-                    TempData["Error"] = "Error! Only .CSV and .XLSX files are can be uploaded!";
+                    TempData["Error"] = "Error! Only .CSV and .XLSX files can be uploaded!";
                 }
             }
             else
