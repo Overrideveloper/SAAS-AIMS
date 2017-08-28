@@ -82,7 +82,7 @@ namespace SAAS_AIMS.Controllers
 
                 foreach(var superuser in superusers)
                 {
-                    message.Bcc.Add(new MailAddress("dawn.idoko@gmail.com"));
+                    message.Bcc.Add(new MailAddress(superuser.Email));
                 }
                               
                 var emailBody = "<strong><h1> Association Information Management System</h1> by Override</strong><br/><br/><br/>";
