@@ -170,6 +170,7 @@ namespace SAAS_AIMS.Controllers
         #region delete meeting
         //
         // DELETE: /Event/Delete/id
+        [Authorize]
         public async Task<ActionResult> Delete(long id)
         {
             var meeting = await _meetingdatacontext.Meetings.FindAsync(id);
