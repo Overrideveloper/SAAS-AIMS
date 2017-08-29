@@ -189,6 +189,7 @@
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IncomeCategoryController.cs" />
+    <Compile Include="Controllers\IncomeItemController.cs" />
     <Compile Include="Controllers\MeetingController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Controllers\MemoController.cs" />
@@ -4551,8 +4552,12 @@
     <Content Include="Views\Project\Edit.cshtml" />
     <Content Include="Views\Shared\_IncomeCategoryLayout.cshtml" />
     <Content Include="Views\IncomeCategory\Index.cshtml" />
+    <Content Include="Views\IncomeItem\Create.cshtml" />
+    <Content Include="Views\IncomeItem\Edit.cshtml" />
+    <Content Include="Views\Shared\_IncomeItemLayout.cshtml" />
     <Content Include="Views\IncomeCategory\Create.cshtml" />
     <Content Include="Views\IncomeCategory\Edit.cshtml" />
+    <Content Include="Views\IncomeItem\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

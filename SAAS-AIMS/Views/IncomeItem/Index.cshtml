@@ -1,8 +1,8 @@
-﻿@model IEnumerable<AIMS.Data.DataObjects.Entities.Income.IncomeCategory>
+﻿@model IEnumerable<AIMS.Data.DataObjects.Entities.Income.IncomeItem>
 @using AIMS.Data.Enums.Enums.NotificationType
 @{
-    ViewBag.Title = TempData["SessTitle"] + " Income Categories";
-    Layout = "~/Views/Shared/_IncomeCategoryLayout.cshtml";
+    ViewBag.Title = TempData["category"] + " Items";
+    Layout = "~/Views/Shared/_IncomeItemLayout.cshtml";
 }
 
 
@@ -10,7 +10,7 @@
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3>@TempData["SessTitle"] Income Categories </h3>
+                <h3>@TempData["category"] Items </h3>
             </div>
         </div>
 
@@ -55,27 +55,28 @@
                         }
 
                         <div class="pull-right">
-                            <a class="btn btn-info btn-sm" data-modal="" href="@Url.Action("Create", "IncomeCategory")"><i class="fa fa-plus"></i> Add Income Category</a><br />
+                            <a class="btn btn-info btn-sm" data-modal="" href="@Url.Action("Create", "IncomeItem")"><i class="fa fa-plus"></i> Add Income Item</a><br />
                         </div>
 
                         <table id="datatable-buttons" class="grid table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th>Title</th>
+                                    <th>Amount</th>
                                     <th></th>
                                 </tr>
                             </thead>
 
 
                             <tbody>
-                                @foreach (var category in Model)
+                                @foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td>@category.Title</td>
+                                        <td>@item.Title</td>
+                                        <td>N @item.Amount</td>
                                         <td>
-                                            <a class="btn btn-xs btn-default" data-modal="" href="@Url.Action("Edit", "IncomeCategory", new { id = category.ID })"><i class="fa fa-pencil"></i> Edit</a>
-                                            <a class="btn btn-xs btn-danger delete" href="@Url.Action("Delete", "IncomeCategory", new { id = category.ID})"><i class="fa fa-remove"></i> Delete</a>
-                                            <a class="btn btn-xs btn-info" href="@Url.Action("index", "IncomeItem", new { categoryid = category.ID})"><i class="fa fa-files-o"></i> View Income Items</a>
+                                            <a class="btn btn-xs btn-default" data-modal="" href="@Url.Action("Edit", "IncomeItem", new { id = item.ID })"><i class="fa fa-pencil"></i> Edit</a>
+                                            <a class="btn btn-xs btn-danger delete" href="@Url.Action("Delete", "IncomeItem", new { id = item.ID})"><i class="fa fa-remove"></i> Delete</a>
                                         </td>
                                     </tr>
                                 }
