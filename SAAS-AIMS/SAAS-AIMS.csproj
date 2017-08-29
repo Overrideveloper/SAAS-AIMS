@@ -4549,11 +4549,14 @@
     <Content Include="Views\Project\Index.cshtml" />
     <Content Include="Views\Project\Create.cshtml" />
     <Content Include="Views\Project\Edit.cshtml" />
+    <Content Include="Views\Shared\_IncomeCategoryLayout.cshtml" />
+    <Content Include="Views\IncomeCategory\Index.cshtml" />
+    <Content Include="Views\IncomeCategory\Create.cshtml" />
+    <Content Include="Views\IncomeCategory\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="UploadedFiles\" />
-    <Folder Include="Views\IncomeCategory\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

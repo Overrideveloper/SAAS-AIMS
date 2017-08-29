@@ -1,0 +1,104 @@
+﻿@model IEnumerable<AIMS.Data.DataObjects.Entities.Income.IncomeCategory>
+@using AIMS.Data.Enums.Enums.NotificationType
+@{
+    ViewBag.Title = TempData["SessTitle"] + " Income Categories";
+    Layout = "~/Views/Shared/_IncomeCategoryLayout.cshtml";
+}
+
+
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>@TempData["SessTitle"] Income Categories </h3>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_content table-responsive">
+
+                        @if (TempData["Success"] != null)
+                        {
+                            if (TempData["NotificationType"] == NotificationType.Create.ToString())
+                            {
+                                <div class="alert alert-success alert-dismissible fadeIn fadeOut out fade in" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    @TempData["Success"]
+                                </div>
+                            }
+                            if (TempData["NotificationType"] == NotificationType.Edit.ToString())
+                            {
+                                <div class="alert alert-info alert-dismissible fadeIn fadeOut out fade in" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    @TempData["Success"]
+                                </div>
+                            }
+                            if (TempData["NotificationType"] == NotificationType.Delete.ToString())
+                            {
+                                <div class="alert alert-warning alert-dismissible fadeIn fadeOut out fade in" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    @TempData["Success"]
+                                </div>
+                            }
+                        }
+
+                        <div class="pull-right">
+                            <a class="btn btn-info btn-sm" data-modal="" href="@Url.Action("Create", "IncomeCategory")"><i class="fa fa-plus"></i> Add Income Category</a><br />
+                        </div>
+
+                        <table id="datatable-buttons" class="grid table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+
+                            <tbody>
+                                @foreach (var category in Model)
+                                {
+                                    <tr>
+                                        <td>@category.Title</td>
+                                        <td>
+                                            <a class="btn btn-xs btn-default" data-modal="" href="@Url.Action("Edit", "IncomeCategory", new { id = category.ID })"><i class="fa fa-pencil"></i> Edit</a>
+                                            <a class="btn btn-xs btn-danger delete" href="@Url.Action("Delete", "IncomeCategory", new { id = category.ID})"><i class="fa fa-remove"></i> Delete</a>
+                                            <a class="btn btn-xs btn-info" href="@Url.Action("index", "IncomeItem", new { id = category.ID})"><i class="fa fa-files-o"></i> View Income Items</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                        <!-- modal placeholder-->
+                        <div id='myModal' class='modal fade in'>
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div id='myModalContent'></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="~/Scripts/delete.js"></script>
+    <script type="text/javascript" src="~/Scripts/modal.js"></script>
+}
