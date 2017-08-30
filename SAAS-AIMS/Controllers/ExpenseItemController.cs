@@ -1,7 +1,5 @@
 ﻿using AIMS.Data.DataContext.DataContext.ExpenseDataContext;
-using AIMS.Data.DataContext.DataContext.IncomeDataContext;
 using AIMS.Data.DataObjects.Entities.Expense;
-using AIMS.Data.DataObjects.Entities.Income;
 using AIMS.Data.Enums.Enums.NotificationType;
 using System;
 using System.Collections.Generic;
@@ -138,7 +136,7 @@ namespace SAAS_AIMS.Controllers
             await _expenseDataContext.SaveChangesAsync();
             TempData["Success"] = "Expense category successfully deleted for " + GetCategoryName();
             TempData["NotificationType"] = NotificationType.Delete.ToString();
-            return RedirectToAction("Index", new { categoryid = Convert.ToInt64(Session["expenseid"]) });
+            return RedirectToAction("Index", new { expenseid = Convert.ToInt64(Session["expenseid"]) });
         }
         #endregion
 	}

@@ -4562,6 +4562,12 @@
     <Content Include="Views\IncomeItem\Index.cshtml" />
     <Content Include="Views\Shared\_ExpenseItemLayout.cshtml" />
     <Content Include="Views\Shared\_ExpenseCategoryLayout.cshtml" />
+    <Content Include="Views\ExpenseItem\Create.cshtml" />
+    <Content Include="Views\ExpenseItem\Edit.cshtml" />
+    <Content Include="Views\ExpenseItem\Index.cshtml" />
+    <Content Include="Views\ExpenseCategory\Create.cshtml" />
+    <Content Include="Views\ExpenseCategory\Edit.cshtml" />
+    <Content Include="Views\ExpenseCategory\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

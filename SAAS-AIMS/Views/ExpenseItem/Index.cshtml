@@ -1,0 +1,105 @@
+﻿@model IEnumerable<AIMS.Data.DataObjects.Entities.Expense.ExpenseItem>
+@using AIMS.Data.Enums.Enums.NotificationType
+@{
+    ViewBag.Title = TempData["category"] + " Items";
+    Layout = "~/Views/Shared/_ExpenseItemLayout.cshtml";
+}
+
+
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>@TempData["category"] Items </h3>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_content table-responsive">
+
+                        @if (TempData["Success"] != null)
+                        {
+                            if (TempData["NotificationType"] == NotificationType.Create.ToString())
+                            {
+                                <div class="alert alert-success alert-dismissible fadeIn fadeOut out fade in" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    @TempData["Success"]
+                                </div>
+                            }
+                            if (TempData["NotificationType"] == NotificationType.Edit.ToString())
+                            {
+                                <div class="alert alert-info alert-dismissible fadeIn fadeOut out fade in" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    @TempData["Success"]
+                                </div>
+                            }
+                            if (TempData["NotificationType"] == NotificationType.Delete.ToString())
+                            {
+                                <div class="alert alert-warning alert-dismissible fadeIn fadeOut out fade in" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    @TempData["Success"]
+                                </div>
+                            }
+                        }
+
+                        <div class="pull-right">
+                            <a class="btn btn-info btn-sm" data-modal="" href="@Url.Action("Create", "ExpenseItem")"><i class="fa fa-plus"></i> Add Expense Item</a><br />
+                        </div>
+
+                        <table id="datatable-buttons" class="grid table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Amount</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.Title</td>
+                                        <td>N @item.Amount</td>
+                                        <td>
+                                            <a class="btn btn-xs btn-default" data-modal="" href="@Url.Action("Edit", "ExpenseItem", new { id = item.ID })"><i class="fa fa-pencil"></i> Edit</a>
+                                            <a class="btn btn-xs btn-danger delete" href="@Url.Action("Delete", "ExpenseItem", new { id = item.ID })"><i class="fa fa-remove"></i> Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                        <!-- modal placeholder-->
+                        <div id='myModal' class='modal fade in'>
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div id='myModalContent'></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="~/Scripts/delete.js"></script>
+    <script type="text/javascript" src="~/Scripts/modal.js"></script>
+}
