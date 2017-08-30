@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace SAAS_AIMS.Controllers
 {
-    public class IncomeCategoryController : Controller
+    public class IncomeCategoryController : BaseController
     {
         private readonly IncomeDataContext _incomeDataContext;
         private readonly SessionDataContext _sessionDataContext;

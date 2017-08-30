@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace SAAS_AIMS.Controllers
 {
-    public class IncomeItemController : Controller
+    public class IncomeItemController : BaseController
     {
         private readonly IncomeDataContext _incomeDataContext;
         string category = string.Empty;
