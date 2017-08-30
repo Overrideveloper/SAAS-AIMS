@@ -188,7 +188,9 @@
     <Compile Include="Controllers\DuesController.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ExpenseCategoryController.cs" />
     <Compile Include="Controllers\IncomeCategoryController.cs" />
+    <Compile Include="Controllers\ExpenseItemController.cs" />
     <Compile Include="Controllers\IncomeItemController.cs" />
     <Compile Include="Controllers\MeetingController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
