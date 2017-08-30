@@ -57,28 +57,10 @@
                         <div class="menu_section">
                             <ul class="nav side-menu">
                                 <li>
-                                    <a href="@Url.Action("Index", "Session")"><i class="fa fa-arrow-left"></i> Return to Sessions List </a>
+                                    <a class="active" href="@Url.Action("Index", "ExpenseCategory", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-arrow-left"></i> Return to Expense Categories </a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index", "Event", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-calendar-check-o"></i> Events </a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("", "")"><i class="fa fa-users"></i> Executives </a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Index", "ExpenseCategory", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-shopping-cart"></i> Expenses </a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Index", "IncomeCategory", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-briefcase"></i> Income </a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Index", "Meeting", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-gavel"></i> Meetings </a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Index", "Memo", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-list-alt"></i> Memos </a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Index", "Project", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-connectdevelop"></i> Projects </a>
+                                    <a class="active" href="@Url.Action("Index", "ExpenseItem", new { expenseid = Convert.ToInt64(Session["expenseid"]) })"><i class="fa fa-files-o"></i> Expense Items </a>
                                 </li>
                             </ul>
                         </div>
@@ -147,7 +129,6 @@
     <script src="~/template/vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
     <script src="~/template/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="~/template/vendors/bootstrap-progressbar/bootstrap-progressbar.js"></script>
     <!-- JQuery UI-->
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <!-- FastClick -->

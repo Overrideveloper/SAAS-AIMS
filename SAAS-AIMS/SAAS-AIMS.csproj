@@ -4558,6 +4558,8 @@
     <Content Include="Views\IncomeCategory\Create.cshtml" />
     <Content Include="Views\IncomeCategory\Edit.cshtml" />
     <Content Include="Views\IncomeItem\Index.cshtml" />
+    <Content Include="Views\Shared\_ExpenseItemLayout.cshtml" />
+    <Content Include="Views\Shared\_ExpenseCategoryLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
