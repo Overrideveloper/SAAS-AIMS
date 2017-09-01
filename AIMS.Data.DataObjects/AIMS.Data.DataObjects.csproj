@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Entities.Dues\Dues.cs" />
     <Compile Include="Entities.Event\Event.cs" />
+    <Compile Include="Entities.Exco\Exco.cs" />
     <Compile Include="Entities.Expense\ExpenseCategory.cs" />
     <Compile Include="Entities.Expense\ExpenseItem.cs" />
     <Compile Include="Entities.Income\IncomeCategory.cs" />

@@ -31,5 +31,10 @@ namespace AIMS.Data.DataObjects.Entities.Session
         public virtual ICollection<Meeting.Meeting> Meeting { get; set; }
         public virtual ICollection<Event.Event> Event { get; set; }
         public virtual ICollection<Memo.Memo> Memo { get; set; }
+        public virtual ICollection<Income.IncomeCategory> IncomeCategory { get; set; }
+        public virtual ICollection<Income.IncomeItem> IncomeItem { get; set; }
+        public virtual ICollection<Expense.ExpenseCategory> ExpenseCategory { get; set; }
+        public virtual ICollection<Expense.ExpenseItem> ExpenseItem { get; set; }
+        public virtual ICollection<Exco.Exco> Exco { get; set; }
     }
 }
