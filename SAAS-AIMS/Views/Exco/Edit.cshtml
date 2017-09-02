@@ -1,0 +1,110 @@
+﻿@model AIMS.Data.DataObjects.Entities.Exco.Exco
+@using AIMS.Services.EnumDropDownList
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3 class="modal-title">Edit Exco - @Model.LastName @Model.FirstName </h3>
+</div>
+
+
+@using (Html.BeginForm("Edit", "Exco", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="modal-body">
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label for="matric" class="control-label col-sm-3"> Matric. No. </label>
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(model => Model.MatricNo, new { @class = "form-control required", @id = "matric" })
+                    <span id="process" class="text-center" style="display:none">
+                        <span><i class="fa fa-spinner fa-spin"></i> Processing matric. number </span>
+                    </span>
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(model => model.MatricNo)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="lname" class="control-label col-sm-3"> Last Name </label>
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(model => Model.LastName, new { @class = "form-control required", @id = "lname", @readonly = "readonly" })
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(model => model.LastName)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="fname" class="control-label col-sm-3"> First Name </label>
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(model => Model.FirstName, new { @class = "form-control required", @id = "fname", @readonly = "readonly", value = "" })
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(model => model.FirstName)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="post" class="control-label col-sm-3"> Post </label>
+                <div class="col-sm-9">
+                    @Html.EnumDropDownListFor(model => model.Post, Model.Post, "--- Select a post ---", new { @class = "form-control", @id = "post" })
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(model => model.Post)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <span id="progress" class="text-center" style="display:none">
+            <strong>Processing..</strong>
+        </span>
+
+        <input class="btn btn-primary btn-raised" type="submit" value="Save" />
+        <button class="btn btn-danger" data-dismiss="modal"> Close </button>
+    </div>
+}
+
+<script>
+    $("form").removeData("validator");
+    $("form").removeData("unobtrusiveValidation");
+    $.validator.unobtrusive.parse("form");
+</script>
+<script>
+    $(document).ready(function () {
+        if ($('#matric').val() != '') {
+            getMemberDetail();
+        }
+
+        $('#matric').on('input', function () {
+            getMemberDetail();
+        });
+
+        function getMemberDetail() {
+            $('#process').show();
+            $('#lname').val(" ");
+            $('#fname').val(" ");
+            $.ajax({
+                type: 'GET',
+                url: '/Exco/ExcoDetails',
+                dataType: 'json',
+                data: { matric: $('#matric').val() },
+                success: function (exco) {
+                    console.log(exco);
+                    $('#process').hide();
+                    $('#lname').val(exco.Surname).text();
+                    $('#fname').val(exco.FirstName).text();
+                },
+                error: function (exco) {
+                    $('#process').hide();
+                    $('#lname').val(" ");
+                    $('#fname').val(" ");
+                }
+            });
+        }
+    });
+</script>

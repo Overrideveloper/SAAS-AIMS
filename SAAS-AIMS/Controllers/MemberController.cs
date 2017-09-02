@@ -137,7 +137,7 @@ namespace SAAS_AIMS.Controllers
 
                 feedback = "Succesfully uploaded members' data!";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 feedback = "Failed to upload members data. Contact System Administrator!";
             }

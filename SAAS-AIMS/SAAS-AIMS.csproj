@@ -191,6 +191,7 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DuesController.cs" />
     <Compile Include="Controllers\EventController.cs" />
+    <Compile Include="Controllers\ExcoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ExpenseCategoryController.cs" />
     <Compile Include="Controllers\IncomeCategoryController.cs" />
@@ -4573,6 +4574,10 @@
     <Content Include="Views\ExpenseCategory\Create.cshtml" />
     <Content Include="Views\ExpenseCategory\Edit.cshtml" />
     <Content Include="Views\ExpenseCategory\Index.cshtml" />
+    <Content Include="Views\Shared\_ExcoLayout.cshtml" />
+    <Content Include="Views\Exco\Index.cshtml" />
+    <Content Include="Views\Exco\Create.cshtml" />
+    <Content Include="Views\Exco\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

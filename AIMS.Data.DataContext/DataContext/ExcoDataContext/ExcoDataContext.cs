@@ -22,5 +22,7 @@ namespace AIMS.Data.DataContext.DataContext.ExcoDataContext
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
+
+        public System.Data.Entity.DbSet<AIMS.Data.DataObjects.Entities.Session.Session> Sessions { get; set; }
     }
 }

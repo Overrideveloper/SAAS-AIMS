@@ -44,6 +44,6 @@ namespace AIMS.Data.DataObjects.Entities.Member
         [Required(ErrorMessage = "Level of Admission is required")]
         public Level LevelOfAdmission { get; set; }
 
-        public virtual ICollection<Dues.Dues> Dues { get; set; }
+        public IEnumerable<Dues.Dues> Dues { get; set; }
     }
 }
