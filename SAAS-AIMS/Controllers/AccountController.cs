@@ -12,6 +12,7 @@ using SAAS_AIMS.Models;
 using AIMS.Data.DataObjects.Entities.Role;
 using AIMS.Data.DataContext.DataContext.RoleDataContext;
 using System.Data.Entity;
+using AIMS.Data.Enums.Enums.NotificationType;
 
 namespace SAAS_AIMS.Controllers
 {
@@ -62,8 +63,20 @@ namespace SAAS_AIMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                _roledatacontext.Roles.Add(role);
-                _roledatacontext.SaveChanges();
+                if (role.Title == "Superuser")
+                {
+                    ModelState.AddModelError("Impossible", "The role 'Superuser' already exists!");
+                    TempData["Impossible"] = "The role 'Superuser' already exists!";
+                    TempData["NotificationType"] = NotificationType.Create.ToString();
+                    return RedirectToAction("RoleIndex");
+                }
+                else
+                {
+                    _roledatacontext.Roles.Add(role);
+                    _roledatacontext.SaveChanges();
+                    TempData["Success"] = "Role successfully created! ";
+                    TempData["NotificationType"] = NotificationType.Create.ToString();
+                }
                 return RedirectToAction("RoleIndex");
             }
             return View("CreateRole", role);
@@ -78,6 +91,12 @@ namespace SAAS_AIMS.Controllers
             {
                 return HttpNotFound();
             }
+            if (role.Title == "Superuser")
+            {
+                TempData["Impossible"] = "The role 'Superuser' cannot be modified!";
+                TempData["NotificationType"] = NotificationType.Edit.ToString();
+                return RedirectToAction("RoleIndex");
+            }
             return View("EditRole", role);
         }
 
@@ -90,16 +109,42 @@ namespace SAAS_AIMS.Controllers
             {
                 _roledatacontext.Entry(role).State = EntityState.Modified;
                 _roledatacontext.SaveChanges();
+                TempData["Success"] = "Role successfully modified! ";
+                TempData["NotificationType"] = NotificationType.Edit.ToString();
                 return RedirectToAction("RoleIndex");
             }
             return View("EditRole", role);
         }
 
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult> Permissions(long id)
+        {
+            var role = await _roledatacontext.Roles.FindAsync(id);
+            if (role == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView("Permissions", role);
+        }
+
         [Authorize]
         public async Task<ActionResult> DeleteRole(long id)
         {
-            await _roledatacontext.Roles.FindAsync(id);
-            await _roledatacontext.SaveChangesAsync();
+            var role = await _roledatacontext.Roles.FindAsync(id);
+            if (role.Title == "Superuser")
+            {
+                TempData["Impossible"] = "The role 'Superuser' cannot be deleted! ";
+                TempData["NotificationType"] = NotificationType.Delete.ToString();
+                return RedirectToAction("RoleIndex");
+            }
+            else
+            {
+                _roledatacontext.Roles.Remove(role);
+                await _roledatacontext.SaveChangesAsync();
+                TempData["Success"] = "Role successfully deleted!";
+                TempData["NotificationType"] = NotificationType.Delete.ToString();
+            }
             return RedirectToAction("RoleIndex");
         }
 
@@ -222,7 +267,11 @@ namespace SAAS_AIMS.Controllers
                     CanManageIncome = true,
                     CanManageExpenses = true,
                     CanManageExecutives = true,
-                    CanManageEvents = true
+                    CanManageEvents = true,
+                    CanManageBudget = true,
+                    CanManageMemos = true,
+                    CanManageProjects = true,
+                    CanManageUsers = true
                 };
 
                 _roledatacontext.Roles.Add(rolevar);

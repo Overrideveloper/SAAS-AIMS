@@ -28,5 +28,14 @@ namespace AIMS.Data.DataObjects.Entities.Role
         public bool CanManageIncome { get; set; }
 
         public bool CanManageMeetings { get; set; }
+
+        public bool CanManageMemos { get; set; }
+
+        public bool CanManageProjects { get; set; }
+
+        public bool CanManageBudget { get; set; }
+
+        public bool CanManageUsers { get; set; }
+
     }
 }

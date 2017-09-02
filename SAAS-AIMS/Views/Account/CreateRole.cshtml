@@ -1,0 +1,160 @@
+﻿@model AIMS.Data.DataObjects.Entities.Role.Role
+@using AIMS.Data.Enums.Enums.NotificationType
+
+@{
+    ViewBag.Title = "Create User Role";
+    Layout = "~/Views/Shared/_RoleLayout.cshtml";
+}
+
+<style>
+    #form {
+        width: 50%;
+        margin: 0 auto;
+        float: none;
+    }
+</style>
+
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>Create User Role</h3>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div>
+                        <a class="btn btn-info btn-sm" href="@Url.Action("RoleIndex", "Account")"><i class="fa fa-arrow-left"></i> Return to User Roles List</a><br />
+                    </div>
+                    <div class="x_content">
+                        @using (Html.BeginForm("CreateRole", "Account", FormMethod.Post, new { @class = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-group row">
+                                <div class="col-sm-4">
+                                    <label for="title" class="control-label"> Title </label>
+                                    @Html.TextBoxFor(model => Model.Title, new { @class = "form-control required", @id = "title" })
+                                    <div class="text-danger">
+                                        @Html.ValidationMessageFor(model => model.Title)
+                                        @Html.ValidationMessage("Impossible")
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            
+                            <fieldset>
+                                <div><h3> Permissions </h3></div>
+                            </fieldset><br />
+                            <div class="form-group row">
+                                <div class="col-sm-4">
+                                    <label for="bud" class="control-label"> Manage Budget </label>
+                                    @Html.EditorFor(model => Model.CanManageBudget, new { @class = "form-control", @id = "bud" })
+                                    <div class="text-danger">
+                                        @Html.ValidationMessageFor(model => model.CanManageBudget)
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <label for="eve" class="control-label"> Manage Events </label>
+                                    @Html.EditorFor(model => Model.CanManageEvents, new { @class = "form-control", @id = "eve" })
+                                    <div class="text-danger">
+                                        @Html.ValidationMessageFor(model => model.CanManageEvents)
+                                    </div>
+                                </div>
+                            
+                                <div class="col-sm-4">
+                                    <label for="exe" class="control-label"> Manage Executives </label>
+                                    @Html.EditorFor(model => Model.CanManageExecutives, new { @class = "form-control", @id = "exe" })
+                                    <div class="text-danger">
+                                        @Html.ValidationMessageFor(model => model.CanManageExecutives)
+                                    </div>
+                                </div>
+                            
+                                <div class="col-sm-4">
+                                    <label for="exp" class="control-label"> Manage Expenses </label>
+                                    @Html.EditorFor(model => Model.CanManageExpenses, new { @class = "form-control", @id = "exp" })
+                                    <div class="text-danger">
+                                        @Html.ValidationMessageFor(model => model.CanManageExpenses)
+                                    </div>
+                                </div>
+                           
+                                <div class="col-sm-4">
+                                    <label for="inc" class="control-label"> Manage Income </label>
+                                    @Html.EditorFor(model => Model.CanManageIncome, new { @class = "form-control", @id = "inc" })
+                                    <div class="text-danger">
+                                        @Html.ValidationMessageFor(model => model.CanManageIncome)
+                                    </div>
+                                </div>
+                            
+                                <div class="col-sm-4">
+                                    <label for="meet" class="control-label"> Manage Meetings </label>
+                                    @Html.EditorFor(model => Model.CanManageMeetings, new { @class = "form-control", @id = "meet" })
+                                    <div class="text-danger">
+                                        @Html.ValidationMessageFor(model => model.CanManageMeetings)
+                                    </div>
+                                </div>
+                            
+                                <div class="col-sm-4">
+                                    <label for="mem" class="control-label"> Manage Members </label>
+                                    @Html.EditorFor(model => Model.CanManageMembers, new { @class = "form-control", @id = "mem" })
+                                    <div class="text-danger">
+                                        @Html.ValidationMessageFor(model => model.CanManageMembers)
+                                    </div>
+                                </div>
+                            
+                                <div class="col-sm-4">
+                                    <label for="memo" class="control-label"> Manage Memos </label>
+                                    @Html.EditorFor(model => Model.CanManageMemos, new { @class = "form-control", @id = "memo" })
+                                    <div class="text-danger">
+                                        @Html.ValidationMessageFor(model => model.CanManageMemos)
+                                    </div>
+                                </div>
+                            
+                                <div class="col-sm-4">
+                                    <label for="proj" class="control-label"> Manage Projects </label>
+                                    @Html.EditorFor(model => Model.CanManageProjects, new { @class = "form-control", @id = "proj" })
+                                    <div class="text-danger">
+                                        @Html.ValidationMessageFor(model => model.CanManageProjects)
+                                    </div>
+                                </div>
+                            
+                                <div class="col-sm-4">
+                                    <label for="sess" class="control-label"> Manage Sessions </label>
+                                    @Html.EditorFor(model => Model.CanManageSessions, new { @class = "form-control", @id = "sess" })
+                                    <div class="text-danger">
+                                        @Html.ValidationMessageFor(model => model.CanManageSessions)
+                                    </div>
+                                </div>
+                            
+                                <div class="col-sm-4">
+                                    <label for="usr" class="control-label"> Manage Users </label>
+                                    @Html.EditorFor(model => Model.CanManageUsers, new { @class = "form-control", @id = "usr" })
+                                    <div class="text-danger">
+                                        @Html.ValidationMessageFor(model => model.CanManageUsers)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pull-right">
+                                <br /><br />
+                                <input class="btn btn-primary btn-raised" type="submit" value="Save" />
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $("form").removeData("validator");
+        $("form").removeData("unobtrusiveValidation");
+        $.validator.unobtrusive.parse("form");
+    </script>
+}

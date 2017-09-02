@@ -1,0 +1,29 @@
+﻿@model AIMS.Data.DataObjects.Entities.Role.Role
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3 class="modal-title"> Permissions</h3>
+</div>
+
+@using(Html.BeginForm("Permissions", "Account", FormMethod.Get)){
+    <div class="modal-body">
+        <div class="form-horizontal">
+            <ul>
+                <li>Manage Budget :  @Html.DisplayFor(model => Model.CanManageBudget)</li>
+                <li>Manage Events :  @Html.DisplayFor(model => Model.CanManageEvents)</li>
+                <li>Manage Executives :  @Html.DisplayFor(model => Model.CanManageExecutives)</li>
+                <li>Manage Expenses :  @Html.DisplayFor(model => Model.CanManageExpenses)</li>
+                <li>Manage Income :  @Html.DisplayFor(model => Model.CanManageIncome)</li>
+                <li>Manage Meetings :  @Html.DisplayFor(model => Model.CanManageMeetings)</li>
+                <li>Manage Members :  @Html.DisplayFor(model => Model.CanManageMembers)</li>
+                <li>Manage Memos :  @Html.DisplayFor(model => Model.CanManageMemos)</li>
+                <li>Manage Projects :  @Html.DisplayFor(model => Model.CanManageProjects)</li>
+                <li>Manage Sessions :  @Html.DisplayFor(model => Model.CanManageSessions)</li>
+                <li>Manage Users :  @Html.DisplayFor(model => Model.CanManageUsers)</li>
+            </ul>
+        </div>
+    </div>
+}
+    <div class="modal-footer">
+        <button class="btn btn-danger" data-dismiss="modal"> Close </button>
+    </div>

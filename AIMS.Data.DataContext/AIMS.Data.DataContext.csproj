@@ -192,6 +192,14 @@
     <Compile Include="Migrations\201709011428116_migrate-29.Designer.cs">
       <DependentUpon>201709011428116_migrate-29.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709021547199_migrate-30.cs" />
+    <Compile Include="Migrations\201709021547199_migrate-30.Designer.cs">
+      <DependentUpon>201709021547199_migrate-30.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709021656487_migrate-31.cs" />
+    <Compile Include="Migrations\201709021656487_migrate-31.Designer.cs">
+      <DependentUpon>201709021656487_migrate-31.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -292,6 +300,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709011428116_migrate-29.resx">
       <DependentUpon>201709011428116_migrate-29.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709021547199_migrate-30.resx">
+      <DependentUpon>201709021547199_migrate-30.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709021656487_migrate-31.resx">
+      <DependentUpon>201709021656487_migrate-31.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

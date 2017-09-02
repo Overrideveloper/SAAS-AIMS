@@ -1,0 +1,132 @@
+﻿@model IEnumerable<AIMS.Data.DataObjects.Entities.Role.Role>
+@using AIMS.Data.Enums.Enums.NotificationType
+
+@{
+    ViewBag.Title = "Manage User Roles";
+    Layout = "~/Views/Shared/_RoleLayout.cshtml";
+}
+
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>User Roles</h3>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_content table-responsive">
+                        @if (TempData["NotificationType"] == NotificationType.Create.ToString() && @TempData["Impossible"] != null)
+                        {
+                            <div class="alert alert-danger alert-dismissible fadeIn fadeOut out fade in" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                @TempData["Impossible"]
+                            </div>
+                        }
+                        @if (TempData["NotificationType"] == NotificationType.Edit.ToString() && @TempData["Impossible"] != null)
+                        {
+                            <div class="alert alert-danger alert-dismissible fadeIn fadeOut out fade in" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                @TempData["Impossible"]
+                            </div>
+                        }
+                        @if (TempData["NotificationType"] == NotificationType.Delete.ToString() && @TempData["Impossible"] != null)
+                        {
+                            <div class="alert alert-danger alert-dismissible fadeIn fadeOut out fade in" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                @TempData["Impossible"]
+                            </div>
+                        }
+
+                        @if (TempData["Success"] != null)
+                        {
+                            if (TempData["NotificationType"] == NotificationType.Create.ToString())
+                            {
+                                <div class="alert alert-success alert-dismissible fadeIn fadeOut out fade in" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    @TempData["Success"]
+                                </div>
+                            }
+                            if (TempData["NotificationType"] == NotificationType.Edit.ToString())
+                            {
+                                <div class="alert alert-info alert-dismissible fadeIn fadeOut out fade in" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    @TempData["Success"]
+                                </div>
+                            }
+                            if (TempData["NotificationType"] == NotificationType.Delete.ToString())
+                            {
+                                <div class="alert alert-warning alert-dismissible fadeIn fadeOut out fade in" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    @TempData["Success"]
+                                </div>
+                            }
+                        }
+                        
+                        <div class="pull-right">
+                            <a class="btn btn-info btn-sm" href="@Url.Action("CreateRole", "Account")"><i class="fa fa-plus"></i> Add User Role</a><br />
+                        </div>
+
+                        <table id="datatable-buttons" class="grid table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+
+                            <tbody>
+                                @foreach (var role in Model)
+                                {
+                                    <tr>
+                                        <td>@role.Title</td>
+                                        <td>
+                                            <a class="btn btn-xs btn-default" href="@Url.Action("EditRole", "Account", new { id = role.ID })"><i class="fa fa-pencil"></i> Edit</a>
+                                            <a class="btn btn-xs btn-danger delete" href="@Url.Action("DeleteRole", "Account", new { id = role.ID})"><i class="fa fa-remove"></i> Delete</a>
+                                            <a class="btn btn-xs btn-info" data-modal="" href="@Url.Action("Permissions", "Account", new { id = role.ID})"><i class="fa fa-folder-open"></i> View Permissions</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                        <!-- modal placeholder-->
+                        <div id='myModal' class='modal fade in'>
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div id='myModalContent'></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="~/Scripts/modal.js"></script>
+    <script type="text/javascript" src="~/Scripts/delete.js"></script>
+}
+
