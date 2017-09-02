@@ -163,8 +163,8 @@ namespace SAAS_AIMS.Controllers
         [Authorize]
         public ActionResult Register()
         {
-            ViewBag.Role = new SelectList(_roledatacontext.Roles.ToList(), "ID", "Title");
-            return View();
+            ViewBag.Role = new SelectList(_roledatacontext.Roles, "ID", "Title");
+            return PartialView();
         }
 
         //
@@ -189,25 +189,24 @@ namespace SAAS_AIMS.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            ViewBag.Role = new SelectList(_roledatacontext.Roles.ToList(), "ID", "Title", model.RoleID);
-            return View(model);
+            ViewBag.Role = new SelectList(_roledatacontext.Roles, "ID", "Title", model.RoleID);
+            return PartialView(model);
         }
 
         [Authorize]
-        public async Task<ActionResult> RemoveUser(string UserId)
+        public ActionResult RemoveUser(string UserId)
         {
-            var user = new AppUserDataContext().Users.Find(UserId);
-            var result = await UserManager.DeleteAsync(user);
-            if (result.Succeeded)
-            {
-                return RedirectToAction("UserIndex");
-            }
+            AppUserDataContext app = new AppUserDataContext();
+            var user = app.Users.Find(UserId);
+            app.Users.Remove(user);
+            app.SaveChanges();
             return RedirectToAction("UserIndex");
         }
         #endregion
 
         //
         // GET: /Account/Login
+
         [AllowAnonymous]
         public ActionResult Login()
         {
@@ -228,6 +227,7 @@ namespace SAAS_AIMS.Controllers
                 {
                     await SignInAsync(user, model.RememberMe);
                     Session["UserID"] = user.Id;
+                    Session["role"] = user.Role;
                     return RedirectToAction("Index", "Dashboard");
                 }
                 else

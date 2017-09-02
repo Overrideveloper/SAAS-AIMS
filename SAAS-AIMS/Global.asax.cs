@@ -18,13 +18,6 @@ namespace SAAS_AIMS
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            Rollbar.Init(new RollbarConfig
-            {
-                AccessToken = ConfigurationManager.AppSettings["Rollbar.AccessToken"],
-                Environment = ConfigurationManager.AppSettings["Rollbar.Environment"],
-                EndPoint = "https://api.rollbar.com/api/1/",
-                Enabled = true
-            });
         }
     }
 }

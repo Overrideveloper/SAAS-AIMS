@@ -1,99 +1,69 @@
 ﻿@model SAAS_AIMS.Models.RegisterViewModel
-@using SAAS_AIMS.Enums
 
-@{
-    Layout = "~/Views/Shared/_LoginLayout.cshtml";
-    ViewBag.Title = "Register";
-}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3 class="modal-title">Add User Account</h3>
+</div>
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-    @Html.Hidden("UserName", "Email")
-<h1>Registration Form</h1>
-    @Html.ValidationSummary()
-<div>
-    @Html.TextBoxFor(m => m.AssociationName, new { @class = "form-control", @placeholder = "Association Name" })
-    @Html.ValidationMessageFor(m => m.AssociationName)
-</div>
-<div>
-    @Html.TextBoxFor(m => m.CollegeChapter, new { @class = "form-control", @placeholder = "University/College" })
-    @Html.ValidationMessageFor(m => m.CollegeChapter)
-</div>
-<div>
-    State: @Html.DropDownListFor(model => model.State, Enum.GetNames(typeof(State)).Select(e => new SelectListItem { Text = e, Value = ((int)Enum.Parse(typeof(State), e)).ToString()}), new { @class = "form-control required"})
-    @Html.ValidationMessageFor(m => m.State)
-</div><br />
-<div>
-    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder="Email" })
-    @Html.ValidationMessageFor(m => m.Email)
-</div>
-<div>
-    @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @placeholder="Password", @type = "password" })
-    @Html.ValidationMessageFor(m => m.Password)
-</div>
-<div>
-    @Html.TextBoxFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder="Confirm Password", @type = "password" })
-    @Html.ValidationMessageFor(m => m.ConfirmPassword)
-</div>
-        
-<div class="col-md-offset-3">
-    <input type="submit" class="btn btn-default" value="Register" />
-</div>
 
-<div class="clearfix"></div>
+    <div class="modal-body">
 
-<div class="separator">
-    <p class="change_link">Already have an acccount ?
-        <a href="@Url.Action("Login", "Account")" class="to_register"> Log in </a>
-    </p>
-
-    <div class="clearfix"></div>
-    <br />
-
-    <div>
-        <h1><i class="fa fa-paw"></i> AIMS </h1>
-        <p>&copy; @DateTime.Now.Year Override. All Rights Reserved.</p>
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label for="mail" class="control-label col-sm-3"> Email </label>
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(model => Model.Email, new { @class = "form-control required", @id = "title", @type="email" })
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(model => model.Email)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="role" class="control-label col-sm-3"> Role </label>
+                <div class="col-sm-9">
+                    @Html.DropDownListFor(model => Model.RoleID, (IEnumerable<SelectListItem>)ViewBag.Role, "--- Select a role ---", new { @class = "form-control required", @id = "role"})
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(model => model.RoleID)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="auth" class="control-label col-sm-3"> Password </label>
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(model => Model.Password, new { @class = "form-control required", @id = "auth", @type = "password" })
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(model => model.Password)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="pass" class="control-label col-sm-3"> Confirm Password </label>
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(model => Model.ConfirmPassword, new { @class = "form-control required", @id = "pass", @type = "password" })
+                    <div class="text-danger">
+                        @Html.ValidationMessageFor(model => model.ConfirmPassword)
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+
+    <div class="modal-footer">
+        <span id="progress" class="text-center" style="display:none">
+            <strong>Processing..</strong>
+        </span>
+
+        <input class="btn btn-primary btn-raised" type="submit" value="Save" />
+        <button class="btn btn-danger" data-dismiss="modal"> Close </button>
+    </div>
 }
 
-@*@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(s => s.SubscriptionPlan)
-    @Html.Hidden("UserName", "AssociationName")
-    <h4>Create a new account.</h4>
-    <hr />
-    @Html.ValidationSummary()
-    <div class="form-group">
-        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-            @Html.TextBoxFor(m => m.AssociationName, new { @class = "form-control" })
-            @Html.TextBoxFor(m => m.CollegeChapter, new { @class = "form-control" })
-            @Html.TextBoxFor(m => m.State, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Register" />
-        </div>
-    </div>
-}*@
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+<script>
+    $("form").removeData("validator");
+    $("form").removeData("unobtrusiveValidation");
+    $.validator.unobtrusive.parse("form");
+</script>
