@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using SAAS_AIMS.Models;
 using AIMS.Data.DataObjects.Entities.Role;
 using AIMS.Data.DataContext.DataContext.RoleDataContext;
+using System.Data.Entity;
 
 namespace SAAS_AIMS.Controllers
 {
@@ -36,6 +37,129 @@ namespace SAAS_AIMS.Controllers
         }
 
         public UserManager<ApplicationUser> UserManager { get; private set; }
+
+        #region custom methods
+        [HttpGet]
+        [Authorize]
+        public ActionResult RoleIndex()
+        {
+            var role = from m in _roledatacontext.Roles
+                       select m;
+            return View("RoleIndex", role);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult CreateRole()
+        {
+            return View("CreateRole");
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateRole(Role role)
+        {
+            if (ModelState.IsValid)
+            {
+                _roledatacontext.Roles.Add(role);
+                _roledatacontext.SaveChanges();
+                return RedirectToAction("RoleIndex");
+            }
+            return View("CreateRole", role);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult> EditRole(long id)
+        {
+            var role = await _roledatacontext.Roles.FindAsync(id);
+            if (role == null)
+            {
+                return HttpNotFound();
+            }
+            return View("EditRole", role);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditRole(Role role)
+        {
+            if (ModelState.IsValid)
+            {
+                _roledatacontext.Entry(role).State = EntityState.Modified;
+                _roledatacontext.SaveChanges();
+                return RedirectToAction("RoleIndex");
+            }
+            return View("EditRole", role);
+        }
+
+        [Authorize]
+        public async Task<ActionResult> DeleteRole(long id)
+        {
+            await _roledatacontext.Roles.FindAsync(id);
+            await _roledatacontext.SaveChangesAsync();
+            return RedirectToAction("RoleIndex");
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult UserIndex()
+        {
+            var context = new AppUserDataContext();
+            var user = context.Users.ToList();
+            return View("UserIndex", user);
+        }
+
+        //
+        // GET: /Account/Register
+        [HttpGet]
+        [Authorize]
+        public ActionResult Register()
+        {
+            ViewBag.Role = new SelectList(_roledatacontext.Roles.ToList(), "ID", "Title");
+            return View();
+        }
+
+        //
+        // POST: /Account/Register
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, RoleID = model.RoleID };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("UserIndex");
+                }
+                else
+                {
+                    AddErrors(result);
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            ViewBag.Role = new SelectList(_roledatacontext.Roles.ToList(), "ID", "Title", model.RoleID);
+            return View(model);
+        }
+
+        [Authorize]
+        public async Task<ActionResult> RemoveUser(string UserId)
+        {
+            var user = new AppUserDataContext().Users.Find(UserId);
+            var result = await UserManager.DeleteAsync(user);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("UserIndex");
+            }
+            return RedirectToAction("UserIndex");
+        }
+        #endregion
 
         //
         // GET: /Account/Login
@@ -64,40 +188,6 @@ namespace SAAS_AIMS.Controllers
                 else
                 {
                     ModelState.AddModelError("", "Invalid email or password.");
-                }
-            }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
-        }
-
-        //
-        // GET: /Account/Register
-        [AllowAnonymous]
-        public ActionResult Register()
-        {
-            return View();
-        }
-
-        //
-        // POST: /Account/Register
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    await SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Dashboard");
-                }
-                else
-                {
-                    AddErrors(result);
                 }
             }
 
@@ -144,6 +234,7 @@ namespace SAAS_AIMS.Controllers
                 {
                     await SignInAsync(user, isPersistent: false);
                     Session["UserID"] = user.Id;
+                    Session["role"] = user.Role;
                     return RedirectToAction("Index", "Dashboard");
                 }
                 else
