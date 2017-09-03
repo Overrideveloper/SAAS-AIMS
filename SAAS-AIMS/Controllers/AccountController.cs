@@ -176,15 +176,33 @@ namespace SAAS_AIMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, RoleID = model.RoleID };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                var _context = new AppUserDataContext();
+                var _role = new RoleDataContext();
+                var role = await _role.Roles.FindAsync(model.RoleID);
+                var super = _context.Users.Where(s => s.Role.Title == "Superuser").ToArray();
+
+                if (_context.Users.Any(s => s.Email == model.Email))
                 {
-                    return RedirectToAction("UserIndex");
+                    ModelState.AddModelError("", "This e-mail is already in use!");
+                }
+                if (role.Title == "Superuser" && super.Length == 1)
+                {
+                    ModelState.AddModelError("", "There can only be one superuser!");
                 }
                 else
                 {
-                    AddErrors(result);
+                    var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, RoleID = model.RoleID };
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        TempData["Success"] = "User account successfully created! ";
+                        TempData["NotificationType"] = NotificationType.Create.ToString();
+                        return Json(new { success = true });
+                    }
+                    else
+                    {
+                        AddErrors(result);
+                    }
                 }
             }
 
@@ -198,8 +216,18 @@ namespace SAAS_AIMS.Controllers
         {
             AppUserDataContext app = new AppUserDataContext();
             var user = app.Users.Find(UserId);
-            app.Users.Remove(user);
-            app.SaveChanges();
+            if (user.Role.Title == "Superuser")
+            {
+                TempData["Impossible"] = "This user cannot be removed!";
+                TempData["NotificationType"] = NotificationType.Delete.ToString();
+            }
+            else
+            {
+                app.Users.Remove(user);
+                app.SaveChanges();
+                TempData["Success"] = "User account successfully removed!";
+                TempData["NotificationType"] = NotificationType.Delete.ToString();
+            }
             return RedirectToAction("UserIndex");
         }
         #endregion

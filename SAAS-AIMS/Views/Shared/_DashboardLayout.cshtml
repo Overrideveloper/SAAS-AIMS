@@ -1,5 +1,8 @@
 ﻿@using Microsoft.AspNet.Identity
-
+@using AIMS.Data.DataObjects.Entities.Role
+@{
+    var role = Session["role"] as Role;
+}
 <!DOCTYPE html>
 
 <html>
@@ -64,6 +67,7 @@
                                 </li>
                             </ul>
                         </div>
+                        @if (role.CanManageUsers == true) { 
                         <div class="menu_section">
                             <h3>ADMINISTRATOR</h3>
                             <ul class="nav side-menu">
@@ -75,6 +79,7 @@
                                 </li>
                             </ul>
                         </div>
+                        }
                     </div>
                     <!-- /sidebar menu -->
                     <!-- /menu footer buttons -->
