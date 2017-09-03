@@ -42,6 +42,7 @@ namespace SAAS_AIMS.Controllers
             Session["categoryid"] = categoryid;
             var item = _incomeDataContext.IncomeItem.Where(s => s.IncomeCategoryID == categoryid).ToList();
             var category = _incomeDataContext.IncomeCategory.Find(categoryid);
+            Session["sessionid"] = category.SessionID;
             TempData["category"] = category.Title;
             return View(item.OrderBy(s => s.Title));
         }

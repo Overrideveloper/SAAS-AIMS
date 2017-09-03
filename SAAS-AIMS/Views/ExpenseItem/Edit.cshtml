@@ -31,7 +31,7 @@
             <div class="form-group">
                 <label for="title" class="control-label col-sm-3"> Amount </label>
                 <div class="col-sm-9">
-                    @Html.TextBoxFor(model => Model.Amount, new { @class = "form-control required", @id = "title", @placeholder="Enter amount" })
+                    @Html.TextBoxFor(model => Model.Amount, Model.Amount.ToString("###"), new { @class = "form-control required", @id = "title", @placeholder="Enter amount" })
                     <div class="text-danger">
                         @Html.ValidationMessageFor(model => model.Title)
                     </div>

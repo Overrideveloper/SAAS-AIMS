@@ -42,6 +42,7 @@ namespace SAAS_AIMS.Controllers
             Session["expenseid"] = expenseid;
             var item = _expenseDataContext.ExpenseItem.Where(s => s.ExpenseCategoryID == expenseid).ToList();
             var category = _expenseDataContext.ExpenseCategory.Find(expenseid);
+            Session["sessionid"] = category.SessionID;
             TempData["category"] = category.Title;
             return View(item.OrderBy(s => s.Title));
         }

@@ -73,7 +73,7 @@
                                 {
                                     <tr>
                                         <td>@item.Title</td>
-                                        <td>N @item.Amount</td>
+                                        <td>N @item.Amount.ToString("#,##")</td>
                                         <td>
                                             <a class="btn btn-xs btn-default" data-modal="" href="@Url.Action("Edit", "IncomeItem", new { id = item.ID })"><i class="fa fa-pencil"></i> Edit</a>
                                             <a class="btn btn-xs btn-danger delete" href="@Url.Action("Delete", "IncomeItem", new { id = item.ID})"><i class="fa fa-remove"></i> Delete</a>
