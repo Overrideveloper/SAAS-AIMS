@@ -5,6 +5,7 @@ using AIMS.Data.DataContext.DataContext.MeetingDataContext;
 using AIMS.Data.DataContext.DataContext.MemberDataContext;
 using AIMS.Data.DataContext.DataContext.ProjectDataContext;
 using AIMS.Data.DataContext.DataContext.SessionDataContext;
+using AIMS.Data.ViewModels.ViewModel.IncExp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,16 @@ namespace SAAS_AIMS.Controllers
             _expenseDataContext = new ExpenseDataContext();
         }
         #endregion
+
+        public JsonResult IncExpe(long sessionid)
+        {
+            IncExp viewModel = new IncExp();
+
+            viewModel.Income = _incomeDataContext.IncomeItem.Where(s => s.IncomeCategory.SessionID == sessionid).Sum(s => (Decimal?)s.Amount) ?? 0;
+            viewModel.Expenses = _expenseDataContext.ExpenseItem.Where(s => s.ExpenseCategory.SessionID == sessionid).Sum(s => (Decimal?)s.Amount) ?? 0;
+            return Json(new { view = viewModel}, JsonRequestBehavior.AllowGet);
+        }
+
         #region statistics
         //
         // GET: /SessionDetails/

@@ -1,8 +1,12 @@
 ﻿@model AIMS.Data.DataObjects.Entities.Session.Session
+@using AIMS.Data.DataContext.DataContext.SessionDataContext
 
 @{
+    SessionDataContext _context = new SessionDataContext();
     ViewBag.Title = "Session Statistics";
     Layout = "~/Views/Shared/_SessionDetailsLayout.cshtml";
+    var sessionid = Convert.ToInt64(Session["sessionid"]);
+    var sessionname = _context.Sessions.Find(sessionid).Title;
 }
 
 <div class="right_col" role="main">
@@ -10,32 +14,32 @@
     <div class="row tile_count">
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-user"></i> Total Events</span>
-            <div class="count">@ViewBag.Event</div>
+            <div class="count"><small>@ViewBag.Event</small></div>
             <span class="count_bottom"><i class="green"></i></span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-user"></i> Total Meetings</span>
-            <div class="count">@ViewBag.Meeting</div>
+            <div class="count"><small>@ViewBag.Meeting</small></div>
             <span class="count_bottom"><i class="green"></i></span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-user"></i> Total Projects</span>
-            <div class="count">@ViewBag.Project</div>
+            <div class="count"><small>@ViewBag.Project</small></div>
             <span class="count_bottom"><i class="green"></i></span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-user"></i> Total Income</span>
-            <div class="count">@ViewBag.Income.ToString("#,##")</div>
+            <div class="count"><small><small><small>@ViewBag.Income.ToString("#,##")</small></small></small></div>
             <span class="count_bottom"><i class="green"> (Naira)</i></span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-user"></i> Total Expense</span>
-            <div class="count">@ViewBag.Expense.ToString("#,##")</div>
+            <div class="count"><small><small><small>@ViewBag.Expense.ToString("#,##")</small></small></small></div>
             <span class="count_bottom"><i class="green"> (Naira)</i></span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-user"></i> Total Balance</span>
-            <div class="count">@ViewBag.Balance.ToString("#,##")</div>
+            <div class="count"><small><small><small>@ViewBag.Balance.ToString("#,##")</small></small></small></div>
             <span class="count_bottom"><i class="green"> (Naira)</i></span>
         </div>
     </div>
@@ -58,7 +62,9 @@
                 </div>
 
                 <div class="col-md-9 col-sm-9 col-xs-12">
-                    <div id="chart_plot_01" class="demo-placeholder"></div>
+                    <div id="incomevsrev" class="container-fluid">
+                        <canvas id="incexp" width="1600" height="900"></canvas>
+                    </div>
                 </div>
 
                 <div class="clearfix"></div>
@@ -333,5 +339,69 @@
     </div>
 </div>
 <!-- /page content -->
+@section Scripts
+{
+    <script type="text/javascript">
+        var ctx = document.getElementById('incexp').getContext('2d');
+        var dataChart = {
+            labels: ['@sessionname'],
+            datasets: [
+                {
+                    label: "Income",
+                    backgroundColor: "cadetblue",
+                    fill: false,
+                    borderColor: "rgba(220,220,220,0.7)",
+                    borderWidth: 1,
+                    hoverBackgroundColor: "rgba(42,63,84,1)",
+                    hoverBorderColor: "rgba(151,187,205,0.5)",
+                    data: [@ViewBag.Income]
+                },
+                {
+                    label: "Expense",
+                    backgroundColor: "grey",
+                    fill: false,
+                    borderColor: "rgba(151,187,205,0.7)",
+                    borderWidth: 1,
+                    hoverBackgroundColor: "rgba(42,63,84,1)",
+                    hoverBorderColor: "rgba(151,187,205,0.5)",
+                    data: [@ViewBag.Expense]
+                },
+                {
+                    label: "Margin",
+                    backgroundColor: "beige",
+                    fill: false,
+                    borderColor: "rgba(151,187,205,0.7)",
+                    borderWidth: 1,
+                    hoverBackgroundColor: "rgba(42,63,84,1)",
+                    hoverBorderColor: "rgba(151,187,205,0.5)",
+                    data: [@ViewBag.Balance]
+                }
+            ]
+        };
 
-
+            var incexp = new Chart(ctx, {
+                type: 'bar',
+                data: dataChart,
+                options:
+                    {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        scales:
+                        {
+                            yAxes: [{
+                            display: true,
+                            ticks: {
+                                beginAtZero: true,
+                                userCallback: function (value) {
+                                    value = value.toString();
+                                    value = value.split(/(?=(?:...)*$)/);
+                                    value = value.join(',');
+                                        return 'N ' + value;
+                                    }
+                                }
+                            }]
+                        },
+                    }
+            });
+    </script>
+}
