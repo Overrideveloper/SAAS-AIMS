@@ -5,10 +5,13 @@ using AIMS.Data.DataContext.DataContext.MeetingDataContext;
 using AIMS.Data.DataContext.DataContext.MemberDataContext;
 using AIMS.Data.DataContext.DataContext.ProjectDataContext;
 using AIMS.Data.DataContext.DataContext.SessionDataContext;
-using AIMS.Data.ViewModels.ViewModel.IncExp;
+using AIMS.Data.DataObjects.Entities.Income;
+using AIMS.Data.ViewModels.ViewModel.Income;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -33,13 +36,18 @@ namespace SAAS_AIMS.Controllers
         }
         #endregion
 
-        public JsonResult IncExpe(long sessionid)
+        public ContentResult Income(long sessionid)
         {
-            IncExp viewModel = new IncExp();
-
-            viewModel.Income = _incomeDataContext.IncomeItem.Where(s => s.IncomeCategory.SessionID == sessionid).Sum(s => (Decimal?)s.Amount) ?? 0;
-            viewModel.Expenses = _expenseDataContext.ExpenseItem.Where(s => s.ExpenseCategory.SessionID == sessionid).Sum(s => (Decimal?)s.Amount) ?? 0;
-            return Json(new { view = viewModel}, JsonRequestBehavior.AllowGet);
+            List<IncomeViewModel> Income = new List<IncomeViewModel>();
+            var categories = _incomeDataContext.IncomeCategory.Where(s => s.SessionID == sessionid).ToList();
+            foreach (IncomeCategory category in categories)
+            {
+                IncomeViewModel income = new IncomeViewModel();
+                income.category = category.Title;
+                income.amount = category.IncomeItem.Sum(s => (Decimal?)s.Amount) ?? 0;
+                Income.Add(income);
+            }
+            return Content(JsonConvert.SerializeObject(Income), "application/json");
         }
 
         #region statistics
