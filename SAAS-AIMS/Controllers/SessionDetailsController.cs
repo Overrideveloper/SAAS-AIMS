@@ -5,7 +5,9 @@ using AIMS.Data.DataContext.DataContext.MeetingDataContext;
 using AIMS.Data.DataContext.DataContext.MemberDataContext;
 using AIMS.Data.DataContext.DataContext.ProjectDataContext;
 using AIMS.Data.DataContext.DataContext.SessionDataContext;
+using AIMS.Data.DataObjects.Entities.Expense;
 using AIMS.Data.DataObjects.Entities.Income;
+using AIMS.Data.ViewModels.ViewModel.Expense;
 using AIMS.Data.ViewModels.ViewModel.Income;
 using Newtonsoft.Json;
 using System;
@@ -48,6 +50,20 @@ namespace SAAS_AIMS.Controllers
                 Income.Add(income);
             }
             return Content(JsonConvert.SerializeObject(Income), "application/json");
+        }
+
+        public ContentResult Expense(long sessionid)
+        {
+            List<ExpenseViewModel> Expense = new List<ExpenseViewModel>();
+            var categories = _expenseDataContext.ExpenseCategory.Where(s => s.SessionID == sessionid).ToList();
+            foreach (ExpenseCategory category in categories)
+            {
+                ExpenseViewModel expense = new ExpenseViewModel();
+                expense.category = category.Title;
+                expense.amount = category.ExpenseItem.Sum(s => (Decimal?)s.Amount) ?? 0;
+                Expense.Add(expense);
+            }
+            return Content(JsonConvert.SerializeObject(Expense), "application/json");
         }
 
         #region statistics

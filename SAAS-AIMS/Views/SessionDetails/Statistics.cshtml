@@ -79,7 +79,7 @@
         <div class="col-md-4 col-sm-4 col-xs-12">
             <div class="x_panel tile">
                 <div class="x_title">
-                    <h2>Income</h2>
+                    <h2>Income Breakdown</h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
                             <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -88,92 +88,26 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                        <canvas id="incomepie" class="active" height="100" width="100" style="margin: 15px 10px 10px 0"></canvas>
+                        <canvas id="incomepie" height="100" width="100" style="margin: 15px 10px 10px 0"></canvas>
                         <div class="clearfix"></div>
                 </div>
             </div>
         </div>
 
         <div class="col-md-4 col-sm-4 col-xs-12">
-            <div class="x_panel tile fixed_height_320 overflow_hidden">
+            <div class="x_panel tile ">
                 <div class="x_title">
-                    <h2>Device Usage</h2>
+                    <h2>Expense Breakdown</h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
                             <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li>
-                                    <a href="#">Settings 1</a>
-                                </li>
-                                <li>
-                                    <a href="#">Settings 2</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="close-link"><i class="fa fa-close"></i></a>
                         </li>
                     </ul>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <table class="" style="width:100%">
-                        <tr>
-                            <th style="width:37%;">
-                                <p>Top 5</p>
-                            </th>
-                            <th>
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                    <p class="">Device</p>
-                                </div>
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                    <p class="">Progress</p>
-                                </div>
-                            </th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <canvas class="canvasDoughnut" height="140" width="140" style="margin: 15px 10px 10px 0"></canvas>
-                            </td>
-                            <td>
-                                <table class="tile_info">
-                                    <tr>
-                                        <td>
-                                            <p><i class="fa fa-square blue"></i>IOS </p>
-                                        </td>
-                                        <td>30%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p><i class="fa fa-square green"></i>Android </p>
-                                        </td>
-                                        <td>10%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p><i class="fa fa-square purple"></i>Blackberry </p>
-                                        </td>
-                                        <td>20%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p><i class="fa fa-square aero"></i>Symbian </p>
-                                        </td>
-                                        <td>15%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p><i class="fa fa-square red"></i>Others </p>
-                                        </td>
-                                        <td>30%</td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                    </table>
+                    <canvas id="expensepie" height="100" width="100" style="margin: 15px 10px 10px 0"></canvas>
+                    <div class="clearfix"></div>
                 </div>
             </div>
         </div>
@@ -317,11 +251,18 @@
                 {
                     label: "",
                     backgroundColor: [
-                        "blue",
-                        "green",
-                        "purple",
-                        "grey",
-                        "red"
+							"#9B59B6",
+                            "#BDC3C7",
+							"#26B99A",
+                            "#E74C3C",
+							"#3498DB"
+                    ],
+                    hoverBackgroundColor: [
+                        "#CFD4D8",
+                        "#B370CF",
+                        "#E95E4F",
+                        "#36CAAB",
+                        "#49A9EA"
                     ],
                     fill: false,
                     borderColor: "rgba(220,220,220,0.7)",
@@ -348,5 +289,53 @@
                     maintainAspectRatio: true,
                 }
         });
+    </script>
+
+    <script>
+            var ctx1 = document.getElementById('expensepie').getContext('2d');
+            var dataChart1 = {
+                labels: [],
+                datasets: [
+                    {
+                        label: "",
+                        backgroundColor: [
+							"#BDC3C7",
+							"#9B59B6",
+							"#E74C3C",
+							"#26B99A",
+							"#3498DB"
+                        ],
+                        hoverBackgroundColor: [
+							"#CFD4D8",
+							"#B370CF",
+							"#E95E4F",
+							"#36CAAB",
+							"#49A9EA"
+                        ],
+                        fill: false,
+                        borderColor: "rgba(220,220,220,0.7)",
+                        borderWidth: 1,
+                        hoverBackgroundColor: "rgba(42,63,84,1)",
+                        hoverBorderColor: "rgba(151,187,205,0.5)",
+                        data: []
+                    }
+                ]
+            };
+
+            $.getJSON("/SessionDetails/Expense?sessionid=@sessionid", function (data) {
+                $.each(data, function (i, item) {
+                    console.log(item.category);
+                    dataChart1.labels.push(item.category);
+                    dataChart1.datasets[0].data.push(item.amount);
+                })
+            });
+            var expensepie = new Chart(ctx1, {
+                type: 'pie',
+                data: dataChart1,
+                options:
+                    {
+                        maintainAspectRatio: true,
+                    }
+            });
     </script>
 }
