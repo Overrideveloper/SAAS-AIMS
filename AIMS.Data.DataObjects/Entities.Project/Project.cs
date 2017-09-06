@@ -21,7 +21,7 @@ namespace AIMS.Data.DataObjects.Entities.Project
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
-        public string FileUpload { get; set; }
+        public virtual string FileUpload { get; set; }
 
         [Required]
         public long SessionID { get; set; }

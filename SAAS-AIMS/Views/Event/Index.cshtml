@@ -3,12 +3,18 @@
 @using AIMS.Services.EnumDropDownList
 @using AIMS.Data.Enums.Enums.NotificationType
 @using AIMS.Data.Enums.Enums.Semester
+@using Microsoft.AspNet.Identity
+@using SAAS_AIMS.Models
 
 @{
     SessionDataContext _sessiondatacontext = new SessionDataContext();
     var session = _sessiondatacontext.Sessions.Find(Convert.ToInt64(Session["sessionid"]));
     ViewBag.Title = session.Title.ToString() + " Events";
     Layout = "~/Views/Shared/_EventLayout.cshtml";
+    var id = User.Identity.GetUserId();
+    AppUserDataContext _context = new AppUserDataContext();
+    var user = _context.Users.Find(id);
+    var role = user.Role;
 }
 
 
@@ -42,7 +48,7 @@
                             }
                             if (TempData["NotificationType"] == NotificationType.Edit.ToString())
                             {
-                                <div class="alert alert-info alert-dismissible fadeIn fadeOut out fade in" role="alert">
+                                <div class="alert alert-success alert-dismissible fadeIn fadeOut out fade in" role="alert">
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -51,7 +57,7 @@
                             }
                             if (TempData["NotificationType"] == NotificationType.Delete.ToString())
                             {
-                                <div class="alert alert-warning alert-dismissible fadeIn fadeOut out fade in" role="alert">
+                                <div class="alert alert-success alert-dismissible fadeIn fadeOut out fade in" role="alert">
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -60,10 +66,13 @@
                             }
                         }
 
-                        <div class="pull-right">
-                            <a class="btn btn-info btn-sm" data-modal="" href="@Url.Action("Create", "Event", new { sessionid = Convert.ToInt64(Session["sessionid"] )})"><i class="fa fa-plus"></i> Add Event Entry</a><br />
-                        </div>
-
+                        @if (role.CanManageEvents)
+                        {
+                            <div class="pull-right">
+                                <a class="btn btn-info btn-sm" data-modal="" href="@Url.Action("Create", "Event", new { sessionid = Convert.ToInt64(Session["sessionid"] )})"><i class="fa fa-plus"></i> Add Event Entry</a><br />
+                            </div>
+                        }
+                        
                         <table id="datatable-buttons" class="grid table table-striped table-bordered">
                             <thead>
                                 <tr>
@@ -85,22 +94,28 @@
                                         <td>@events.Semester</td>
                                         <td>@events.Date.ToLongDateString()</td>
                                         <td>
-                                            <a class="btn btn-xs btn-default" data-modal="" href="@Url.Action("Edit", "Event", new { id = events.ID })"><i class="fa fa-pencil"></i> Edit</a>
-                                            <a class="btn btn-xs btn-danger delete" href="@Url.Action("Delete", "Event", new { id = events.ID })"><i class="fa fa-remove"></i> Delete</a>
+                                            @if (role.CanManageEvents)
+                                            {
+                                                <a class="btn btn-xs btn-default" data-modal="" href="@Url.Action("Edit", "Event", new { id = events.ID })"><i class="fa fa-pencil"></i> Edit</a>
+                                                <a class="btn btn-xs btn-danger delete" href="@Url.Action("Delete", "Event", new { id = events.ID })"><i class="fa fa-remove"></i> Delete</a>   
+                                            }
                                         </td>
                                     </tr>
                                 }
                             </tbody>
                         </table>
 
-                        <!-- modal placeholder-->
-                        <div id='myModal' class='modal fade in'>
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div id='myModalContent'></div>
+                        @if (role.CanManageEvents)
+                        {
+                             <!-- modal placeholder-->
+                            <div id='myModal' class='modal fade in'>
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div id='myModalContent'></div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            </div>   
+                        }
 
                     </div>
                 </div>

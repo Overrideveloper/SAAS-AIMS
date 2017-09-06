@@ -1,5 +1,9 @@
 ﻿@using Microsoft.AspNet.Identity
-
+@using AIMS.Data.DataContext.DataContext.RoleDataContext
+@{
+    var _role = new RoleDataContext();
+    var role = _role.Roles.ToArray().Length;
+}
 <!DOCTYPE html>
 
 <html>
@@ -60,7 +64,7 @@
                                     <a href="@Url.Action("Index", "Dashboard")"><i class="fa fa-arrow-left"></i> Return to Dashboard </a>
                                 </li>
                                 <li>
-                                    <a class="active" href="@Url.Action("RoleIndex", "Account")"><i class="fa fa-wrench"></i> Manage User Roles </a>
+                                    <a class="active" href="javascript:void();"><i class="fa fa-wrench"></i> Manage User Roles <span class="badge label-primary pull-right">@role</span></a>
                                 </li>
                             </ul>
                         </div>

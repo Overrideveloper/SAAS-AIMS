@@ -200,6 +200,10 @@
     <Compile Include="Migrations\201709021656487_migrate-31.Designer.cs">
       <DependentUpon>201709021656487_migrate-31.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709061533112_migrate-32.cs" />
+    <Compile Include="Migrations\201709061533112_migrate-32.Designer.cs">
+      <DependentUpon>201709061533112_migrate-32.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -306,6 +310,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709021656487_migrate-31.resx">
       <DependentUpon>201709021656487_migrate-31.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709061533112_migrate-32.resx">
+      <DependentUpon>201709061533112_migrate-32.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

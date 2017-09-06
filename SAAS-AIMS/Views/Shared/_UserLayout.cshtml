@@ -1,5 +1,9 @@
 ﻿@using Microsoft.AspNet.Identity
-
+@using SAAS_AIMS.Models
+@{
+    var _context = new AppUserDataContext();
+    var users = _context.Users.ToArray().Length;
+}
 <!DOCTYPE html>
 
 <html>
@@ -60,7 +64,7 @@
                                     <a href="@Url.Action("Index", "Dashboard")"><i class="fa fa-arrow-left"></i> Return to Dashboard </a>
                                 </li>
                                 <li>
-                                    <a class="active" href="@Url.Action("UserIndex", "Account")"><i class="fa fa-wrench"></i> Manage User Accounts </a>
+                                    <a class="active" href="javascript:void();"><i class="fa fa-wrench"></i> Manage User Accounts <span class="badge label-primary pull-right">@users</span></a>
                                 </li>
                             </ul>
                         </div>

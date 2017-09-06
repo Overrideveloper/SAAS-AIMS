@@ -1,5 +1,27 @@
 ﻿@using Microsoft.AspNet.Identity
-
+@using AIMS.Data.DataContext.DataContext.EventDataContext
+@using AIMS.Data.DataContext.DataContext.ExcoDataContext
+@using AIMS.Data.DataContext.DataContext.ExpenseDataContext
+@using AIMS.Data.DataContext.DataContext.IncomeDataContext
+@using AIMS.Data.DataContext.DataContext.MeetingDataContext
+@using AIMS.Data.DataContext.DataContext.MemoDataContext
+@using AIMS.Data.DataContext.DataContext.ProjectDataContext
+@{
+    var _event = new EventDataContext();
+    var events = _event.Event.ToArray().Length;
+    var _exco = new ExcoDataContext();
+    var exco = _exco.Exco.ToArray().Length;
+    var _expense = new ExpenseDataContext();
+    var expense = _expense.ExpenseCategory.ToArray().Length;
+    var _income = new IncomeDataContext();
+    var income = _income.IncomeCategory.ToArray().Length;
+    var _meeting = new MeetingDataContext();
+    var meeting = _meeting.Meetings.ToArray().Length;
+    var _memo = new MemoDataContext();
+    var memo = _memo.Memos.ToArray().Length;
+    var _project = new ProjectDataContext();
+    var project = _project.Projects.ToArray().Length;
+}
 <!DOCTYPE html>
 
 <html>
@@ -60,25 +82,25 @@
                                     <a href="@Url.Action("Index", "Session")"><i class="fa fa-arrow-left"></i> Return to Sessions List </a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index", "Event", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-calendar-check-o"></i> Events </a>
+                                    <a href="@Url.Action("Index", "Event", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-calendar-check-o"></i> Events <span class="badge label-primary pull-right">@events</span></a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index", "Exco", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-users"></i> Executives </a>
+                                    <a href="@Url.Action("Index", "Exco", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-users"></i> Executives <span class="badge label-primary pull-right">@exco</span></a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index", "ExpenseCategory", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-shopping-cart"></i> Expenses </a>
+                                    <a href="@Url.Action("Index", "ExpenseCategory", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-shopping-cart"></i> Expenses <span class="badge label-primary pull-right">@expense</span></a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index", "IncomeCategory", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-briefcase"></i> Income </a>
+                                    <a href="@Url.Action("Index", "IncomeCategory", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-briefcase"></i> Income <span class="badge label-primary pull-right">@income</span></a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index", "Meeting", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-gavel"></i> Meetings </a>
+                                    <a href="@Url.Action("Index", "Meeting", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-gavel"></i> Meetings <span class="badge label-primary pull-right">@meeting</span></a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index", "Memo", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-list-alt"></i> Memos </a>
+                                    <a href="@Url.Action("Index", "Memo", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-list-alt"></i> Memos <span class="badge label-primary pull-right">@memo</span></a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index", "Project", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-connectdevelop"></i> Projects </a>
+                                    <a href="@Url.Action("Index", "Project", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-connectdevelop"></i> Projects <span class="badge label-primary pull-right">@project</span></a>
                                 </li>
                             </ul>
                         </div>

@@ -1,7 +1,20 @@
 ﻿@using Microsoft.AspNet.Identity
-@using AIMS.Data.DataObjects.Entities.Role
+@using SAAS_AIMS.Models
+@using AIMS.Data.DataContext.DataContext.SessionDataContext
+@using AIMS.Data.DataContext.DataContext.MemberDataContext
+@using AIMS.Data.DataContext.DataContext.RoleDataContext
 @{
-    var role = Session["role"] as Role;
+    var id = User.Identity.GetUserId();
+    AppUserDataContext _context = new AppUserDataContext();
+    var user = _context.Users.Find(id);
+    var role = user.Role;
+    var _Context = new SessionDataContext();
+    var sessions = _Context.Sessions.ToArray().Length;
+    var _Member = new MemberDataContext();
+    var members = _Member.Members.ToArray().Length;
+    var users = _context.Users.ToArray().Length;
+    var _role = new RoleDataContext();
+    var roles = _role.Roles.ToArray().Length;
 }
 <!DOCTYPE html>
 
@@ -57,28 +70,30 @@
                             <h3>General</h3>
                             <ul class="nav side-menu">
                                 <li>
-                                    <a class="active" href="@Url.Action("Index", "Dashboard")"><i class="fa fa-home"></i> Dashboard</a>
+                                    <a class="active" href="javascript:void();"><i class="fa fa-home"></i> Dashboard</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index", "Session")"><i class="fa fa-calendar"></i> Sessions </a>
+                                    <a href="@Url.Action("Index", "Session")"><i class="fa fa-calendar"></i> Sessions <span class="badge label-primary pull-right">@sessions</span></a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index", "Member")"><i class="fa fa-users"></i> Members </a>
+                                    <a href="@Url.Action("Index", "Member")"><i class="fa fa-users"></i> Members <span class="badge label-primary pull-right">@members</span></a>
                                 </li>
                             </ul>
                         </div>
-                        @if (role.CanManageUsers == true) { 
-                        <div class="menu_section">
-                            <h3>ADMINISTRATOR</h3>
-                            <ul class="nav side-menu">
-                                <li>
-                                    <a href="@Url.Action("UserIndex", "Account")"><i class="fa fa-wrench"></i> Manage User Accounts</a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("RoleIndex", "Account")"><i class="fa fa-wrench"></i> Manage User Roles</a>
-                                </li>
-                            </ul>
-                        </div>
+                        
+                        @if (role.CanManageUsers) 
+                        { 
+                            <div class="menu_section">
+                                <h3>ADMINISTRATOR</h3>
+                                <ul class="nav side-menu">
+                                    <li>
+                                        <a href="@Url.Action("UserIndex", "Account")"><i class="fa fa-wrench"></i> Manage User Accounts <span class="badge label-primary pull-right">@users</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("RoleIndex", "Account")"><i class="fa fa-wrench"></i> Manage User Roles <span class="badge label-primary pull-right">@roles</span></a>
+                                    </li>
+                                </ul>
+                            </div>
                         }
                     </div>
                     <!-- /sidebar menu -->

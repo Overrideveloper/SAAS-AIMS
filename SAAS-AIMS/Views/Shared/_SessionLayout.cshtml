@@ -1,5 +1,9 @@
 ﻿@using Microsoft.AspNet.Identity
-
+@using AIMS.Data.DataContext.DataContext.SessionDataContext
+@{
+    var _Context = new SessionDataContext();
+    var sessions = _Context.Sessions.ToArray().Length;
+}
 <!DOCTYPE html>
 
 <html>
@@ -60,7 +64,7 @@
                                     <a href="@Url.Action("Index", "Dashboard")"><i class="fa fa-arrow-left"></i> Return to Dashboard</a>
                                 </li>
                                 <li>
-                                    <a class="active" href="@Url.Action("Index", "Session")"><i class="fa fa-calendar"></i> Sessions </a>
+                                    <a class="active" href="javascript:void();"><i class="fa fa-calendar"></i> Sessions <span class="badge label-primary pull-right">@sessions</span></a>
                                 </li>
                             </ul>
                         </div>

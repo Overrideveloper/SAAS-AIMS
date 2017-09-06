@@ -71,13 +71,15 @@ namespace SAAS_AIMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Project project, HttpPostedFileBase file)
         {
-            var info = new FileInfo(file.FileName);
-
-            if (file.FileName != "" || file != null)
+            if (file != null)
             {
-                if ((info.Extension.ToLower() != ".jpg") || (info.Extension.ToLower() != ".jpeg") || (info.Extension.ToLower() != ".gif")
-                || (info.Extension.ToLower() != ".png") || (info.Extension.ToLower() != ".pdf") || (info.Extension.ToLower() != ".docx")
-                || (info.Extension.ToLower() != ".txt") || (info.Extension.ToLower() != ".doc") || (info.Extension.ToLower() != ".rtf"))
+                var info = new FileInfo(file.FileName);
+                if (info.Extension.ToLower() == ".jpg" || info.Extension.ToLower() == ".jpeg" || info.Extension.ToLower() == ".gif"
+                || info.Extension.ToLower() == ".png" || info.Extension.ToLower() == ".pdf" || info.Extension.ToLower() == ".docx"
+                || info.Extension.ToLower() == ".txt" || info.Extension.ToLower() == ".doc" || info.Extension.ToLower() == ".rtf")
+                {
+                }
+                else
                 {
                     ModelState.AddModelError("incompatible", "File format not supported");
                 }
@@ -131,13 +133,15 @@ namespace SAAS_AIMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Project project, HttpPostedFileBase file)
         {
-            var info = new FileInfo(file.FileName);
-
-            if (file.FileName != "" || file != null)
+            if (file != null)
             {
-                if ((info.Extension.ToLower() != ".jpg") || (info.Extension.ToLower() != ".jpeg") || (info.Extension.ToLower() != ".gif")
-                || (info.Extension.ToLower() != ".png") || (info.Extension.ToLower() != ".pdf") || (info.Extension.ToLower() != ".docx")
-                || (info.Extension.ToLower() != ".txt") || (info.Extension.ToLower() != ".doc") || (info.Extension.ToLower() != ".rtf"))
+                var info = new FileInfo(file.FileName);
+                if (info.Extension.ToLower() == ".jpg" || info.Extension.ToLower() == ".jpeg" || info.Extension.ToLower() == ".gif"
+                || info.Extension.ToLower() == ".png" || info.Extension.ToLower() == ".pdf" || info.Extension.ToLower() == ".docx"
+                || info.Extension.ToLower() == ".txt" || info.Extension.ToLower() == ".doc" || info.Extension.ToLower() == ".rtf")
+                {
+                }
+                else
                 {
                     ModelState.AddModelError("incompatible", "File format not supported");
                 }
@@ -148,7 +152,7 @@ namespace SAAS_AIMS.Controllers
                 project.DateLastModified = DateTime.Now;
                 project.LastModifiedBy = Convert.ToInt64(Session["sessionid"]);
 
-                if (file != null && file.FileName != "")
+                if (file != null)
                 {
                     project.FileUpload = new FileUploader().UploadFile(file, UploadType.Projects);
                 }

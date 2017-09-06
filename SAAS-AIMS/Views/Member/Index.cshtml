@@ -3,12 +3,18 @@
 @using System.ComponentModel;
 @using AIMS.Data.Enums.Enums.State;
 @using AIMS.Data.Enums.Enums.Level;
+@using Microsoft.AspNet.Identity
+@using SAAS_AIMS.Models
 
 @{
     TypeConverter converter1 = TypeDescriptor.GetConverter(typeof(Level));
     TypeConverter converter2 = TypeDescriptor.GetConverter(typeof(State));
     ViewBag.Title = "Members";
     Layout = "~/Views/Shared/_MemberLayout.cshtml";
+    var id = User.Identity.GetUserId();
+    AppUserDataContext _context = new AppUserDataContext();
+    var user = _context.Users.Find(id);
+    var role = user.Role;
 }
 
 <div class="right_col" role="main">
@@ -41,7 +47,7 @@
                             }
                             if (TempData["NotificationType"] == NotificationType.Edit.ToString())
                             {
-                                <div class="alert alert-info alert-dismissible fadeIn fadeOut out fade in" role="alert">
+                                <div class="alert alert-success alert-dismissible fadeIn fadeOut out fade in" role="alert">
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -50,7 +56,7 @@
                             }
                             if (TempData["NotificationType"] == NotificationType.Delete.ToString())
                             {
-                                <div class="alert alert-warning alert-dismissible fadeIn fadeOut out fade in" role="alert">
+                                <div class="alert alert-success alert-dismissible fadeIn fadeOut out fade in" role="alert">
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -98,21 +104,20 @@
                             }
                         }
 
+                        @if (role.CanManageMembers) {
+                            <div class="pull-left">
+                                <a class="btn btn-info btn-sm" href="@Url.Action("Upload", "Member", new { upload = true })"><i class="fa fa-upload"></i> Upload Members' Data via CSV</a><br />
+                            </div>
 
-                        <div class="pull-left">
-                            <a class="btn btn-info btn-sm" href="@Url.Action("Upload", "Member", new { upload = true })"><i class="fa fa-upload"></i> Upload Members' Data via CSV</a><br />
-                        </div>
-
-                        <div class="pull-right">
-                            <a class="btn btn-info btn-sm" data-modal="" href="@Url.Action("Create", "Member")"><i class="fa fa-plus"></i> Add Member</a><br />
-                        </div>
-
+                            <div class="pull-right">
+                                <a class="btn btn-info btn-sm" data-modal="" href="@Url.Action("Create", "Member")"><i class="fa fa-plus"></i> Add Member</a><br />
+                            </div>
+                        }
                         <table id="datatable-buttons" class="grid table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th>Surname</th>
                                     <th>First Name</th>
-                                    <th>Middle Name</th>
                                     <th>Matric. Number</th>
                                     <th>Gender</th>
                                     <th>State of Origin</th>
@@ -129,30 +134,36 @@
                                     <tr>
                                         <td>@member.Surname</td>
                                         <td>@member.FirstName</td>
-                                        <td>@member.MidName</td>
                                         <td>@member.MatricNumber</td>
                                         <td>@member.Gender</td>
                                         <td>@converter2.ConvertToString(member.StateOfOrigin)</td>
                                         <td>@member.YearOfAdmission.Year</td>
                                         <td>@converter1.ConvertToString(member.LevelOfAdmission)</td>
                                         <td>
-                                            <a class="btn btn-xs btn-default" data-modal="" href="@Url.Action("Edit", "Member", new { id = member.ID })"><i class="fa fa-pencil"></i> Edit</a>
-                                            <a class="btn btn-xs btn-danger delete" href="@Url.Action("Delete", "Member", new { id = member.ID})"><i class="fa fa-remove"></i> Delete</a>
-                                            <a class="btn btn-xs btn-info" href="@Url.Action("Index", "Dues", new { memberid = member.ID})"><i class="fa fa-files-o"></i> View Dues Details</a>
+                                            @if (role.CanManageMembers)
+                                            {
+                                                <a class="btn btn-xs btn-default" data-modal="" href="@Url.Action("Edit", "Member", new { id = member.ID })"><i class="fa fa-pencil"></i> Edit</a>
+                                                <a class="btn btn-xs btn-danger delete" href="@Url.Action("Delete", "Member", new { id = member.ID})"><i class="fa fa-remove"></i> Delete</a>
+                                                <a class="btn btn-xs btn-info" href="@Url.Action("Index", "Dues", new { memberid = member.ID})"><i class="fa fa-files-o"></i> View Dues Details</a>   
+                                            }
                                         </td>
                                     </tr>
                                 }
                             </tbody>
                         </table>
 
-                        <!-- modal placeholder-->
-                        <div id='myModal' class='modal fade in'>
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div id='myModalContent'></div>
+                        @if (role.CanManageMembers)
+                        {
+                            <!-- modal placeholder-->
+                            <div id='myModal' class='modal fade in'>
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div id='myModalContent'></div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            </div>    
+                        }
+                        
                     </div>
                 </div>
             </div>

@@ -1,5 +1,9 @@
 ﻿@using Microsoft.AspNet.Identity
-
+@using AIMS.Data.DataContext.DataContext.MemberDataContext
+@{
+    var _Member = new MemberDataContext();
+    var members = _Member.Members.ToArray().Length;
+}
 <!DOCTYPE html>
 
 <html>
@@ -60,7 +64,7 @@
                                     <a href="@Url.Action("Index", "Dashboard")"><i class="fa fa-arrow-left"></i> Return to Dashboard </a>
                                 </li>
                                 <li>
-                                    <a class="active" href="@Url.Action("Index", "Member")"><i class="fa fa-users"></i> Members </a>
+                                    <a class="active" href="javascript:void();"><i class="fa fa-users"></i> Members <span class="badge label-primary pull-right">@members</span></a>
                                 </li>
                             </ul>
                         </div>

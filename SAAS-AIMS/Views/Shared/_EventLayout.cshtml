@@ -1,5 +1,9 @@
 ﻿@using Microsoft.AspNet.Identity
-
+@using AIMS.Data.DataContext.DataContext.EventDataContext
+@{
+    var _event = new EventDataContext();
+    var events = _event.Event.ToArray().Length;
+}
 <!DOCTYPE html>
 
 <html>
@@ -60,7 +64,7 @@
                                     <a href="@Url.Action("Statistics", "SessionDetails", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-arrow-left"></i> Return to Session Dashboard </a>
                                 </li>
                                 <li>
-                                    <a class="active" href="@Url.Action("Index", "Event", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-calendar-check-o"></i> Events </a>
+                                    <a class="active" href="javascript:void();"><i class="fa fa-calendar-check-o"></i> Events <span class="badge label-primary pull-right">@events</span></a>
                                 </li>
                             </ul>
                         </div>
