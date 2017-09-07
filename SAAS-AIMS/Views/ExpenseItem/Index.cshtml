@@ -1,12 +1,19 @@
 ﻿@model IEnumerable<AIMS.Data.DataObjects.Entities.Expense.ExpenseItem>
 @using AIMS.Data.Enums.Enums.NotificationType
 @using AIMS.Data.DataContext.DataContext.ExpenseDataContext
+@using Microsoft.AspNet.Identity
+@using SAAS_AIMS.Models
 @{
     ViewBag.Title = TempData["category"] + " Items";
     Layout = "~/Views/Shared/_ExpenseItemLayout.cshtml";
     var _context = new ExpenseDataContext();
     var _category = Convert.ToInt64(Session["expenseid"]);
     var total = _context.ExpenseItem.Where(s => s.ExpenseCategoryID == _category).Sum(s => (Decimal?)s.Amount) ?? 0;
+    var id = User.Identity.GetUserId();
+    AppUserDataContext _db = new AppUserDataContext();
+    var user = _db.Users.Find(id);
+    var role = user.Role;
+    
 }
 
 
@@ -40,7 +47,7 @@
                             }
                             if (TempData["NotificationType"] == NotificationType.Edit.ToString())
                             {
-                                <div class="alert alert-info alert-dismissible fadeIn fadeOut out fade in" role="alert">
+                                <div class="alert alert-success alert-dismissible fadeIn fadeOut out fade in" role="alert">
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -49,7 +56,7 @@
                             }
                             if (TempData["NotificationType"] == NotificationType.Delete.ToString())
                             {
-                                <div class="alert alert-warning alert-dismissible fadeIn fadeOut out fade in" role="alert">
+                                <div class="alert alert-success alert-dismissible fadeIn fadeOut out fade in" role="alert">
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -58,9 +65,12 @@
                             }
                         }
 
-                        <div class="pull-right">
-                            <a class="btn btn-info btn-sm" data-modal="" href="@Url.Action("Create", "ExpenseItem")"><i class="fa fa-plus"></i> Add Expense Item</a><br />
-                        </div>
+                        @if (role.CanManageExpenses)
+                        {
+                            <div class="pull-right">
+                                <a class="btn btn-info btn-sm" data-modal="" href="@Url.Action("Create", "ExpenseItem")"><i class="fa fa-plus"></i> Add Expense Item</a><br />
+                            </div>   
+                        }
 
                         <table id="datatable-buttons" class="grid table table-striped table-bordered">
                             <thead>
@@ -79,9 +89,12 @@
                                         <td>@item.Title</td>
                                         <td>N @item.Amount.ToString("#,##")</td>
                                         <td>
-                                            <a class="btn btn-xs btn-default" data-modal="" href="@Url.Action("Edit", "ExpenseItem", new { id = item.ID })"><i class="fa fa-pencil"></i> Edit</a>
-                                            <a class="btn btn-xs btn-danger delete" href="@Url.Action("Delete", "ExpenseItem", new { id = item.ID })"><i class="fa fa-remove"></i> Delete</a>
-                                        </td>
+                                            @if (role.CanManageExpenses)
+                                            {
+                                                <a class="btn btn-xs btn-default" data-modal="" href="@Url.Action("Edit", "ExpenseItem", new { id = item.ID })"><i class="fa fa-pencil"></i> Edit</a>
+                                                <a class="btn btn-xs btn-danger delete" href="@Url.Action("Delete", "ExpenseItem", new { id = item.ID })"><i class="fa fa-remove"></i> Delete</a>
+                                            }                                    
+                                         </td>   
                                     </tr>
                                 }
                                 <tr style="background-color:cadetblue; color:white;">
@@ -92,14 +105,17 @@
                             </tbody>
                         </table>
 
-                        <!-- modal placeholder-->
-                        <div id='myModal' class='modal fade in'>
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div id='myModalContent'></div>
+                        @if(role.CanManageExpenses)
+                        { 
+                            <!-- modal placeholder-->
+                            <div id='myModal' class='modal fade in'>
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div id='myModalContent'></div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        }
 
                     </div>
                 </div>

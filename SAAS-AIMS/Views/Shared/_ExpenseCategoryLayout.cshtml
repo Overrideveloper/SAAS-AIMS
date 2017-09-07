@@ -1,5 +1,10 @@
 ﻿@using Microsoft.AspNet.Identity
-
+@using AIMS.Data.DataContext.DataContext.ExpenseDataContext
+@{
+    var sessionid = Convert.ToInt64(Session["sessionid"]);
+    var _context = new ExpenseDataContext();
+    var category = _context.ExpenseCategory.Where(s => s.SessionID == sessionid).ToArray().Length;
+}
 <!DOCTYPE html>
 
 <html>
@@ -60,7 +65,7 @@
                                     <a href="@Url.Action("Statistics", "SessionDetails", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-arrow-left"></i> Return to Session Dashboard </a>
                                 </li>
                                 <li>
-                                    <a class="active" href="@Url.Action("Index", "ExpenseCategory", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-shopping-cart"></i> Expense Categories </a>
+                                    <a class="active" href="javascript:void();"><i class="fa fa-shopping-cart"></i> Expense Categories <span class="badge label label-default pull-right">@category</span></a>
                                 </li>
                             </ul>
                         </div>

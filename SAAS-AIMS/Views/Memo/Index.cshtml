@@ -3,11 +3,16 @@
 @using AIMS.Data.Enums.Enums.UploadType
 @using AIMS.Data.Enums.Enums.MemoType
 @using System.ComponentModel;
-
+@using Microsoft.AspNet.Identity
+@using SAAS_AIMS.Models
 @{
     ViewBag.Title = TempData["sess"] + "Memos";
     Layout = "~/Views/Shared/_MemoLayout.cshtml";
     TypeConverter converter = TypeDescriptor.GetConverter(typeof(MemoType));
+    var id = User.Identity.GetUserId();
+    AppUserDataContext _context = new AppUserDataContext();
+    var user = _context.Users.Find(id);
+    var role = user.Role;
 }
 
 
@@ -41,7 +46,7 @@
                             }
                             if (TempData["NotificationType"] == NotificationType.Edit.ToString())
                             {
-                                <div class="alert alert-info alert-dismissible fadeIn fadeOut out fade in" role="alert">
+                                <div class="alert alert-success alert-dismissible fadeIn fadeOut out fade in" role="alert">
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -50,7 +55,7 @@
                             }
                             if (TempData["NotificationType"] == NotificationType.Delete.ToString())
                             {
-                                <div class="alert alert-warning alert-dismissible fadeIn fadeOut out fade in" role="alert">
+                                <div class="alert alert-success alert-dismissible fadeIn fadeOut out fade in" role="alert">
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -59,10 +64,13 @@
                             }
                         }
 
-                        <div class="pull-right">
-                            <a class="btn btn-info btn-sm" href="@Url.Action("Create", "Memo", new { sessionid = Convert.ToInt64(Session["sessionid"] )})"><i class="fa fa-plus"></i> Add Memo Entry</a><br />
-                        </div>
-
+                        @if (role.CanManageMemos)
+                        {
+                            <div class="pull-right">
+                                <a class="btn btn-info btn-sm" href="@Url.Action("Create", "Memo", new { sessionid = Convert.ToInt64(Session["sessionid"] )})"><i class="fa fa-plus"></i> Add Memo Entry</a><br />
+                            </div>   
+                        }
+                       
                         <table id="datatable-buttons" class="grid table table-striped table-bordered">
                             <thead>
                                 <tr>
@@ -82,8 +90,11 @@
                                         <td>@converter.ConvertToString(memo.Type)</td>
                                         <td>@memo.Description</td>
                                         <td>
-                                            <a class="btn btn-xs btn-default" href="@Url.Action("Edit", "Memo", new { id = memo.ID })"><i class="fa fa-pencil"></i> Edit</a>
-                                            <a class="btn btn-xs btn-danger delete" href="@Url.Action("Delete", "Memo", new { id = memo.ID})"><i class="fa fa-remove"></i> Delete</a>
+                                            @if (role.CanManageMemos)
+                                            {
+                                                <a class="btn btn-xs btn-default" href="@Url.Action("Edit", "Memo", new { id = memo.ID })"><i class="fa fa-pencil"></i> Edit</a>
+                                                <a class="btn btn-xs btn-danger delete" href="@Url.Action("Delete", "Memo", new { id = memo.ID})"><i class="fa fa-remove"></i> Delete</a>   
+                                            }
                                             @if (memo.FileUpload != null)
                                             {
                                                 <a class="btn btn-xs btn-warning" href="../../UploadedFiles/@UploadType.Memos.ToString()/@memo.FileUpload" target="_self"><i class="fa fa-files-o"></i> View Memo</a>

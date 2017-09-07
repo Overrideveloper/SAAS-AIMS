@@ -1,105 +1,112 @@
 ﻿@model AIMS.Data.DataObjects.Entities.Meeting.Meeting
 @using AIMS.Services.EnumDropDownList
-
+@using Microsoft.AspNet.Identity
+@using SAAS_AIMS.Models
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_MeetingLayout.cshtml";
+    var id = User.Identity.GetUserId();
+    AppUserDataContext _context = new AppUserDataContext();
+    var user = _context.Users.Find(id);
+    var role = user.Role;
 }
 
-<style>
-    #form {
-        width: 50%;
-        margin: 0 auto;
-        float: none;
-    }
-</style>
+@if (role.CanManageMeetings)
+{
+    <style>
+        #form {
+            width: 50%;
+            margin: 0 auto;
+            float: none;
+        }
+    </style>
 
-<div class="right_col" role="main">
-    <div class="">
-        <div class="page-title">
-            <div class="title_left">
-                <h3>Edit Meeting Entry</h3>
+    <div class="right_col" role="main">
+        <div class="">
+            <div class="page-title">
+                <div class="title_left">
+                    <h3>Edit Meeting Entry</h3>
+                </div>
             </div>
-        </div>
-        <div class="clearfix"></div>
-        <div class="clearfix"></div>
-        <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                    <div>
-                        <a class="btn btn-info btn-sm" href="@Url.Action("Index", "Meeting", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-arrow-left"></i> Return to Meeting Entry List</a><br />
-                    </div>
-                    <div class="x_content">    
-                        @using (Html.BeginForm("Edit", "Meeting", FormMethod.Post, new { @class = "form", enctype = "multipart/form-data" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            @Html.Hidden("FileUpload")
-                            @Html.HiddenFor(model => Model.ID)
-                            @Html.HiddenFor(model => Model.SessionID)
-                            @Html.HiddenFor(model => Model.CreatedBy)
-                            @Html.HiddenFor(model => Model.DateCreated)
-                            @Html.HiddenFor(model => Model.DateLastModified)
-                            @Html.HiddenFor(model => Model.LastModifiedBy)
+            <div class="clearfix"></div>
+            <div class="clearfix"></div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div>
+                            <a class="btn btn-info btn-sm" href="@Url.Action("Index", "Meeting", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-arrow-left"></i> Return to Meeting Entry List</a><br />
+                        </div>
+                        <div class="x_content">    
+                            @using (Html.BeginForm("Edit", "Meeting", FormMethod.Post, new { @class = "form", enctype = "multipart/form-data" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.Hidden("FileUpload")
+                                @Html.HiddenFor(model => Model.ID)
+                                @Html.HiddenFor(model => Model.SessionID)
+                                @Html.HiddenFor(model => Model.CreatedBy)
+                                @Html.HiddenFor(model => Model.DateCreated)
+                                @Html.HiddenFor(model => Model.DateLastModified)
+                                @Html.HiddenFor(model => Model.LastModifiedBy)
                             
-                            <fieldset>
-                                <div class="fa-blink"> <strong>Note:</strong> These are the supported file formats: Pdf, Docx, Doc, Rtf and Txt </div>
-                            </fieldset><br />
+                                <fieldset>
+                                    <div class="fa-blink"> <strong>Note:</strong> These are the supported file formats: Pdf, Docx, Doc, Rtf and Txt </div>
+                                </fieldset><br />
                             
-                                <div class="col-sm-4">
-                                    <label for="title" class="control-label"> Title </label>
-                                    @Html.TextBoxFor(model => Model.Title, new { @class = "form-control required", @id = "title" })
-                                    <div class="text-danger">
-                                        @Html.ValidationMessageFor(model => model.Title)
+                                    <div class="col-sm-4">
+                                        <label for="title" class="control-label"> Title </label>
+                                        @Html.TextBoxFor(model => Model.Title, new { @class = "form-control required", @id = "title" })
+                                        <div class="text-danger">
+                                            @Html.ValidationMessageFor(model => model.Title)
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="col-sm-4">
-                                    <label for="venue" class="control-label"> Venue </label>
-                                    @Html.TextBoxFor(model => Model.Venue, new { @class = "form-control", @id = "venue" })
-                                    <div class="text-danger">
-                                        @Html.ValidationMessageFor(model => model.Venue)
+                                    <div class="col-sm-4">
+                                        <label for="venue" class="control-label"> Venue </label>
+                                        @Html.TextBoxFor(model => Model.Venue, new { @class = "form-control", @id = "venue" })
+                                        <div class="text-danger">
+                                            @Html.ValidationMessageFor(model => model.Venue)
+                                        </div>
                                     </div>
-                                </div>
 
-                                 <div class="col-sm-2">
-                                    <label for="semester" class="control-label"> Semester </label>
-                                    @Html.EnumDropDownListFor(model => model.Semester, Model.Semester, string.Empty, new { @class = "form-control", @id = "semester" })
-                                    <div class="text-danger">
-                                        @Html.ValidationMessageFor(model => model.Semester)
-                                    </div>
-                                </div> 
+                                     <div class="col-sm-2">
+                                        <label for="semester" class="control-label"> Semester </label>
+                                        @Html.EnumDropDownListFor(model => model.Semester, Model.Semester, string.Empty, new { @class = "form-control", @id = "semester" })
+                                        <div class="text-danger">
+                                            @Html.ValidationMessageFor(model => model.Semester)
+                                        </div>
+                                    </div> 
                             
-                                <div class="col-sm-4">
-                                    <label for="date" class="control-label"> Date </label>
-                                    @Html.TextBoxFor(model => Model.Date, "{0:dd MMMM yyyy}", new { @class = "form-control required", @id = "date", @type = "datetime" })
-                                    <div class="text-danger">
-                                        @Html.ValidationMessageFor(model => model.Date)
+                                    <div class="col-sm-4">
+                                        <label for="date" class="control-label"> Date </label>
+                                        @Html.TextBoxFor(model => Model.Date, "{0:dd MMMM yyyy}", new { @class = "form-control required", @id = "date", @type = "datetime" })
+                                        <div class="text-danger">
+                                            @Html.ValidationMessageFor(model => model.Date)
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="col-sm-4">
-                                    <br />
-                                    <label for="file" class="control-label"> Upload minutes of meeting </label>
-                                    <div>
-                                        <input type="file" name="file" style="width: 100%;" />
+                                    <div class="col-sm-4">
+                                        <br />
+                                        <label for="file" class="control-label"> Upload minutes of meeting </label>
+                                        <div>
+                                            <input type="file" name="file" style="width: 100%;" />
+                                        </div>
+                                        <div class="text-danger">
+                                            @Html.ValidationMessageFor(model => model.FileUpload)
+                                            @Html.ValidationMessage("incompatible")
+                                        </div>
                                     </div>
-                                    <div class="text-danger">
-                                        @Html.ValidationMessageFor(model => model.FileUpload)
-                                        @Html.ValidationMessage("incompatible")
-                                    </div>
-                                </div>
 
-                                <div class="pull-right">
-                                    <br /><br />
-                                    <input class="btn btn-primary btn-raised" type="submit" value="Save" />
-                                </div>
-                        }
+                                    <div class="pull-right">
+                                        <br /><br />
+                                        <input class="btn btn-primary btn-raised" type="submit" value="Save" />
+                                    </div>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -118,4 +125,5 @@
             });
         });
     </script>
+}
 }

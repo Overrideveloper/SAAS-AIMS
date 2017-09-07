@@ -1,8 +1,9 @@
 ﻿@using Microsoft.AspNet.Identity
 @using AIMS.Data.DataContext.DataContext.ExcoDataContext
 @{
+    var sessionid = Convert.ToInt64(Session["sessionid"]);
     var _exco = new ExcoDataContext();
-    var exco = _exco.Exco.ToArray().Length;
+    var exco = _exco.Exco.Where(s => s.SessionID == sessionid).ToArray().Length;
 }
 <!DOCTYPE html>
 

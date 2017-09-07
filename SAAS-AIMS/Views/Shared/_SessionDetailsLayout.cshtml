@@ -7,20 +7,21 @@
 @using AIMS.Data.DataContext.DataContext.MemoDataContext
 @using AIMS.Data.DataContext.DataContext.ProjectDataContext
 @{
+    var sessionid = Convert.ToInt64(Session["sessionid"]);
     var _event = new EventDataContext();
-    var events = _event.Event.ToArray().Length;
+    var events = _event.Event.Where(s => s.SessionID == sessionid).ToArray().Length;
     var _exco = new ExcoDataContext();
-    var exco = _exco.Exco.ToArray().Length;
+    var exco = _exco.Exco.Where(s => s.SessionID == sessionid).ToArray().Length;
     var _expense = new ExpenseDataContext();
-    var expense = _expense.ExpenseCategory.ToArray().Length;
+    var expense = _expense.ExpenseCategory.Where(s => s.SessionID == sessionid).ToArray().Length;
     var _income = new IncomeDataContext();
-    var income = _income.IncomeCategory.ToArray().Length;
+    var income = _income.IncomeCategory.Where(s => s.SessionID == sessionid).ToArray().Length;
     var _meeting = new MeetingDataContext();
-    var meeting = _meeting.Meetings.ToArray().Length;
+    var meeting = _meeting.Meetings.Where(s => s.SessionID == sessionid).ToArray().Length;
     var _memo = new MemoDataContext();
-    var memo = _memo.Memos.ToArray().Length;
+    var memo = _memo.Memos.Where(s => s.SessionID == sessionid).ToArray().Length;
     var _project = new ProjectDataContext();
-    var project = _project.Projects.ToArray().Length;
+    var project = _project.Projects.Where(s => s.SessionID == sessionid).ToArray().Length;
 }
 <!DOCTYPE html>
 

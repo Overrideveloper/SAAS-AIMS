@@ -1,8 +1,9 @@
 ﻿@using Microsoft.AspNet.Identity
 @using AIMS.Data.DataContext.DataContext.EventDataContext
 @{
+    var sessionid = Convert.ToInt64(Session["sessionid"]);
     var _event = new EventDataContext();
-    var events = _event.Event.ToArray().Length;
+    var events = _event.Event.Where(s => s.SessionID == sessionid).ToArray().Length;
 }
 <!DOCTYPE html>
 

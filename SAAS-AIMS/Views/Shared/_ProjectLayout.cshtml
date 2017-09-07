@@ -1,4 +1,10 @@
 ﻿@using Microsoft.AspNet.Identity
+@using AIMS.Data.DataContext.DataContext.ProjectDataContext
+@{
+    var sessionid = Convert.ToInt64(Session["sessionid"]);
+    var _context = new ProjectDataContext();
+    var project = _context.Projects.Where(s => s.SessionID == sessionid).ToArray().Length;
+}
 
 <!DOCTYPE html>
 
@@ -60,7 +66,7 @@
                                     <a href="@Url.Action("Statistics", "SessionDetails", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-arrow-left"></i> Return to Session Dashboard </a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index", "Project", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-connectdevelop"></i> Projects </a>
+                                    <a class="active" href="javascript:void();"><i class="fa fa-connectdevelop"></i> Projects <span class="badge label label-default pull-right">@project</span></a>
                                 </li>
                             </ul>
                         </div>

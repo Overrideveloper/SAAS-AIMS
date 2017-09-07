@@ -1,5 +1,10 @@
 ﻿@using Microsoft.AspNet.Identity
-
+@using AIMS.Data.DataContext.DataContext.MemoDataContext
+@{
+    var sessionid = Convert.ToInt64(Session["sessionid"]);
+    var _context = new MemoDataContext();
+    var memo = _context.Memos.Where(s => s.SessionID == sessionid).ToArray().Length;
+}
 <!DOCTYPE html>
 
 <html>
@@ -60,7 +65,7 @@
                                     <a href="@Url.Action("Statistics", "SessionDetails", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-arrow-left"></i> Return to Session Dashboard </a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index", "Memo", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-list-alt"></i> Memos </a>
+                                    <a href="javascript:void();"><i class="fa fa-list-alt"></i> Memos <span class="badge label label-default pull-right">@memo</span></a>
                                 </li>
                             </ul>
                         </div>

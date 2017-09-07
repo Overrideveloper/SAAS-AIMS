@@ -1,5 +1,10 @@
 ﻿@using Microsoft.AspNet.Identity
-
+@using AIMS.Data.DataContext.DataContext.ExpenseDataContext
+@{
+    var _context = new ExpenseDataContext();
+    var _category = Convert.ToInt64(Session["expenseid"]);
+    var item = _context.ExpenseItem.Where(s => s.ExpenseCategoryID == _category).ToArray().Length;
+}
 <!DOCTYPE html>
 
 <html>
@@ -57,10 +62,10 @@
                         <div class="menu_section">
                             <ul class="nav side-menu">
                                 <li>
-                                    <a class="active" href="@Url.Action("Index", "ExpenseCategory", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-arrow-left"></i> Return to Expense Categories </a>
+                                    <a href="@Url.Action("Index", "ExpenseCategory", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-arrow-left"></i> Return to Expense Categories </a>
                                 </li>
                                 <li>
-                                    <a class="active" href="@Url.Action("Index", "ExpenseItem", new { expenseid = Convert.ToInt64(Session["expenseid"]) })"><i class="fa fa-files-o"></i> Expense Items </a>
+                                    <a class="active" href="javascript:void();"><i class="fa fa-files-o"></i> Expense Items <span class="badge label label-default pull-right">@item</span></a>
                                 </li>
                             </ul>
                         </div>

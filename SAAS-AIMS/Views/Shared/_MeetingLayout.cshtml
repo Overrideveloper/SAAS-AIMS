@@ -1,4 +1,10 @@
 ﻿@using Microsoft.AspNet.Identity
+@using AIMS.Data.DataContext.DataContext.MeetingDataContext
+@{
+    var sessionid = Convert.ToInt64(Session["sessionid"]);
+    var _context = new MeetingDataContext();
+    var meeting = _context.Meetings.Where(s => s.SessionID == sessionid).ToArray().Length;
+}
 
 <!DOCTYPE html>
 
@@ -60,7 +66,7 @@
                                     <a href="@Url.Action("Statistics", "SessionDetails", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-arrow-left"></i> Return to Session Dashboard </a>
                                 </li>
                                 <li>
-                                    <a class="active" href="@Url.Action("Index", "Meeting", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-gavel"></i> Meetings </a>
+                                    <a class="active" href="javascript:void();"><i class="fa fa-gavel"></i> Meetings <span class="badge label label-default pull-right">@meeting</span></a>
                                 </li>
                             </ul>
                         </div>
