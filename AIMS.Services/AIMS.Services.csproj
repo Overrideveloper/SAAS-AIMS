@@ -46,6 +46,7 @@
     <Compile Include="EnumRadioButton\EnumRadioButton.cs" />
     <Compile Include="FIleUploader\FileUploader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RandomStringGenerator\RandomStringGenerator.cs" />
     <Compile Include="UsernameGenerator\UsernameGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
