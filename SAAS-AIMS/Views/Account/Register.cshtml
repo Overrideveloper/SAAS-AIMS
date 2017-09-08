@@ -8,10 +8,13 @@
 
 @using (Html.BeginForm("Register", "Account", FormMethod.Post))
 {
+    
     @Html.AntiForgeryToken()
+    string hash = Convert.ToString(ViewBag.hash);
+    @Html.Hidden("Password", hash)
+    @Html.Hidden("ConfirmPassword", hash)
 
     <div class="modal-body">
-
         <div class="form-horizontal">
             <div class="text-danger">@Html.ValidationSummary()</div>
             <div class="form-group">
@@ -29,24 +32,6 @@
                     @Html.DropDownListFor(model => Model.RoleID, (IEnumerable<SelectListItem>)ViewBag.Role, "--- Select a role ---", new { @class = "form-control required", @id = "role"})
                     <div class="text-danger">
                         @Html.ValidationMessageFor(model => model.RoleID)
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="auth" class="control-label col-sm-3"> Password </label>
-                <div class="col-sm-9">
-                    @Html.TextBoxFor(model => Model.Password, new { @class = "form-control required", @id = "auth", @type = "password" })
-                    <div class="text-danger">
-                        @Html.ValidationMessageFor(model => model.Password)
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="pass" class="control-label col-sm-3"> Confirm Password </label>
-                <div class="col-sm-9">
-                    @Html.TextBoxFor(model => Model.ConfirmPassword, new { @class = "form-control required", @id = "pass", @type = "password" })
-                    <div class="text-danger">
-                        @Html.ValidationMessageFor(model => model.ConfirmPassword)
                     </div>
                 </div>
             </div>

@@ -13,6 +13,7 @@ using AIMS.Data.DataObjects.Entities.Role;
 using AIMS.Data.DataContext.DataContext.RoleDataContext;
 using System.Data.Entity;
 using AIMS.Data.Enums.Enums.NotificationType;
+using AIMS.Services.RandomStringGenerator;
 
 namespace SAAS_AIMS.Controllers
 {
@@ -164,6 +165,7 @@ namespace SAAS_AIMS.Controllers
         public ActionResult Register()
         {
             ViewBag.Role = new SelectList(_roledatacontext.Roles, "ID", "Title");
+            ViewBag.hash = new RandomStringGenerator().GenerateString();
             return PartialView();
         }
 

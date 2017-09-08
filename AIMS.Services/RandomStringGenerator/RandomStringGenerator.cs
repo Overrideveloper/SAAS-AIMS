@@ -8,7 +8,7 @@ namespace AIMS.Services.RandomStringGenerator
 {
     public class RandomStringGenerator
     {
-        private string GenerateString()
+        public string GenerateString()
         {
             string allowedChars = string.Empty;
             
