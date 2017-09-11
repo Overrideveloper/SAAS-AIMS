@@ -50,44 +50,6 @@ namespace SAAS_AIMS.Controllers
             return Json(new { members = members }, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult CurrentSessionMembers()
-        {
-            var currentmember = _memberdatacontext.Members.Where(s => (s.YearOfAdmission.Year == DateTime.Now.Year) || s.YearOfAdmission.Year == (DateTime.Now.Year - 1)).ToArray().Length;
-            Dispose();
-            return Json(new { currentmember = currentmember }, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult CurrentSessionMale()
-        {
-            var currentmale = _memberdatacontext.Members.Where(s => s.Gender == Gender.Male && (s.YearOfAdmission.Year == DateTime.Now.Year || s.YearOfAdmission.Year == (DateTime.Now.Year - 1))).ToArray().Length;
-            return Json(new { currentmale = currentmale }, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult CurrentSessionFemale()
-        {
-            var currentfemale = _memberdatacontext.Members.Where(s => s.Gender == Gender.Female && s.YearOfAdmission.Year == DateTime.Now.Year || s.YearOfAdmission.Year == (DateTime.Now.Year - 1)).ToArray().Length;
-            return Json(new { currentfemale = currentfemale }, JsonRequestBehavior.AllowGet);
-        }
-        #endregion
-
-        #region member chart
-        public JsonResult MemberData()
-        {
-            List<MemberViewModel> Members = new List<MemberViewModel>();
-
-            var results = _memberdatacontext.Members.ToList();
-            Member member = new Member();
-            MemberViewModel memberView = new MemberViewModel();
-
-            while (results != null)
-            {
-                memberView.Year = member.YearOfAdmission.Year.ToString();
-                memberView.Male = results.Where(s => s.Gender == Gender.Male && s.YearOfAdmission.Year == member.YearOfAdmission.Year).ToArray().Length;
-                memberView.Female = results.Where(s => s.Gender == Gender.Female && s.YearOfAdmission.Year == member.YearOfAdmission.Year).ToArray().Length;
-            }
-
-            return Json(new { mem = memberView }, JsonRequestBehavior.AllowGet);
-        }
         #endregion
 
         #region index method
@@ -98,9 +60,6 @@ namespace SAAS_AIMS.Controllers
             ViewBag.Members = _memberdatacontext.Members.ToArray().Length;
             ViewBag.Male = _memberdatacontext.Members.Where(member => member.Gender == Gender.Male).ToArray().Length;
             ViewBag.Female = _memberdatacontext.Members.Where(member => member.Gender == Gender.Female).ToArray().Length;
-            ViewBag.MemberCurrent = _memberdatacontext.Members.Where(s => (s.YearOfAdmission.Year == DateTime.Now.Year) || s.YearOfAdmission.Year == (DateTime.Now.Year - 1)).ToArray().Length;
-            ViewBag.MaleCurrent = _memberdatacontext.Members.Where(s => s.Gender == Gender.Male && (s.YearOfAdmission.Year == DateTime.Now.Year || s.YearOfAdmission.Year == (DateTime.Now.Year - 1))).ToArray().Length;
-            ViewBag.FemaleCurrent = _memberdatacontext.Members.Where(s => s.Gender == Gender.Female && (s.YearOfAdmission.Year == DateTime.Now.Year || s.YearOfAdmission.Year == (DateTime.Now.Year - 1))).ToArray().Length;
             return View();
         }
         #endregion

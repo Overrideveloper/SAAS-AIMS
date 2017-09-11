@@ -46,8 +46,8 @@ namespace SAAS_AIMS.Controllers
             dt.Columns.Add(new DataColumn("MidName", typeof(System.String)));
             dt.Columns.Add(new DataColumn("FirstName", typeof(System.String)));
             dt.Columns.Add(new DataColumn("MatricNumber", typeof(System.String)));
-            dt.Columns.Add(new DataColumn("StateOfOrigin", typeof(Enums.State)));
-            dt.Columns.Add(new DataColumn("YearOfAdmission", typeof(System.DateTime)));
+            dt.Columns.Add(new DataColumn("StateOfOrigin", typeof(State)));
+            dt.Columns.Add(new DataColumn("YearOfAdmission", typeof(System.String)));
             dt.Columns.Add(new DataColumn("LevelOfAdmission", typeof(Level)));
             dt.Columns.Add(new DataColumn("Gender", typeof(Gender)));
             dt.Columns.Add(new DataColumn("CreatedBy", typeof(System.Int64)));
@@ -121,7 +121,7 @@ namespace SAAS_AIMS.Controllers
                 cmd.Parameters.Add("?FirstName", MySqlDbType.String).SourceColumn = "FirstName";
                 cmd.Parameters.Add("?MatricNumber", MySqlDbType.String).SourceColumn = "MatricNumber";
                 cmd.Parameters.Add("?StateOfOrigin", MySqlDbType.Int32).SourceColumn = "StateOfOrigin";
-                cmd.Parameters.Add("?YearOfAdmission", MySqlDbType.DateTime).SourceColumn = "YearOfAdmission";
+                cmd.Parameters.Add("?YearOfAdmission", MySqlDbType.String).SourceColumn = "YearOfAdmission";
                 cmd.Parameters.Add("?LevelOfAdmission", MySqlDbType.Int32).SourceColumn = "LevelOfAdmission";
                 cmd.Parameters.Add("?Gender", MySqlDbType.Int32).SourceColumn = "Gender";
                 cmd.Parameters.Add("?CreatedBy", MySqlDbType.Int64).SourceColumn = "CreatedBy";

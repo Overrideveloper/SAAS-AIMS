@@ -51,10 +51,9 @@
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="dashboard_graph">
-
                 <div class="row x_title">
                     <div class="col-md-6">
-                        <h3>Income vs Expenses <small>Analysis</small></h3>
+                        <h3>Income vs Expense <small>Analysis</small></h3>
                     </div>
                     <div class="col-md-6">
                         <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
@@ -84,8 +83,6 @@
     <br />
 
     <div class="row">
-
-
         <div class="col-md-4 col-sm-4 col-xs-12">
             <div class="x_panel tile">
                 <div class="x_title">
@@ -98,8 +95,15 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                        <canvas id="incomepie" height="100" width="100" style="margin: 15px 10px 10px 0"></canvas>
-                        <div class="clearfix"></div>
+                    @if (ViewBag.Income == 0)
+                    {
+                        <span id="emptygraph" class="text-center text-capitalize" style="font-size: large;">Nothing to display yet.</span>
+                    }
+                    else
+                    {
+                        <div id="incomepie" style="height:100%; width:100%; margin: 15px 10px 10px 0"></div>
+                    }
+                    <div class="clearfix"></div>
                 </div>
             </div>
         </div>
@@ -116,79 +120,23 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <canvas id="expensepie" height="100" width="100" style="margin: 15px 10px 10px 0"></canvas>
+                    @if (ViewBag.Expense == 0)
+                    {
+                        <span id="emptygraph" class="text-center text-capitalize" style="font-size: large;">Nothing to display yet.</span>
+                    }
+                    else
+                    {
+                        <div id="expensepie" style="height:100%; width:100%; margin: 15px 10px 10px 0"></div>
+                    }
                     <div class="clearfix"></div>
                 </div>
             </div>
         </div>
-
-
-        @*<div class="col-md-4 col-sm-4 col-xs-12">
-            <div class="x_panel tile fixed_height_320">
-                <div class="x_title">
-                    <h2>Quick Settings</h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li>
-                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li>
-                                    <a href="#">Settings 1</a>
-                                </li>
-                                <li>
-                                    <a href="#">Settings 2</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="close-link"><i class="fa fa-close"></i></a>
-                        </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                    <div class="dashboard-widget-content">
-                        <ul class="quick-list">
-                            <li>
-                                <i class="fa fa-calendar-o"></i><a href="#">Settings</a>
-                            </li>
-                            <li>
-                                <i class="fa fa-bars"></i><a href="#">Subscription</a>
-                            </li>
-                            <li><i class="fa fa-bar-chart"></i><a href="#">Auto Renewal</a> </li>
-                            <li>
-                                <i class="fa fa-line-chart"></i><a href="#">Achievements</a>
-                            </li>
-                            <li><i class="fa fa-bar-chart"></i><a href="#">Auto Renewal</a> </li>
-                            <li>
-                                <i class="fa fa-line-chart"></i><a href="#">Achievements</a>
-                            </li>
-                            <li>
-                                <i class="fa fa-area-chart"></i><a href="#">Logout</a>
-                            </li>
-                        </ul>
-
-                        <div class="sidebar-widget">
-                            <h4>Profile Completion</h4>
-                            <canvas width="150" height="80" id="chart_gauge_01" class="" style="width: 160px; height: 100px;"></canvas>
-                            <div class="goal-wrapper">
-                                <span id="gauge-text" class="gauge-value pull-left">0</span>
-                                <span class="gauge-value pull-left">%</span>
-                                <span id="goal-text" class="goal-value pull-right">100%</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>*@
-
     </div>
 </div>
 <!-- /page content -->
 @section Scripts
-{
+{    
     <script type="text/javascript">
         var ctx = document.getElementById('incexp').getContext('2d');
         var dataChart = {
@@ -254,98 +202,82 @@
     </script>
 
     <script>
-        var ctx = document.getElementById('incomepie').getContext('2d');
-        var dataChart = {
-            labels: [],
-            datasets: [
-                {
-                    label: "",
-                    backgroundColor: [
-							"#9B59B6",
-                            "#BDC3C7",
-							"#26B99A",
-                            "#E74C3C",
-							"#3498DB"
-                    ],
-                    hoverBackgroundColor: [
-                        "#CFD4D8",
-                        "#B370CF",
-                        "#E95E4F",
-                        "#36CAAB",
-                        "#49A9EA"
-                    ],
-                    fill: false,
-                    borderColor: "rgba(220,220,220,0.7)",
-                    borderWidth: 1,
-                    hoverBackgroundColor: "rgba(42,63,84,1)",
-                    hoverBorderColor: "rgba(151,187,205,0.5)",
-                    data: []
-                }
+        Morris.Donut({
+            element: 'incomepie',
+            data: income(),
+            colors: [
+                "#CFD4D8",
+                "#B370CF",
+                "#E95E4F",
+                "#36CAAB",
+                "#49A9EA"
             ]
-        };
+        });
 
-        $.getJSON("/SessionDetails/Income?sessionid=@sessionid", function (data) {
-            $.each(data, function (i, item) {
-                console.log(item.category);
-                dataChart.labels.push(item.category);
-                dataChart.datasets[0].data.push(item.amount);
-            })
-        });
-        var incomepie = new Chart(ctx, {
-            type: 'pie',
-            data: dataChart,
-            options:
-                {
-                    maintainAspectRatio: true,
+        function income() {
+            var data = [];
+            $.ajax({
+                type: 'GET',
+                url: '/SessionDetails/Income?sessionid=@sessionid',
+                dataType: 'json',
+                async: false,
+                contentType: "application/json; charset=utf-8",
+                data: {},
+                success: function (result) {
+                    console.log(result);
+                    data = result;
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
                 }
-        });
+            });
+
+            return data;
+        }
+
+        @*$.getJSON("/SessionDetails/Income?sessionid=@sessionid", function (data) {
+                console.log("data:", data);
+                $.each(data, function (i, item) {
+                    new Morris.Donut({
+                        element: 'incomepie',
+                        data: [{label:item.category, value:item.amount}]
+                    });
+                })
+        });*@
     </script>
 
     <script>
-            var ctx1 = document.getElementById('expensepie').getContext('2d');
-            var dataChart1 = {
-                labels: [],
-                datasets: [
-                    {
-                        label: "",
-                        backgroundColor: [
-							"#BDC3C7",
-							"#9B59B6",
-							"#E74C3C",
-							"#26B99A",
-							"#3498DB"
-                        ],
-                        hoverBackgroundColor: [
-							"#CFD4D8",
-							"#B370CF",
-							"#E95E4F",
-							"#36CAAB",
-							"#49A9EA"
-                        ],
-                        fill: false,
-                        borderColor: "rgba(220,220,220,0.7)",
-                        borderWidth: 1,
-                        hoverBackgroundColor: "rgba(42,63,84,1)",
-                        hoverBorderColor: "rgba(151,187,205,0.5)",
-                        data: []
-                    }
-                ]
-            };
+        Morris.Donut({
+            element: 'expensepie',
+            data: expense(),
+            colors: [
+                "#CFD4D8",
+                "#B370CF",
+                "#E95E4F",
+                "#36CAAB",
+                "#49A9EA"
+            ]
+        });
 
-            $.getJSON("/SessionDetails/Expense?sessionid=@sessionid", function (data) {
-                $.each(data, function (i, item) {
-                    console.log(item.category);
-                    dataChart1.labels.push(item.category);
-                    dataChart1.datasets[0].data.push(item.amount);
-                })
+        function expense() {
+            var data = [];
+            $.ajax({
+                type: 'GET',
+                url: '/SessionDetails/Expense?sessionid=@sessionid',
+                dataType: 'json',
+                async: false,
+                contentType: "application/json; charset=utf-8",
+                data: {},
+                success: function (result) {
+                    console.log(result);
+                    data = result;
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
             });
-            var expensepie = new Chart(ctx1, {
-                type: 'pie',
-                data: dataChart1,
-                options:
-                    {
-                        maintainAspectRatio: true,
-                    }
-            });
+
+            return data;
+        }
     </script>
-}
+}   

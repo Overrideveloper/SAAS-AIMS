@@ -77,7 +77,7 @@
             <div class="form-group">
                 <label for="year" class="control-label col-sm-3"> Year of Admission </label>
                 <div class="col-sm-9">
-                    @Html.TextBoxFor(model => model.YearOfAdmission, " ", new { @class = "form-control required", @type = "datetime", @Value = "" })
+                    @Html.TextBoxFor(model => model.YearOfAdmission, new { @class = "form-control required" })
                     <div class="text-danger">
                         @Html.ValidationMessageFor(model => model.YearOfAdmission)
                     </div>
@@ -123,21 +123,4 @@
     $("form").removeData("validator");
     $("form").removeData("unobtrusiveValidation");
     $.validator.unobtrusive.parse("form");
-</script>
-
-<script>
-    $(function () {
-        $('input[type=datetime]').datepicker({
-            changeYear: true,
-            showButtonPanel: true,
-            dateFormat: 'dd/M/yy',
-            onClose: function (dateText, inst) {
-                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-                $(this).datepicker('setDate', new Date(year, 8));
-            }
-        });
-        $('input[type=datetime]').focus(function () {
-            $(".ui-datepicker-month").hide();
-        });
-    });
 </script>

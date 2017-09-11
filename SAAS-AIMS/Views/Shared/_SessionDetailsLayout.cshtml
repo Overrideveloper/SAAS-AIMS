@@ -48,8 +48,13 @@
     <link href="~/template/build/css/custom.min.css" rel="stylesheet">
     <!-- Blinking Icons -->
     <link href="~/Content/fa-blink.css" rel="stylesheet" />
-
-    <title>BHU-NACOSS | @ViewBag.Title</title>
+    <!-- Morris JS -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+   
+     <title>BHU-NACOSS | @ViewBag.Title</title>
 </head>
 
 <body class="nav-md">
@@ -193,7 +198,7 @@
     <!-- Bootbox -->
     <script src="~/Scripts/bootbox.min.js"></script>
     <!-- ChartJS -->
-    <script src="~/Scripts/Chart.js"></script>   
+    <script src="~/Scripts/Chart.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="~/template/build/js/custom.min.js"></script>
     @RenderSection("scripts", false);

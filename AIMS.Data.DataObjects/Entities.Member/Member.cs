@@ -39,7 +39,7 @@ namespace AIMS.Data.DataObjects.Entities.Member
         public State StateOfOrigin { get; set; }
 
         [Required(ErrorMessage = "Year of Admission is required")]
-        public DateTime YearOfAdmission { get; set; }
+        public string YearOfAdmission { get; set; }
 
         [Required(ErrorMessage = "Level of Admission is required")]
         public Level LevelOfAdmission { get; set; }

@@ -45,8 +45,8 @@ namespace SAAS_AIMS.Controllers
             foreach (IncomeCategory category in categories)
             {
                 IncomeViewModel income = new IncomeViewModel();
-                income.category = category.Title;
-                income.amount = category.IncomeItem.Sum(s => (Decimal?)s.Amount) ?? 0;
+                income.label = category.Title;
+                income.value = category.IncomeItem.Sum(s => (Decimal?)s.Amount) ?? 0;
                 Income.Add(income);
             }
             return Content(JsonConvert.SerializeObject(Income), "application/json");
@@ -59,8 +59,8 @@ namespace SAAS_AIMS.Controllers
             foreach (ExpenseCategory category in categories)
             {
                 ExpenseViewModel expense = new ExpenseViewModel();
-                expense.category = category.Title;
-                expense.amount = category.ExpenseItem.Sum(s => (Decimal?)s.Amount) ?? 0;
+                expense.label = category.Title;
+                expense.value = category.ExpenseItem.Sum(s => (Decimal?)s.Amount) ?? 0;
                 Expense.Add(expense);
             }
             return Content(JsonConvert.SerializeObject(Expense), "application/json");

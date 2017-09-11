@@ -8,7 +8,7 @@ namespace AIMS.Data.ViewModels.ViewModel.Income
 {
     public class IncomeViewModel
     {
-        public string category { get; set; }
-        public decimal amount { get; set; }
+        public string label { get; set; }
+        public decimal value { get; set; }
     }
 }
