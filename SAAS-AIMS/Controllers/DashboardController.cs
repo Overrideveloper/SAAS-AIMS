@@ -22,7 +22,6 @@ namespace SAAS_AIMS.Controllers
     public class DashboardController : BaseController
     {
         private readonly MemberDataContext _memberdatacontext;
-        private readonly DuesDataContext _duesdatacontext;
         private readonly SessionDataContext _sessiondatacontext;
         private readonly IncomeDataContext _incomedatacontext;
         private readonly ExpenseDataContext _expensedatacontext;
