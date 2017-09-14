@@ -16,33 +16,33 @@
     <!-- top tiles -->
     <div class="row tile_count">
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Total Events</span>
-            <div class="count"><small>@ViewBag.Event</small></div>
+            <span class="count_top"><i class="fa fa-calendar-check-o"></i> Total Events</span>
+            <div class="count"><small><small><small>@ViewBag.Event</small></small></small></div>
             <span class="count_bottom"><i class="green"></i></span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Total Meetings</span>
-            <div class="count"><small>@ViewBag.Meeting</small></div>
+            <span class="count_top"><i class="fa fa-gavel"></i> Total Meetings</span>
+            <div class="count"><small><small><small>@ViewBag.Meeting</small></small></small></div>
             <span class="count_bottom"><i class="green"></i></span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Total Projects</span>
-            <div class="count"><small>@ViewBag.Project</small></div>
+            <span class="count_top"><i class="fa fa-codepen"></i> Total Projects</span>
+            <div class="count"><small><small><small>@ViewBag.Project</small></small></small></div>
             <span class="count_bottom"><i class="green"></i></span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Total Income</span>
-            <div class="count"><small><small><small>@ViewBag.Income.ToString("#,##")</small></small></small></div>
+            <span class="count_top"><i class="fa fa-briefcase"></i> Total Income</span>
+            <div class="count"><small><small>@if(@ViewBag.Income != 0){<small>@ViewBag.Income.ToString("#,##")</small>}else{<small>0</small>}</small></small></div>
             <span class="count_bottom"><i class="green"> (Naira)</i></span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Total Expense</span>
-            <div class="count"><small><small><small>@ViewBag.Expense.ToString("#,##")</small></small></small></div>
+            <span class="count_top"><i class="fa fa-shopping-cart"></i> Total Expense</span>
+            <div class="count"><small><small>@if (@ViewBag.Expense != 0){<small>@ViewBag.Expense.ToString("#,##")</small>}else{<small>0</small>}</small></small></div>
             <span class="count_bottom"><i class="green"> (Naira)</i></span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Total Balance</span>
-            <div class="count"><small><small><small>@ViewBag.Balance.ToString("#,##")</small></small></small></div>
+            <span class="count_top"><i class="fa fa-shopping-bag"></i> Total Balance</span>
+            <div class="count"><small><small>@if (@ViewBag.Balance != 0){<small>@ViewBag.Balance.ToString("#,##")</small>}else{<small>0</small>}</small></small></div>
             <span class="count_bottom"><i class="green"> (Naira)</i></span>
         </div>
     </div>

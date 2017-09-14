@@ -1,0 +1,20 @@
+﻿@{
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+    ViewBag.Title = "Forgot Password Confirmation";
+}
+
+<h1></h1>
+<p class="text-success fade fadeIn fadeOut in out">
+    @ViewBag.Message
+</p><br />
+<a href="@Url.Action("Login", "Account")"> Login</a>
+
+<div class="separator">
+    <div class="clearfix"></div>
+    <br />
+
+    <div>
+        <h1><i class="fa fa-paw"></i> AIMS </h1>
+        <p>&copy; @DateTime.Now.Year Override. All Rights Reserved.</p>
+    </div>
+</div>

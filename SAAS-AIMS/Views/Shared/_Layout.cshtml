@@ -1,21 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
-@using SAAS_AIMS.Models
-@using AIMS.Data.DataContext.DataContext.SessionDataContext
-@using AIMS.Data.DataContext.DataContext.MemberDataContext
-@using AIMS.Data.DataContext.DataContext.RoleDataContext
-@{
-    var id = User.Identity.GetUserId();
-    AppUserDataContext _context = new AppUserDataContext();
-    var user = _context.Users.Find(id);
-    var role = user.Role;
-    var _Context = new SessionDataContext();
-    var sessions = _Context.Sessions.ToArray().Length;
-    var _Member = new MemberDataContext();
-    var members = _Member.Members.ToArray().Length;
-    var users = _context.Users.ToArray().Length;
-    var _role = new RoleDataContext();
-    var roles = _role.Roles.ToArray().Length;
-}
+
 <!DOCTYPE html>
 
 <html>
@@ -38,7 +22,7 @@
     <!-- Blinking Icons -->
     <link href="~/Content/fa-blink.css" rel="stylesheet" />
 
-    <title>BHU-NACOSS | @ViewBag.Title</title>
+    <title>AIMS | @ViewBag.Title</title>
 </head>
 
 <body class="nav-md">
@@ -47,7 +31,7 @@
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="#" class="site_title text-center"><span>BHU NACOSS</span></a>
+                        <a href="index.html" class="site_title"><span>Gentelella Alela!</span></a>
                     </div>
 
                     <div class="clearfix"></div>
@@ -55,8 +39,7 @@
                     <!-- menu profile quick info -->
                     <div class="profile clearfix">
                         <div class="profile_info">
-                            <span>Welcome,</span>
-                            <h2>@User.Identity.Name</h2>
+                            <h2>Association Name: </h2>
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -129,7 +112,7 @@
             <!-- footer content -->
             <footer>
                 <div class="pull-right">
-                    BHUNACOSS - Association Information Management System by <a href="https://twitter.com/Overrideveloper">Override</a>
+                    Association Information Management System by <a href="https://twitter.com/Overrideveloper">Override</a>
                 </div>
                 <div class="clearfix"></div>
             </footer>

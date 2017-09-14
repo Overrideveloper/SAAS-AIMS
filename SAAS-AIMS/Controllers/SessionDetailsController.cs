@@ -37,7 +37,8 @@ namespace SAAS_AIMS.Controllers
             _expenseDataContext = new ExpenseDataContext();
         }
         #endregion
-
+       
+        #region piechart
         public ContentResult Income(long sessionid)
         {
             List<IncomeViewModel> Income = new List<IncomeViewModel>();
@@ -65,6 +66,7 @@ namespace SAAS_AIMS.Controllers
             }
             return Content(JsonConvert.SerializeObject(Expense), "application/json");
         }
+        #endregion
 
         #region statistics
         //

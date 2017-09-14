@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using SAAS_AIMS.Models;
@@ -14,6 +15,9 @@ using AIMS.Data.DataContext.DataContext.RoleDataContext;
 using System.Data.Entity;
 using AIMS.Data.Enums.Enums.NotificationType;
 using AIMS.Services.RandomStringGenerator;
+using WebMatrix.WebData;
+using Microsoft.Owin.Security.DataProtection;
+using System.Net.Mail;
 
 namespace SAAS_AIMS.Controllers
 {
@@ -31,6 +35,10 @@ namespace SAAS_AIMS.Controllers
             {
                 AllowOnlyAlphanumericUserNames = false
             };
+
+            var provider = new Microsoft.Owin.Security.DataProtection.DpapiDataProtectionProvider("AIMS");
+            this.UserManager.UserTokenProvider = new Microsoft.AspNet.Identity.Owin.DataProtectorTokenProvider<ApplicationUser>(provider.Create("PasswordReset"));
+
         }
 
         public AccountController(UserManager<ApplicationUser> userManager)
@@ -232,6 +240,98 @@ namespace SAAS_AIMS.Controllers
             }
             return RedirectToAction("UserIndex");
         }
+
+        //
+        // GET: /Account/ForgotPasswordConfirmation
+        [AllowAnonymous]
+        public ActionResult ForgotPasswordConfirmation()
+        {
+            return View();
+        }
+        //
+        // GET: /Account/LostPassword
+        [AllowAnonymous]
+        public ActionResult LostPassword()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Account/LostPassword
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> LostPassword(LostPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await UserManager.FindByNameAsync(model.Email);
+                if (user == null)
+                {
+                    return RedirectToAction("ForgotPasswordConfirmation");
+                }
+
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+
+                //Send email start
+                var message = new MailMessage();
+                message.Priority = MailPriority.High;
+                message.From = new MailAddress("overreid@gmail.com", "AIMS");
+                message.To.Add(new MailAddress(user.Email));
+                var emailBody = "<strong><h1>Association Information Management System</h1> by Override</strong><br/><br/><br/>";
+                message.Subject = "Reset Password";
+                var text = "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>";
+                message.Body = string.Format(emailBody + text);
+                message.IsBodyHtml = true;
+
+                using (var smtp = new SmtpClient())
+                {
+                    await smtp.SendMailAsync(message);
+                } 
+                //Send email end
+
+                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                return RedirectToAction("ForgotPasswordConfirmation");
+            }
+            return View(model);
+        }
+
+        //
+        // GET: /Account/ResetPassword
+        [AllowAnonymous]
+        public ActionResult ResetPassword(string userId, string code)
+        {
+            ResetPasswordViewModel model = new ResetPasswordViewModel();
+            model.ReturnToken = code;
+            model.UserId = userId;
+            return View(model);
+        }
+
+        //
+        // POST: /Account/ResetPassword
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ResetPassword(ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = UserManager.ResetPasswordAsync(model.UserId, model.ReturnToken, model.Password).Result;
+                if (result.Succeeded)
+                {
+                    ViewBag.Message = "Successfully Changed!";
+                    return View("ResetSuccess");
+                }
+                else
+                {
+                    ViewBag.Message = "Something went horribly wrong!";
+                    return View("ResetFailure");
+                }
+            }
+            return View(model);
+        }
+
         #endregion
 
         //

@@ -18,16 +18,14 @@
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
-                    @if (ViewBag.StatusMessage != null)
-                    {
-                      <div class="alert alert-dismissible alert-success fade fadeIn fadeOut out in" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span></button>
-                        @ViewBag.StatusMessage
-                      </div>   
-                    }
                     @if (ViewBag.HasLocalPassword)
                     {
+                        if (ViewBag.StatusMessage != null)
+                        {
+                          <p class="text-success fade fadeIn fadeOut out in" role="alert">
+                            @ViewBag.StatusMessage
+                          </p>   
+                        }
                         @Html.Partial("_ChangePasswordPartial")
                     }
                 </div>

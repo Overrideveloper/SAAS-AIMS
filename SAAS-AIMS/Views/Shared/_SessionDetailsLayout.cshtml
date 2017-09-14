@@ -54,7 +54,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
    
-     <title>BHU-NACOSS | @ViewBag.Title</title>
+     <title>AIMS | @ViewBag.Title</title>
 </head>
 
 <body class="nav-md">
@@ -63,16 +63,15 @@
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="#" class="site_title text-center"><span>BHU NACOSS</span></a>
+                        <a href="index.html" class="site_title"><span>Gentelella Alela!</span></a>
                     </div>
 
                     <div class="clearfix"></div>
 
                     <!-- menu profile quick info -->
                     <div class="profile clearfix">
-                        <div class="profile_info text-center">
-                            <span>Welcome,</span>
-                            <h2 class="text-center">@User.Identity.Name</h2>
+                        <div class="profile_info">
+                            <h2>Association Name: </h2>
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -106,7 +105,7 @@
                                     <a href="@Url.Action("Index", "Memo", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-list-alt"></i> Memos <span class="badge label-primary pull-right">@memo</span></a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index", "Project", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-connectdevelop"></i> Projects <span class="badge label-primary pull-right">@project</span></a>
+                                    <a href="@Url.Action("Index", "Project", new { sessionid = Convert.ToInt64(Session["sessionid"]) })"><i class="fa fa-codepen"></i> Projects <span class="badge label-primary pull-right">@project</span></a>
                                 </li>
                             </ul>
                         </div>
@@ -163,7 +162,7 @@
             <!-- footer content -->
             <footer>
                 <div class="pull-right">
-                    BHUNACOSS - Association Information Management System by <a href="https://twitter.com/Overrideveloper">Override</a>
+                    Association Information Management System by <a href="https://twitter.com/Overrideveloper">Override</a>
                 </div>
                 <div class="clearfix"></div>
             </footer>

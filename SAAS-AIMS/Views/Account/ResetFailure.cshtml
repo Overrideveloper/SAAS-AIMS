@@ -1,0 +1,19 @@
+﻿@{
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+    ViewBag.Title = "Reset Failure";
+}
+
+<h1></h1>
+<p class="text-danger fade fadeIn fadeOut in out">
+    @ViewBag.Message
+</p>
+<a href="@Url.Action("Login", "Account")"> Return to Login</a>
+<div class="separator">
+    <div class="clearfix"></div>
+    <br />
+
+    <div>
+        <h1><i class="fa fa-paw"></i> AIMS </h1>
+        <p>&copy; @DateTime.Now.Year Override. All Rights Reserved.</p>
+    </div>
+</div>

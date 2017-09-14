@@ -72,4 +72,34 @@ namespace SAAS_AIMS.Models
         [ForeignKey("RoleID")]
         public virtual Role Role { get; set; }
     }
+
+    public class LostPasswordViewModel
+    {
+        [Required(ErrorMessage = "We need your email to send you a reset link!")]
+        [Display(Name = "Account email address")]
+        [EmailAddress(ErrorMessage = "Not a valid email!")]
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
+    }
+
+    public class ResetPasswordViewModel
+    {
+        [Required]
+        [Display(Name = "New Password")]
+        [DataType(DataType.Password)]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        public string Password { get; set; }
+
+        [Required]
+        [Display(Name = "Confirm Password")]
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "New password and confirmation does not match.")]
+        public string ConfirmPassword { get; set; }
+
+        [Required]
+        public string ReturnToken { get; set; }
+        
+        [Required]
+        public string UserId { get; set; }
+    }
 }
