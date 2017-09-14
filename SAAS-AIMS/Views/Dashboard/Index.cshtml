@@ -8,32 +8,32 @@
     <div class="row tile_count" id="stats">
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-users"></i> Total Members</span>
-            <div class="count green" id="members">@ViewBag.Members</div>
+            <div class="count green" id="members"><small><small><small>@ViewBag.Members</small></small></small></div>
             <span class="count_bottom"><i class="green"><i class="fa fa-calendar-o"></i></i> All-Time </span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-male"></i> Total Males</span>
-            <div class="count" id="male">@ViewBag.Male</div>
+            <div class="count" id="male"><small><small><small>@ViewBag.Male</small></small></small></div>
             <span class="count_bottom"><i class="green"><i class="fa fa-calendar-o"></i></i> All-Time </span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-female"></i> Total Females</span>
-            <div class="count green" id="female">@ViewBag.Female</div>
+            <div class="count green" id="female"><small><small><small>@ViewBag.Female</small></small></small></div>
             <span class="count_bottom"><i class="green"><i class="fa fa-calendar-o"></i></i> All-Time </span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-calendar-check-o"></i> Sessions  </span>
-            <div class="count" id="membercurrent">@*ViewBag.MemberCurrent*@</div>
+            <div class="count" id="sessions"><small><small>@if(@ViewBag.Session != 0){<small>@ViewBag.Session</small>}else{<small>0</small>}</small></small></div>
             <span class="count_bottom"><i class="green"><i class="fa fa-calendar-check-o"></i></i> All-Time </span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-briefcase"></i> Total Income </span>
-            <div class="count" id="malecurrent">@*ViewBag.MaleCurrent*@</div>
+            <div class="count" id="income"><small><small>@if(@ViewBag.Income != 0){<small>N @ViewBag.Income.ToString("#,##")</small>}else{<small>N 0</small>}</small></small></div>
             <span class="count_bottom"><i class="green"><i class="fa fa-calendar-check-o"></i></i> All-Time </span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-shopping-cart"></i> Total Expense </span>
-            <div class="count" id="femalecurrent">@*ViewBag.FemaleCurrent*@</div>
+            <div class="count" id="expense"><small><small>@if (@ViewBag.Expense != 0){<small>N @ViewBag.Expense.ToString("#,##")</small>}else{<small>N 0</small>}</small></small></div>
             <span class="count_bottom"><i class="green"><i class="fa fa-calendar-check-o"></i></i> All-Time </span>
         </div>
     </div>
@@ -41,67 +41,74 @@
 
     <!-- Chart -->
     <div class="row">
-        <div class="col-md-10">
-            <canvas id="memberChart" width="800" height="400"></canvas>
-            <div id="legendChart" class="chart-legend"></div>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="dashboard_graph">
+                <div class="row x_title">
+                    <div class="col-md-6">
+                        <h3>Income vs Expense <small>Analysis</small></h3>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+                            <i class="fa fa-calendar"></i>
+                            <span> All Time</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-9 col-sm-9 col-xs-12">
+                    <div id="incomevsrev" class="container">
+                        @if (ViewBag.Income == 0 && ViewBag.Expense == 0)
+                        {
+                            <span id="emptygraph" class="text-center text-capitalize" style="font-size: large;">Nothing to display yet.</span>
+                        }
+                        else
+                        {
+                            <div id="incexp"></div>
+                        }
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
         </div>
+
     </div>
+    <br />
 </div>
 
 @section Scripts{
-    
-    @*<script type="text/javascript">
-        var ctx = document.getElementById("memberChart").getContext("2d");
-
-        var dataChart = {
-            labels: [],
-            datasets: [
-                {
-                    label: "Male",
-                    backgroundColor: "rgba(215,220,67,0.3)",
-                    borderColor: "rgba(220,220,220,0.7)",
-                    borderWidth: 1,
-                    hoverBackgroundColor: "rgba(42,63,84,1)",
-                    hoverBorderColor: "rgba(151,187,205,0.5)",
-                    data: []
-                },
-                {
-                    label: "Female",
-                    backgroundColor: "rgba(90,193,208,0.3)",
-                    borderColor: "rgba(151,187,205,0.7)",
-                    borderWidth: 1,
-                    hoverBackgroundColor: "rgba(42,63,84,1)",
-                    hoverBorderColor: "rgba(151,187,205,0.5)",
-                    data: []
-                }
+    <script type="text/javascript">
+        Morris.Bar({
+            element: 'incexp',
+            data: financeSummary(),
+            xkey: 'y',
+            ykeys: ['a', 'b', 'c'],
+            labels: ['Income', 'Expense', 'Margin'],
+            colors: [
+                "cadetblue",
+                "grey",
+                "beige"
             ]
-        };
+        });
 
-        $.ajax({
-            type: 'GET',
-            url: '/Dashboard/MemberData',
-            datatype: 'json',
-            traditional: true,
-            contentType: "application/json",
-            cache: false,
-            success: function (data) {
-                for (var i = 0; i <= data.mem.length-1; i++) {
-                    console.log(data.mem[i].Male);  
-                    dataChart.labels.push(data.mem[i].Year);
-                    dataChart.datasets[0].data.push(data.mem[i].Male);
-                    dataChart.datasets[1].data.push(data.mem[i].Female);
+        function financeSummary() {
+            var data = [];
+            $.ajax({
+                type: 'GET',
+                url: '/Dashboard/FinanceSummary/',
+                dataType: 'json',
+                async: false,
+                contentType: "application/json; charset=utf-8",
+                data: {},
+                success: function (result) {
+                    console.log(result);
+                    data = result;
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
                 }
-            },
-            error: function (session) {
-                alert('error');
-            }
-        });
+            });
 
-        var memberBarChart = new Chart(ctx, {
-            type: 'bar',
-            data: dataChart,
-            options: {}
-        });
-
-    </script>*@
+            return data;
+        }
+    </script>   
 }

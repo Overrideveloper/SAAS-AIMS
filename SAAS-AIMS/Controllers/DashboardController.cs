@@ -13,6 +13,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AIMS.Data.ViewModels.ViewModel.Member;
+using AIMS.Data.DataContext.DataContext.IncomeDataContext;
+using AIMS.Data.DataContext.DataContext.ExpenseDataContext;
+using AIMS.Data.ViewModels.ViewModel.Finance;
 
 namespace SAAS_AIMS.Controllers
 {
@@ -21,35 +24,43 @@ namespace SAAS_AIMS.Controllers
         private readonly MemberDataContext _memberdatacontext;
         private readonly DuesDataContext _duesdatacontext;
         private readonly SessionDataContext _sessiondatacontext;
+        private readonly IncomeDataContext _incomedatacontext;
+        private readonly ExpenseDataContext _expensedatacontext;
        
         #region constructor
         public DashboardController()
         {
             _memberdatacontext = new MemberDataContext();
             _sessiondatacontext = new SessionDataContext();
-            _duesdatacontext = new DuesDataContext();
+            _incomedatacontext = new IncomeDataContext();
+            _expensedatacontext = new ExpenseDataContext();
         }
         #endregion
 
-        #region member count
-        public JsonResult MaleMembers()
+        #region bar chart
+        public ContentResult FinanceSummary()
         {
-            var males = _memberdatacontext.Members.Where(member => member.Gender == Gender.Male).ToArray().Length;
-            return Json(new { males = males }, JsonRequestBehavior.AllowGet);
-        }
+            List<FinanceSummaryViewModel> FinanceSummary = new List<FinanceSummaryViewModel>();
 
-        public JsonResult FemaleMembers()
-        {
-            var females = _memberdatacontext.Members.Where(member => member.Gender == Gender.Female).ToArray().Length;
-            return Json(new { females = females }, JsonRequestBehavior.AllowGet);
-        }
+            var sessions = _sessiondatacontext.Sessions.ToList();
 
-        public JsonResult Members()
-        {
-            var members = _memberdatacontext.Members.ToArray().Length;
-            return Json(new { members = members }, JsonRequestBehavior.AllowGet);
-        }
+            foreach (AIMS.Data.DataObjects.Entities.Session.Session session in sessions)
+            {
+                FinanceSummaryViewModel financeSummary = new FinanceSummaryViewModel();
+                financeSummary.y = session.Title;
 
+                var incomeitem = _incomedatacontext.IncomeItem.Where(s => s.IncomeCategory.SessionID == session.ID);
+                financeSummary.a = incomeitem.Sum(s => (Decimal?)s.Amount) ?? 0;
+
+                var expenseitem = _expensedatacontext.ExpenseItem.Where(s => s.ExpenseCategory.SessionID == session.ID);
+                financeSummary.b = expenseitem.Sum(s => (Decimal?)s.Amount) ?? 0;
+
+                financeSummary.c = financeSummary.a - financeSummary.b;
+
+                FinanceSummary.Add(financeSummary);
+            }
+            return Content(JsonConvert.SerializeObject(FinanceSummary), "application/json");
+        }
         #endregion
 
         #region index method
@@ -60,6 +71,9 @@ namespace SAAS_AIMS.Controllers
             ViewBag.Members = _memberdatacontext.Members.ToArray().Length;
             ViewBag.Male = _memberdatacontext.Members.Where(member => member.Gender == Gender.Male).ToArray().Length;
             ViewBag.Female = _memberdatacontext.Members.Where(member => member.Gender == Gender.Female).ToArray().Length;
+            ViewBag.Session = _sessiondatacontext.Sessions.ToArray().Length;
+            ViewBag.Income = _incomedatacontext.IncomeItem.Sum(s => (Decimal?)s.Amount) ?? 0;
+            ViewBag.Expense = _expensedatacontext.ExpenseItem.Sum(s => (Decimal?)s.Amount) ?? 0;
             return View();
         }
         #endregion

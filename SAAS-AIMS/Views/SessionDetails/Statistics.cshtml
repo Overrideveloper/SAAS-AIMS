@@ -58,7 +58,7 @@
                     <div class="col-md-6">
                         <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
                             <i class="fa fa-calendar"></i>
-                            <span>This Session</span>
+                            <span> This Session</span>
                         </div>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                         }
                         else
                         {
-                            <canvas id="incexp" width="1600" height="900"></canvas>   
+                            <div id="incexp" style="height:400px; width:1000px;"></div>   
                         }
                     </div>
                 </div>
@@ -138,69 +138,15 @@
 @section Scripts
 {    
     <script type="text/javascript">
-        var ctx = document.getElementById('incexp').getContext('2d');
-        var dataChart = {
-            labels: ['@sessionname'],
-            datasets: [
-                {
-                    label: "Income",
-                    backgroundColor: "cadetblue",
-                    fill: false,
-                    borderColor: "rgba(220,220,220,0.7)",
-                    borderWidth: 1,
-                    hoverBackgroundColor: "rgba(42,63,84,1)",
-                    hoverBorderColor: "rgba(151,187,205,0.5)",
-                    data: [@ViewBag.Income]
-                },
-                {
-                    label: "Expense",
-                    backgroundColor: "grey",
-                    fill: false,
-                    borderColor: "rgba(151,187,205,0.7)",
-                    borderWidth: 1,
-                    hoverBackgroundColor: "rgba(42,63,84,1)",
-                    hoverBorderColor: "rgba(151,187,205,0.5)",
-                    data: [@ViewBag.Expense]
-                },
-                {
-                    label: "Margin",
-                    backgroundColor: "beige",
-                    fill: false,
-                    borderColor: "rgba(151,187,205,0.7)",
-                    borderWidth: 1,
-                    hoverBackgroundColor: "rgba(42,63,84,1)",
-                    hoverBorderColor: "rgba(151,187,205,0.5)",
-                    data: [@ViewBag.Balance]
-                }
-            ]
-        };
-
-            var incexp = new Chart(ctx, {
-                type: 'bar',
-                data: dataChart,
-                options:
-                    {
-                        responsive: true,
-                        maintainAspectRatio: true,
-                        scales:
-                        {
-                            yAxes: [{
-                                display: true,
-                                ticks: {
-                                    beginAtZero: true,
-                                    userCallback: function (value) {
-                                        value = value.toString();
-                                        value = value.split(/(?=(?:...)*$)/);
-                                        value = value.join(',');
-                                        return 'N ' + value;
-                                    }
-                                }
-                            }]
-                        }
-                    }
-            });
+        Morris.Bar({
+            element: 'incexp',
+            data: [{ y: '@sessionname', a: '@ViewBag.Income', b: '@ViewBag.Expense', c: '@ViewBag.Balance' }],
+            xkey: 'y',
+            ykeys: ['a', 'b', 'c'],
+            labels: ['Income', 'Expense', 'Margin']
+        });
     </script>
-
+   
     <script>
         Morris.Donut({
             element: 'incomepie',
@@ -234,16 +180,6 @@
 
             return data;
         }
-
-        @*$.getJSON("/SessionDetails/Income?sessionid=@sessionid", function (data) {
-                console.log("data:", data);
-                $.each(data, function (i, item) {
-                    new Morris.Donut({
-                        element: 'incomepie',
-                        data: [{label:item.category, value:item.amount}]
-                    });
-                })
-        });*@
     </script>
 
     <script>
