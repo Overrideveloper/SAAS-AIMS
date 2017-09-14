@@ -4,7 +4,7 @@
 @using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "Projects";
-    Layout = "~/Views/Shared/_MemoLayout.cshtml";
+    Layout = "~/Views/Shared/_ProjectLayout.cshtml";
     var id = User.Identity.GetUserId();
     AppUserDataContext _context = new AppUserDataContext();
     var user = _context.Users.Find(id);
@@ -48,7 +48,7 @@
                                 @Html.HiddenFor(model => Model.LastModifiedBy)
 
                                 <fieldset>
-                                    <div class="fa-blink"> <strong>Note:</strong> These are the supported file formats: Pdf, Docx, Doc, Rtf and Txt </div>
+                                    <div> <strong>Supported formats: PDF, DOCX, DOC, RTF and TXT </strong></div>
                                 </fieldset><br />
 
                                 <div class="col-sm-4">

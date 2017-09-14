@@ -13,7 +13,7 @@
     {
         @Html.AntiForgeryToken()
         @Html.Hidden("Title")    
-    <h1>First-Time Registration Form</h1>
+    <h1>Admin Registration</h1>
         @Html.ValidationSummary()
     <div>
         @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder="Email" })
@@ -39,7 +39,7 @@
         <br />
 
         <div>
-            <h1><i class="fa fa-paw"></i> AIMS </h1>
+            <img src="~/content/override.png" width="200" height="100" alt="Override" />
             <p>&copy; @DateTime.Now.Year Override. All Rights Reserved.</p>
         </div>
     </div>
@@ -56,7 +56,7 @@ else
         <br />
 
         <div>
-            <h1><i class="fa fa-paw"></i> AIMS </h1>
+            <img src="~/content/override.png" width="200" height="100" alt="Override" />
             <p>&copy; @DateTime.Now.Year Override. All Rights Reserved.</p>
         </div>
     </div>  

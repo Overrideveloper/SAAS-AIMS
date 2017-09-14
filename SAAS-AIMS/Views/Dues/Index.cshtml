@@ -1,10 +1,13 @@
 ﻿@model IEnumerable <AIMS.Data.DataObjects.Entities.Dues.Dues>
 @using AIMS.Data.Enums.Enums.NotificationType
 @using AIMS.Data.DataContext.DataContext.MemberDataContext
+@using System.ComponentModel
+@using AIMS.Data.Enums.Enums.Level
 
 @{
     MemberDataContext _memberdatacontext = new MemberDataContext();
     var member = _memberdatacontext.Members.Find(Convert.ToInt64(Session["memberid"]));
+    TypeConverter converter = TypeDescriptor.GetConverter(typeof(Level));
     string membername = member.Surname + " " + member.FirstName;
     Session["membername"] = membername;
     
@@ -81,8 +84,8 @@
                                 {
                                     <tr>
                                         <td>@dues.Title</td>
-                                        <td>N @dues.Amount</td>
-                                        <td>@dues.Level</td>
+                                        <td>N @dues.Amount.ToString("#,##")</td>
+                                        <td>@converter.ConvertToString(dues.Level)</td>
                                         <td>
                                             <a class="btn btn-xs btn-default" data-modal="" href="@Url.Action("Edit", "Dues", new { id = dues.ID })"><i class="fa fa-pencil"></i> Edit</a>
                                             <a class="btn btn-xs btn-danger delete" href="@Url.Action("Delete", "Dues", new { id = dues.ID})"><i class="fa fa-remove"></i> Delete</a>
