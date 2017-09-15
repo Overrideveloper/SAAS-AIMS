@@ -33,7 +33,7 @@ namespace SAAS_AIMS
 
         private static void ConfigureAntiForgeryTokens()
         {
-            AntiForgeryConfig.CookieName = "aims_af";
+            AntiForgeryConfig.CookieName = "aims_validate";
         }
     }
 }
