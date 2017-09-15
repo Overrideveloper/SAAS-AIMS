@@ -43,7 +43,6 @@
     <Compile Include="ViewModel.Expense\ExpenseViewModel.cs" />
     <Compile Include="ViewModel.Finance\FinanceSummaryViewModel.cs" />
     <Compile Include="ViewModel.Income\IncomeViewModel.cs" />
-    <Compile Include="ViewModel.Member\MemberViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

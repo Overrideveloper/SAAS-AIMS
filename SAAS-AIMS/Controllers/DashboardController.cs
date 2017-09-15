@@ -12,7 +12,6 @@ using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using AIMS.Data.ViewModels.ViewModel.Member;
 using AIMS.Data.DataContext.DataContext.IncomeDataContext;
 using AIMS.Data.DataContext.DataContext.ExpenseDataContext;
 using AIMS.Data.ViewModels.ViewModel.Finance;

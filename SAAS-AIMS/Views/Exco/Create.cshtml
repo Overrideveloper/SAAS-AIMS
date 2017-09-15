@@ -21,7 +21,7 @@
                 <div class="col-sm-9">
                     @Html.TextBoxFor(model => Model.MatricNo, new { @class = "form-control required", @id = "matric" })
                     <span id="process" class="text-center" style="display:none">
-                        <span><i class="fa fa-spinner fa-spin"></i> Processing matric. number </span>
+                        <span><i class="fa fa-spinner fa-spin fa-fw"></i> Processing matric. number </span>
                     </span>
                     <div class="text-danger">
                         @Html.ValidationMessageFor(model => model.MatricNo)
@@ -63,7 +63,7 @@
 
     <div class="modal-footer">
         <span id="progress" class="text-center" style="display:none">
-            <strong>Processing..</strong>
+            <i class="fa fa-spinner fa-spin fa-fw"></i><strong>Processing..</strong>
         </span>
 
         <input class="btn btn-primary btn-raised" type="submit" value="Save" />
