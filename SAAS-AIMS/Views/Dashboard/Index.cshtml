@@ -8,22 +8,22 @@
     <div class="row tile_count" id="stats">
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-users"></i> Total Members</span>
-            <div class="count green" id="members"><small><small><small>@ViewBag.Members</small></small></small></div>
+            <div class="count" id="members"><small><small><small>@ViewBag.Members</small></small></small></div>
             <span class="count_bottom"><i class="green"><i class="fa fa-calendar-o"></i></i> All-Time </span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-male"></i> Total Males</span>
-            <div class="count" id="male"><small><small><small>@ViewBag.Male</small></small></small></div>
+            <div class="count green" id="male"><small><small><small>@ViewBag.Male</small></small></small></div>
             <span class="count_bottom"><i class="green"><i class="fa fa-calendar-o"></i></i> All-Time </span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-female"></i> Total Females</span>
-            <div class="count green" id="female"><small><small><small>@ViewBag.Female</small></small></small></div>
+            <div class="count" id="female"><small><small><small>@ViewBag.Female</small></small></small></div>
             <span class="count_bottom"><i class="green"><i class="fa fa-calendar-o"></i></i> All-Time </span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-calendar-check-o"></i> Sessions  </span>
-            <div class="count" id="sessions"><small><small>@if(@ViewBag.Session != 0){<small>@ViewBag.Session</small>}else{<small>0</small>}</small></small></div>
+            <div class="count green" id="sessions"><small><small>@if(@ViewBag.Session != 0){<small>@ViewBag.Session</small>}else{<small>0</small>}</small></small></div>
             <span class="count_bottom"><i class="green"><i class="fa fa-calendar-check-o"></i></i> All-Time </span>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
@@ -33,7 +33,7 @@
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-shopping-cart"></i> Total Expense </span>
-            <div class="count" id="expense"><small><small>@if (@ViewBag.Expense != 0){<small>N @ViewBag.Expense.ToString("#,##")</small>}else{<small>N 0</small>}</small></small></div>
+            <div class="count green" id="expense"><small><small>@if (@ViewBag.Expense != 0){<small>N @ViewBag.Expense.ToString("#,##")</small>}else{<small>N 0</small>}</small></small></div>
             <span class="count_bottom"><i class="green"><i class="fa fa-calendar-check-o"></i></i> All-Time </span>
         </div>
     </div>
