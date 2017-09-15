@@ -4,11 +4,13 @@ using AIMS.Data.DataObjects.Entities.Memo;
 using AIMS.Data.Enums.Enums.NotificationType;
 using AIMS.Data.Enums.Enums.UploadType;
 using AIMS.Services.FIleUploader;
+using SAAS_AIMS.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -19,12 +21,14 @@ namespace SAAS_AIMS.Controllers
     {
         private readonly MemoDataContext _memoDataContext;
         private readonly SessionDataContext _sessionDataContext;
+        private readonly AppUserDataContext _appUserDataContext;
 
         #region constructor
         public MemoController()
         {
             _memoDataContext = new MemoDataContext();
             _sessionDataContext = new SessionDataContext();
+            _appUserDataContext = new AppUserDataContext();
         }
         #endregion
 
@@ -69,7 +73,7 @@ namespace SAAS_AIMS.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Memo memo, HttpPostedFileBase file)  
+        public async Task<ActionResult> Create(Memo memo, HttpPostedFileBase file)  
         {
             if (file != null)
             {
@@ -101,13 +105,48 @@ namespace SAAS_AIMS.Controllers
                             : null,
                     SessionID = Convert.ToInt64(Session["sessionid"]),
                     DateCreated = DateTime.Now,
-                    CreatedBy = Convert.ToInt64(Session["UserID"]),
+                    CreatedBy = User.Identity.Name,
                     DateLastModified = DateTime.Now,
-                    LastModifiedBy = Convert.ToInt64(Session["UserID"])
+                    LastModifiedBy = User.Identity.Name
                 };
 
                 _memoDataContext.Memos.Add(memoVar);
                 _memoDataContext.SaveChanges();
+
+                var message = new MailMessage();
+                message.Priority = MailPriority.High;
+                message.From = new MailAddress("no-reply@override.dev", "Override");
+                message.Subject = "Memo Entry Created";
+
+                var superusers = _appUserDataContext.Users.Include(s => s.Role).Where(s => s.Role.Title == "Superuser").ToList();
+
+                foreach (var superuser in superusers)
+                {
+                    message.Bcc.Add(new MailAddress(superuser.Email));
+                }
+
+                var emailBody =
+                "<div>" +
+                "<h3 style='font-size: 30px; text-align:center;'><strong>ASSOCIATION INFORMATION MANAGEMENT SYSTEM</strong></h3>" +
+                "<div style='position: relative; min-height: 1px; padding-right: 15px; padding-left: 15px; padding-top: 5px;'>" +
+                    "<h4 style='font-size: 18px; text-align:justify;'>The user: <strong>" + User.Identity.Name +
+                    "</strong> created a memo entry on " + DateTime.Now.ToLongDateString() + " at " + DateTime.Now.ToLongTimeString() + ".</h4>" +
+                    "<p style='font-size: 18px; text-align:justify;'>The memo entry details are as follows: </p>" +
+                    "<ul style='font-size: 18px; text-align:justify;'>" +
+                        "<li>Description: " + memoVar.Description + "</li>" +
+                        "<li>Session: " + GetSessionName() + "</li>" +
+                        "<li>Date: " + memoVar.Date.ToLongDateString() + "</li></ul>" +
+                "<footer style='font-size: 18px; text-align:center;'>" +
+                    "<p>&copy;" + DateTime.Now.Year + " Override.</p></footer></div>";
+
+                message.Body = string.Format(emailBody);
+                message.IsBodyHtml = true;
+
+                using (var smtp = new SmtpClient())
+                {
+                    await smtp.SendMailAsync(message);
+                }
+                
                 TempData["Success"] = "Memo entry successfully created for " + GetSessionName();
                 TempData["NotificationType"] = NotificationType.Create.ToString();
                 return RedirectToAction("Index", new { sessionid = Convert.ToInt64(Session["sessionid"]) });
@@ -136,7 +175,7 @@ namespace SAAS_AIMS.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Memo memo, HttpPostedFileBase file)
+        public async Task<ActionResult> Edit(Memo memo, HttpPostedFileBase file)
         {
             if (file != null)
             {
@@ -155,7 +194,7 @@ namespace SAAS_AIMS.Controllers
             if (ModelState.IsValid)
             {
                 memo.DateLastModified = DateTime.Now;
-                memo.LastModifiedBy = Convert.ToInt64(Session["sessionid"]);
+                memo.LastModifiedBy = User.Identity.Name;
 
                 if (file != null && file.FileName != "")
                 {
@@ -165,6 +204,40 @@ namespace SAAS_AIMS.Controllers
                 _memoDataContext.Entry(memo).State = EntityState.Modified;
                 _memoDataContext.SaveChanges();
 
+                var message = new MailMessage();
+                message.Priority = MailPriority.High;
+                message.From = new MailAddress("no-reply@override.dev", "Override");
+                message.Subject = "Memo Entry Modified";
+
+                var superusers = _appUserDataContext.Users.Include(s => s.Role).Where(s => s.Role.Title == "Superuser").ToList();
+
+                foreach (var superuser in superusers)
+                {
+                    message.Bcc.Add(new MailAddress(superuser.Email));
+                }
+
+                var emailBody =
+                "<div>" +
+                "<h3 style='font-size: 30px; text-align:center;'><strong>ASSOCIATION INFORMATION MANAGEMENT SYSTEM</strong></h3>" +
+                "<div style='position: relative; min-height: 1px; padding-right: 15px; padding-left: 15px; padding-top: 5px;'>" +
+                    "<h4 style='font-size: 18px; text-align:justify;'>The user: <strong>" + User.Identity.Name +
+                    "</strong> modified a memo entry on " + DateTime.Now.ToLongDateString() + " at " + DateTime.Now.ToLongTimeString() + ".</h4>" +
+                    "<p style='font-size: 18px; text-align:justify;'>The modified memo entry details are as follows: </p>" +
+                    "<ul style='font-size: 18px; text-align:justify;'>" +
+                        "<li>Description: " + memo.Description + "</li>" +
+                        "<li>Session: " + GetSessionName() + "</li>" +
+                        "<li>Date: " + memo.Date.ToLongDateString() + "</li></ul>" +
+                "<footer style='font-size: 18px; text-align:center;'>" +
+                    "<p>&copy;" + DateTime.Now.Year + " Override.</p></footer></div>";
+
+                message.Body = string.Format(emailBody);
+                message.IsBodyHtml = true;
+
+                using (var smtp = new SmtpClient())
+                {
+                    await smtp.SendMailAsync(message);
+                }
+                
                 TempData["Success"] = "Memo entry successfully modified for " + GetSessionName();
                 TempData["NotificationType"] = NotificationType.Edit.ToString();
                 return RedirectToAction("Index", new { sessionid = Convert.ToInt64(Session["sessionid"]) });
@@ -183,6 +256,41 @@ namespace SAAS_AIMS.Controllers
             }
             _memoDataContext.Memos.Remove(memo);
             await _memoDataContext.SaveChangesAsync();
+
+            var message = new MailMessage();
+            message.Priority = MailPriority.High;
+            message.From = new MailAddress("no-reply@override.dev", "Override");
+            message.Subject = "Memo Entry Deleted";
+
+            var superusers = _appUserDataContext.Users.Include(s => s.Role).Where(s => s.Role.Title == "Superuser").ToList();
+
+            foreach (var superuser in superusers)
+            {
+                message.Bcc.Add(new MailAddress(superuser.Email));
+            }
+
+            var emailBody =
+            "<div>" +
+            "<h3 style='font-size: 30px; text-align:center;'><strong>ASSOCIATION INFORMATION MANAGEMENT SYSTEM</strong></h3>" +
+            "<div style='position: relative; min-height: 1px; padding-right: 15px; padding-left: 15px; padding-top: 5px;'>" +
+                "<h4 style='font-size: 18px; text-align:justify;'>The user: <strong>" + User.Identity.Name +
+                "</strong> deleted a memo entry on " + DateTime.Now.ToLongDateString() + " at " + DateTime.Now.ToLongTimeString() + ".</h4>" +
+                "<p style='font-size: 18px; text-align:justify;'>The deleted memo entry details are as follows: </p>" +
+                "<ul style='font-size: 18px; text-align:justify;'>" +
+                    "<li>Description: " + memo.Description + "</li>" +
+                    "<li>Session: " + GetSessionName() + "</li>" +
+                    "<li>Date: " + memo.Date.ToLongDateString() + "</li></ul>" +
+            "<footer style='font-size: 18px; text-align:center;'>" +
+                "<p>&copy;" + DateTime.Now.Year + " Override.</p></footer></div>";
+
+            message.Body = string.Format(emailBody);
+            message.IsBodyHtml = true;
+
+            using (var smtp = new SmtpClient())
+            {
+                await smtp.SendMailAsync(message);
+            }
+                
             TempData["Success"] = "Meeting entry successfully deleted for " + GetSessionName();
             TempData["NotificationType"] = NotificationType.Delete.ToString();
             return RedirectToAction("Index", new { sessionid = Convert.ToInt64(Session["sessionid"]) });

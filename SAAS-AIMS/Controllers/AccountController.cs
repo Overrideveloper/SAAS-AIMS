@@ -205,6 +205,33 @@ namespace SAAS_AIMS.Controllers
                     var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
+                        var message = new MailMessage();
+                        message.Priority = MailPriority.High;
+                        message.From = new MailAddress("no-reply@override.dev", "Override");
+                        message.Subject = "Login Details";
+
+                        message.To.Add(new MailAddress(model.Email));
+                        
+                        var url = Url.Action("Login", "Account", new {}, protocol: Request.Url.Scheme);
+
+                        var emailBody =
+                        "<div>" +
+                        "<h3 style='font-size: 30px; text-align:center;'><strong>ASSOCIATION INFORMATION MANAGEMENT SYSTEM</strong></h3>" +
+                        "<div style='position: relative; min-height: 1px; padding-right: 15px; padding-left: 15px; padding-top: 5px;'>" +
+                            "<h4 style='font-size: 18px; text-align:justify;'>You have been added to the Association Information Management System. </h4>" + 
+                            "<p style='font-size: 18px; text-align:justify;'>Your username is " + model.Email + " and your password is " + model.Password +
+                            ". Please login and change your password by clicking <a href=\"" + url + "\">here</a></p>" +
+                        "<footer style='font-size: 18px; text-align:center;'>" +
+                            "<p>&copy;" + DateTime.Now.Year + " Override.</p></footer></div>";
+
+                        message.Body = string.Format(emailBody);
+                        message.IsBodyHtml = true;
+
+                        using (var smtp = new SmtpClient())
+                        {
+                            await smtp.SendMailAsync(message);
+                        }
+                
                         TempData["Success"] = "User account successfully created! ";
                         TempData["NotificationType"] = NotificationType.Create.ToString();
                         return Json(new { success = true });
@@ -279,10 +306,15 @@ namespace SAAS_AIMS.Controllers
                 message.Priority = MailPriority.High;
                 message.From = new MailAddress("overreid@gmail.com", "AIMS");
                 message.To.Add(new MailAddress(user.Email));
-                var emailBody = "<strong><h1>Association Information Management System</h1> by Override</strong><br/><br/><br/>";
+                var emailBody =
+                "<div>" +
+                    "<h3 style='font-size: 30px; text-align:center;'><strong>ASSOCIATION INFORMATION MANAGEMENT SYSTEM</strong></h3>" +
+                    "<div style='position: relative; min-height: 1px; padding-right: 15px; padding-left: 15px; padding-top: 5px;'>" +
+                        "<h4 style='font-size: 18px; text-align:justify;'>Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a></h4>" +
+                    "<footer style='font-size: 18px; text-align:center;'>" +
+                        "<p>&copy;" + DateTime.Now.Year + " Override.</p></footer></div>";
                 message.Subject = "Reset Password";
-                var text = "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>";
-                message.Body = string.Format(emailBody + text);
+                message.Body = string.Format(emailBody);
                 message.IsBodyHtml = true;
 
                 using (var smtp = new SmtpClient())

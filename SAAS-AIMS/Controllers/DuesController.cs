@@ -71,8 +71,8 @@ namespace SAAS_AIMS.Controllers
                     Amount = due.Amount,
                     DateCreated = DateTime.Now,
                     DateLastModified = DateTime.Now,
-                    CreatedBy = Convert.ToInt64(Session["UserID"]),
-                    LastModifiedBy = Convert.ToInt64(Session["UserID"])
+                    CreatedBy = User.Identity.Name,
+                    LastModifiedBy = User.Identity.Name
                 };
                 _duesdatacontext.Dues.Add(dueObj);
                 _duesdatacontext.SaveChanges();
@@ -113,7 +113,7 @@ namespace SAAS_AIMS.Controllers
             if (ModelState.IsValid)
             {
                 due.DateLastModified = DateTime.Now;
-                due.LastModifiedBy = Convert.ToInt64(Session["UserID"]);
+                due.LastModifiedBy = User.Identity.Name;
 
                 _duesdatacontext.Entry(due).State = EntityState.Modified;
                 _duesdatacontext.SaveChanges();

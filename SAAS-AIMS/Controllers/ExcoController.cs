@@ -88,11 +88,11 @@ namespace SAAS_AIMS.Controllers
                     FirstName = exco.FirstName,
                     Post = exco.Post,
                     SessionID = Convert.ToInt64(Session["sessionid"]),
-                    
-                    CreatedBy = Convert.ToInt64(Session["UserID"]),
+
+                    CreatedBy = User.Identity.Name,
                     DateCreated = DateTime.Now,
                     DateLastModified = DateTime.Now,
-                    LastModifiedBy = Convert.ToInt64(Session["UserID"])
+                    LastModifiedBy = User.Identity.Name
                 };
 
                 _excoDataContext.Exco.Add(excoVar);
@@ -130,7 +130,7 @@ namespace SAAS_AIMS.Controllers
             if(ModelState.IsValid)
             {
                 exco.DateLastModified = DateTime.Now;
-                exco.LastModifiedBy = Convert.ToInt64(Session["UserID"]);
+                exco.LastModifiedBy = User.Identity.Name;
                 exco.SessionID = Convert.ToInt64(Session["sessionid"]);
 
                 _excoDataContext.Entry(exco).State = EntityState.Modified;

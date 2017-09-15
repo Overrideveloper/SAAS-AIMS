@@ -205,10 +205,10 @@ namespace SAAS_AIMS.Controllers
                         Surname = member.Surname,
                         YearOfAdmission = member.YearOfAdmission,
 
-                        CreatedBy = Convert.ToInt64(Session["UserID"]),
+                        CreatedBy = User.Identity.Name,
                         DateCreated = DateTime.Now,
                         DateLastModified = DateTime.Now,
-                        LastModifiedBy = Convert.ToInt64(Session["UserID"])
+                        LastModifiedBy = User.Identity.Name
                     };
 
                     _memberDataContext.Members.Add(membervar);
@@ -320,7 +320,7 @@ namespace SAAS_AIMS.Controllers
             if (ModelState.IsValid)
             {
                     member.DateLastModified = DateTime.Now;
-                    member.LastModifiedBy = Convert.ToInt64(Session["UserID"]);
+                    member.LastModifiedBy = User.Identity.Name;
 
                     _memberDataContext.Entry(member).State = EntityState.Modified;
                     _memberDataContext.SaveChanges();

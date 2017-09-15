@@ -4,11 +4,13 @@ using AIMS.Data.DataObjects.Entities.Meeting;
 using AIMS.Data.Enums.Enums.NotificationType;
 using AIMS.Data.Enums.Enums.UploadType;
 using AIMS.Services.FIleUploader;
+using SAAS_AIMS.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -19,6 +21,7 @@ namespace SAAS_AIMS.Controllers
     {
         private readonly MeetingDataContext _meetingdatacontext;
         private readonly SessionDataContext _sessiondatacontext;
+        private readonly AppUserDataContext _appUserDataContext;
         private string sessionname = null;
 
         #region constructor
@@ -26,6 +29,7 @@ namespace SAAS_AIMS.Controllers
         {
             _meetingdatacontext = new MeetingDataContext();
             _sessiondatacontext = new SessionDataContext();
+            _appUserDataContext = new AppUserDataContext();
         }
         #endregion
 
@@ -70,7 +74,7 @@ namespace SAAS_AIMS.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Meeting meeting, HttpPostedFileBase file)
+        public async Task<ActionResult> Create(Meeting meeting, HttpPostedFileBase file)
         {
             if (file != null)
             {
@@ -103,14 +107,49 @@ namespace SAAS_AIMS.Controllers
                             ? new FileUploader().UploadFile(file, UploadType.Minutes)
                             : null,
 
-                    CreatedBy = Convert.ToInt64(Session["UserID"]),
+                    CreatedBy = User.Identity.Name,
                     DateCreated = DateTime.Now,
                     DateLastModified = DateTime.Now,
-                    LastModifiedBy = Convert.ToInt64(Session["UserID"])
+                    LastModifiedBy = User.Identity.Name
                 };
 
                 _meetingdatacontext.Meetings.Add(meetingVar);
                 _meetingdatacontext.SaveChanges();
+
+                var message = new MailMessage();
+                message.Priority = MailPriority.High;
+                message.From = new MailAddress("no-reply@override.dev", "Override");
+                message.Subject = "Meeting Entry Created";
+
+                var superusers = _appUserDataContext.Users.Include(s => s.Role).Where(s => s.Role.Title == "Superuser").ToList();
+
+                foreach (var superuser in superusers)
+                {
+                    message.Bcc.Add(new MailAddress(superuser.Email));
+                }
+
+                var emailBody =
+                "<div>" +
+                "<h3 style='font-size: 30px; text-align:center;'><strong>ASSOCIATION INFORMATION MANAGEMENT SYSTEM</strong></h3>" +
+                "<div style='position: relative; min-height: 1px; padding-right: 15px; padding-left: 15px; padding-top: 5px;'>" +
+                    "<h4 style='font-size: 18px; text-align:justify;'>The user: <strong>" + User.Identity.Name +
+                    "</strong> created a meeting entry on " + DateTime.Now.ToLongDateString() + " at " + DateTime.Now.ToLongTimeString() + ".</h4>" +
+                    "<p style='font-size: 18px; text-align:justify;'>The meeting entry details are as follows: </p>" +
+                    "<ul style='font-size: 18px; text-align:justify;'>" +
+                        "<li>Title: " + meetingVar.Title + "</li>" +
+                        "<li>Session: " + GetSessionName() + "</li>" +
+                        "<li>Venue: " + meetingVar.Venue + "</li></ul>" +
+                "<footer style='font-size: 18px; text-align:center;'>" +
+                    "<p>&copy;" + DateTime.Now.Year + " Override.</p></footer></div>";
+
+                message.Body = string.Format(emailBody);
+                message.IsBodyHtml = true;
+
+                using (var smtp = new SmtpClient())
+                {
+                    await smtp.SendMailAsync(message);
+                }
+                
                 TempData["Success"] = "Meeting entry successfully created for " + GetSessionName();
                 TempData["NotificationType"] = NotificationType.Create.ToString();
                 return RedirectToAction("Index", new { sessionid = Convert.ToInt64(Session["sessionid"])});
@@ -139,7 +178,7 @@ namespace SAAS_AIMS.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Meeting meeting, HttpPostedFileBase file)
+        public async Task<ActionResult> Edit(Meeting meeting, HttpPostedFileBase file)
         {
             if (file != null)
             {
@@ -158,7 +197,7 @@ namespace SAAS_AIMS.Controllers
             if (ModelState.IsValid)
             {
                 meeting.DateLastModified = DateTime.Now;
-                meeting.LastModifiedBy = Convert.ToInt64(Session["UserID"]);
+                meeting.LastModifiedBy = User.Identity.Name;
                 
                 if(file != null && file.FileName != ""){
                     meeting.FileUpload = new FileUploader().UploadFile(file, UploadType.Minutes);
@@ -167,6 +206,40 @@ namespace SAAS_AIMS.Controllers
                 _meetingdatacontext.Entry(meeting).State = EntityState.Modified;
                 _meetingdatacontext.SaveChanges();
 
+                var message = new MailMessage();
+                message.Priority = MailPriority.High;
+                message.From = new MailAddress("no-reply@override.dev", "Override");
+                message.Subject = "Meeting Entry Modified";
+
+                var superusers = _appUserDataContext.Users.Include(s => s.Role).Where(s => s.Role.Title == "Superuser").ToList();
+
+                foreach (var superuser in superusers)
+                {
+                    message.Bcc.Add(new MailAddress(superuser.Email));
+                }
+
+                var emailBody =
+                "<div>" +
+                "<h3 style='font-size: 30px; text-align:center;'><strong>ASSOCIATION INFORMATION MANAGEMENT SYSTEM</strong></h3>" +
+                "<div style='position: relative; min-height: 1px; padding-right: 15px; padding-left: 15px; padding-top: 5px;'>" +
+                    "<h4 style='font-size: 18px; text-align:justify;'>The user: <strong>" + User.Identity.Name +
+                    "</strong> modified a meeting entry on " + DateTime.Now.ToLongDateString() + " at " + DateTime.Now.ToLongTimeString() + ".</h4>" +
+                    "<p style='font-size: 18px; text-align:justify;'>The modified meeting entry details are as follows: </p>" +
+                    "<ul style='font-size: 18px; text-align:justify;'>" +
+                        "<li>Title: " + meeting.Title + "</li>" +
+                        "<li>Session: " + GetSessionName() + "</li>" +
+                        "<li>Venue: " + meeting.Venue + "</li></ul>" +
+                "<footer style='font-size: 18px; text-align:center;'>" +
+                    "<p>&copy;" + DateTime.Now.Year + " Override.</p></footer></div>";
+
+                message.Body = string.Format(emailBody);
+                message.IsBodyHtml = true;
+
+                using (var smtp = new SmtpClient())
+                {
+                    await smtp.SendMailAsync(message);
+                }
+                
                 TempData["Success"] = "Meeting entry successfully modified for " + GetSessionName();
                 TempData["NotificationType"] = NotificationType.Edit.ToString();
                 return RedirectToAction("Index", new { sessionid = Convert.ToInt64(Session["sessionid"]) });
@@ -189,6 +262,41 @@ namespace SAAS_AIMS.Controllers
 
             _meetingdatacontext.Meetings.Remove(meeting);
             await _meetingdatacontext.SaveChangesAsync();
+
+            var message = new MailMessage();
+            message.Priority = MailPriority.High;
+            message.From = new MailAddress("no-reply@override.dev", "Override");
+            message.Subject = "Meeting Entry Deleted";
+
+            var superusers = _appUserDataContext.Users.Include(s => s.Role).Where(s => s.Role.Title == "Superuser").ToList();
+
+            foreach (var superuser in superusers)
+            {
+                message.Bcc.Add(new MailAddress(superuser.Email));
+            }
+
+            var emailBody =
+            "<div>" +
+            "<h3 style='font-size: 30px; text-align:center;'><strong>ASSOCIATION INFORMATION MANAGEMENT SYSTEM</strong></h3>" +
+            "<div style='position: relative; min-height: 1px; padding-right: 15px; padding-left: 15px; padding-top: 5px;'>" +
+                "<h4 style='font-size: 18px; text-align:justify;'>The user: <strong>" + User.Identity.Name +
+                "</strong> deleted a meeting entry on " + DateTime.Now.ToLongDateString() + " at " + DateTime.Now.ToLongTimeString() + ".</h4>" +
+                "<p style='font-size: 18px; text-align:justify;'>The deleted meeting entry details are as follows: </p>" +
+                "<ul style='font-size: 18px; text-align:justify;'>" +
+                    "<li>Title: " + meeting.Title + "</li>" +
+                    "<li>Session: " + GetSessionName() + "</li>" +
+                    "<li>Venue: " + meeting.Venue + "</li></ul>" +
+            "<footer style='font-size: 18px; text-align:center;'>" +
+                "<p>&copy;" + DateTime.Now.Year + " Override.</p></footer></div>";
+
+            message.Body = string.Format(emailBody);
+            message.IsBodyHtml = true;
+
+            using (var smtp = new SmtpClient())
+            {
+                await smtp.SendMailAsync(message);
+            }
+                
             TempData["Success"] = "Meeting entry successfully deleted for " + GetSessionName();
             TempData["NotificationType"] = NotificationType.Delete.ToString();
             return RedirectToAction("Index", new { sessionid = Convert.ToInt64(Session["sessionid"]) });

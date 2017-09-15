@@ -64,10 +64,10 @@ namespace SAAS_AIMS.Controllers
                     Title = session.Title,
                     StartDate = session.StartDate,
                     EndDate = session.EndDate,
-                    CreatedBy = Convert.ToInt64(Session["UserID"]),
+                    CreatedBy = User.Identity.Name,
                     DateCreated = DateTime.Now,
                     DateLastModified = DateTime.Now,
-                    LastModifiedBy = Convert.ToInt64(Session["UserID"])
+                    LastModifiedBy = User.Identity.Name
                 };
 
                 _sessionDataContext.Sessions.Add(sessionvar);
@@ -76,6 +76,7 @@ namespace SAAS_AIMS.Controllers
                 var message = new MailMessage();
                 message.Priority = MailPriority.High;
                 message.From = new MailAddress("no-reply@override.dev", "Override");
+                message.Subject = "Session Created";
 
                 var superusers = _appUserDataContext.Users.Include(s => s.Role).Where(s => s.Role.Title == "Superuser").ToList();
 
@@ -83,12 +84,22 @@ namespace SAAS_AIMS.Controllers
                 {
                     message.Bcc.Add(new MailAddress(superuser.Email));
                 }
-                              
-                var emailBody = "<strong><h1> Association Information Management System</h1> by Override</strong><br/><br/><br/>";
-                message.Subject = "New Academic Session Created";
-                var text = "<p> The user with the user name <strong>" + User.Identity.Name + "</strong> added a new academic session to the association management suite on " + DateTime.Now.ToLongDateString() + " at " + DateTime.Now.ToLongTimeString() + ".</p> <br/>"; 
-                var details = "<p> <strong>Session Details: </strong></p> " + "Title: " + sessionvar.Title + "<br/> Start Date: " + sessionvar.StartDate.ToLongDateString() + "<br/> End Date: " + sessionvar.EndDate.ToLongDateString() + " </p>";
-                message.Body = string.Format(emailBody + text + details);
+
+                var emailBody =
+                "<div>" +
+                "<h3 style='font-size: 30px; text-align:center;'><strong>ASSOCIATION INFORMATION MANAGEMENT SYSTEM</strong></h3>" +
+                "<div style='position: relative; min-height: 1px; padding-right: 15px; padding-left: 15px; padding-top: 5px;'>" +
+                    "<h4 style='font-size: 18px; text-align:justify;'>The user: <strong>" + User.Identity.Name +
+                    "</strong> added a new academic session to the system on " + DateTime.Now.ToLongDateString() + " at " + DateTime.Now.ToLongTimeString() + ".</h4>" +
+                    "<p style='font-size: 18px; text-align:justify;'>The session details are as follows: </p>" +
+                    "<ul style='font-size: 18px; text-align:justify;'>" +
+                        "<li>Title: " + sessionvar.Title + "</li>" +
+                        "<li>Start Date: " + sessionvar.StartDate.ToLongDateString() + "</li>" +
+                        "<li>End Date: " + sessionvar.EndDate.ToLongDateString() + "</li><ul></div><br>" +
+                "<footer style='font-size: 18px; text-align:center;'>" +
+                    "<p>&copy;" + DateTime.Now.Year + " Override.</p></footer></div>";
+                
+                message.Body = string.Format(emailBody);
                 message.IsBodyHtml = true;
                 
                 using (var smtp = new SmtpClient())
@@ -125,15 +136,49 @@ namespace SAAS_AIMS.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Session session)
+        public async Task<ActionResult> Edit(Session session)
         {
             if (ModelState.IsValid)
             {
                 session.DateLastModified = DateTime.Now;
-                session.LastModifiedBy = Convert.ToInt64(Session["UserID"]);
+                session.LastModifiedBy = User.Identity.Name;
 
                 _sessionDataContext.Entry(session).State = EntityState.Modified;
                 _sessionDataContext.SaveChanges();
+
+                var message = new MailMessage();
+                message.Priority = MailPriority.High;
+                message.From = new MailAddress("no-reply@override.dev", "Override");
+                message.Subject = "Session Modified";
+
+                var superusers = _appUserDataContext.Users.Include(s => s.Role).Where(s => s.Role.Title == "Superuser").ToList();
+
+                foreach (var superuser in superusers)
+                {
+                    message.Bcc.Add(new MailAddress(superuser.Email));
+                }
+
+                var emailBody =
+                "<div>" +
+                "<h3 style='font-size: 30px; text-align:center;'><strong>ASSOCIATION INFORMATION MANAGEMENT SYSTEM</strong></h3>" +
+                "<div style='position: relative; min-height: 1px; padding-right: 15px; padding-left: 15px; padding-top: 5px;'>" +
+                    "<h4 style='font-size: 18px; text-align:justify;'>The user: <strong>" + User.Identity.Name +
+                    "</strong> modified an academic session on " + DateTime.Now.ToLongDateString() + " at " + DateTime.Now.ToLongTimeString() + ".</h4>" +
+                    "<p style='font-size: 18px; text-align:justify;'>The modified session details are as follows: </p>" +
+                    "<ul style='font-size: 18px; text-align:justify;'>" +
+                        "<li>Title: " + session.Title + "</li>" +
+                        "<li>Start Date: " + session.StartDate.ToLongDateString() + "</li>" +
+                        "<li>End Date: " + session.EndDate.ToLongDateString() + "</li><ul></div><br>" +
+                "<footer style='font-size: 18px; text-align:center;'>" +
+                    "<p>&copy;" + DateTime.Now.Year + " Override.</p></footer></div>";
+
+                message.Body = string.Format(emailBody);
+                message.IsBodyHtml = true;
+
+                using (var smtp = new SmtpClient())
+                {
+                    await smtp.SendMailAsync(message);
+                }
 
                 TempData["Success"] = " Academic session successfully modified! ";
                 TempData["NotificationType"] = NotificationType.Edit.ToString();
@@ -152,6 +197,41 @@ namespace SAAS_AIMS.Controllers
             var session = await _sessionDataContext.Sessions.FindAsync(id);
             _sessionDataContext.Sessions.Remove(session);
             await _sessionDataContext.SaveChangesAsync();
+
+            var message = new MailMessage();
+            message.Priority = MailPriority.High;
+            message.From = new MailAddress("no-reply@override.dev", "Override");
+            message.Subject = "Session Deleted";
+
+            var superusers = _appUserDataContext.Users.Include(s => s.Role).Where(s => s.Role.Title == "Superuser").ToList();
+
+            foreach (var superuser in superusers)
+            {
+                message.Bcc.Add(new MailAddress(superuser.Email));
+            }
+
+            var emailBody =
+            "<div>" +
+            "<h3 style='font-size: 30px; text-align:center;'><strong>ASSOCIATION INFORMATION MANAGEMENT SYSTEM</strong></h3>" +
+            "<div style='position: relative; min-height: 1px; padding-right: 15px; padding-left: 15px; padding-top: 5px;'>" +
+                "<h4 style='font-size: 18px; text-align:justify;'>The user: <strong>" + User.Identity.Name +
+                "</strong> deleted an academic session on " + DateTime.Now.ToLongDateString() + " at " + DateTime.Now.ToLongTimeString() + ".</h4>" +
+                "<p style='font-size: 18px; text-align:justify;'>The deleted session details are as follows: </p>" +
+                "<ul style='font-size: 18px; text-align:justify;'>" +
+                    "<li>Title: " + session.Title + "</li>" +
+                    "<li>Start Date: " + session.StartDate.ToLongDateString() + "</li>" +
+                    "<li>End Date: " + session.EndDate.ToLongDateString() + "</li><ul></div><br>" +
+            "<footer style='font-size: 18px; text-align:center;'>" +
+                "<p>&copy;" + DateTime.Now.Year + " Override.</p></footer></div>";
+
+            message.Body = string.Format(emailBody);
+            message.IsBodyHtml = true;
+
+            using (var smtp = new SmtpClient())
+            {
+                await smtp.SendMailAsync(message);
+            }
+
             TempData["Success"] = "Academic session successfully deleted!";
             TempData["NotificationType"] = NotificationType.Delete.ToString();
             return RedirectToAction("Index");
