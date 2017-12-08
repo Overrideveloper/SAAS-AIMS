@@ -282,6 +282,7 @@
     <Content Include="404.html" />
     <Content Include="500.aspx" />
     <Content Include="500.html" />
+    <Content Include="Content\AIMS.png" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\fa-blink.css" />
@@ -343,6 +344,7 @@
     <Content Include="Landing\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Landing\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Landing\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="Properties\PublishProfiles\BHUNACOSS.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Chart.js" />
     <Content Include="Scripts\Chart.min.js" />
@@ -3734,7 +3736,9 @@
     <Content Include="Template\vendors\validator\index.html" />
     <Content Include="Template\vendors\validator\multifield.js" />
     <Content Include="Template\vendors\validator\validator.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

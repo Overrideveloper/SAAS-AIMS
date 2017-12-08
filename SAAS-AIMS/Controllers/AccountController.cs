@@ -232,7 +232,7 @@ namespace SAAS_AIMS.Controllers
                             await smtp.SendMailAsync(message);
                         }
                 
-                        TempData["Success"] = "User account successfully created! ";
+                        TempData["Success"] = "User account successfully created! Check email for login credentials.";
                         TempData["NotificationType"] = NotificationType.Create.ToString();
                         return Json(new { success = true });
                     }
